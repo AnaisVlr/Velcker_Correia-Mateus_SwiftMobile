@@ -11,6 +11,13 @@
 		6F85FD0629C07FB5009C01AF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F85FD0529C07FB5009C01AF /* ContentView.swift */; };
 		6F85FD0829C07FB5009C01AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6F85FD0729C07FB5009C01AF /* Assets.xcassets */; };
 		6F85FD0B29C07FB5009C01AF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6F85FD0A29C07FB5009C01AF /* Preview Assets.xcassets */; };
+		B706403129C083C8007ACF4D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706403029C083C8007ACF4D /* AuthService.swift */; };
+		B706403529C084E3007ACF4D /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706403429C084E3007ACF4D /* JSONHelper.swift */; };
+		B706403829C085FA007ACF4D /* Zone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706403729C085FA007ACF4D /* Zone.swift */; };
+		B706403A29C0887D007ACF4D /* Jeu.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706403929C0887D007ACF4D /* Jeu.swift */; };
+		B706403C29C088A0007ACF4D /* Benevole.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706403B29C088A0007ACF4D /* Benevole.swift */; };
+		B706403E29C08932007ACF4D /* Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706403D29C08932007ACF4D /* Type.swift */; };
+		B706404029C08F6E007ACF4D /* Creneau.swift in Sources */ = {isa = PBXBuildFile; fileRef = B706403F29C08F6E007ACF4D /* Creneau.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +26,13 @@
 		6F85FD0529C07FB5009C01AF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6F85FD0729C07FB5009C01AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6F85FD0A29C07FB5009C01AF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B706403029C083C8007ACF4D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		B706403429C084E3007ACF4D /* JSONHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
+		B706403729C085FA007ACF4D /* Zone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zone.swift; sourceTree = "<group>"; };
+		B706403929C0887D007ACF4D /* Jeu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jeu.swift; sourceTree = "<group>"; };
+		B706403B29C088A0007ACF4D /* Benevole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benevole.swift; sourceTree = "<group>"; };
+		B706403D29C08932007ACF4D /* Type.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Type.swift; sourceTree = "<group>"; };
+		B706403F29C08F6E007ACF4D /* Creneau.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Creneau.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +65,9 @@
 		6F85FD0229C07FB5009C01AF /* Velcker_Correia-Mateus_SwiftMobile */ = {
 			isa = PBXGroup;
 			children = (
+				B706403629C085C8007ACF4D /* Model */,
+				B706403329C084CF007ACF4D /* Helper */,
+				B706403229C083E8007ACF4D /* Auth */,
 				6F85FD0329C07FB5009C01AF /* Velcker_Correia_Mateus_SwiftMobileApp.swift */,
 				6F85FD0529C07FB5009C01AF /* ContentView.swift */,
 				6F85FD0729C07FB5009C01AF /* Assets.xcassets */,
@@ -65,6 +82,34 @@
 				6F85FD0A29C07FB5009C01AF /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B706403229C083E8007ACF4D /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				B706403029C083C8007ACF4D /* AuthService.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		B706403329C084CF007ACF4D /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				B706403429C084E3007ACF4D /* JSONHelper.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		B706403629C085C8007ACF4D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B706403729C085FA007ACF4D /* Zone.swift */,
+				B706403929C0887D007ACF4D /* Jeu.swift */,
+				B706403B29C088A0007ACF4D /* Benevole.swift */,
+				B706403D29C08932007ACF4D /* Type.swift */,
+				B706403F29C08F6E007ACF4D /* Creneau.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +182,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B706403129C083C8007ACF4D /* AuthService.swift in Sources */,
+				B706403529C084E3007ACF4D /* JSONHelper.swift in Sources */,
+				B706403C29C088A0007ACF4D /* Benevole.swift in Sources */,
+				B706404029C08F6E007ACF4D /* Creneau.swift in Sources */,
+				B706403829C085FA007ACF4D /* Zone.swift in Sources */,
 				6F85FD0629C07FB5009C01AF /* ContentView.swift in Sources */,
+				B706403A29C0887D007ACF4D /* Jeu.swift in Sources */,
 				6F85FD0429C07FB5009C01AF /* Velcker_Correia_Mateus_SwiftMobileApp.swift in Sources */,
+				B706403E29C08932007ACF4D /* Type.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
