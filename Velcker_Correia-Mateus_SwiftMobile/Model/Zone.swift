@@ -13,7 +13,7 @@ struct ZoneDTO : Decodable{
     
     static func zoneDTO2Zone(data: [ZoneDTO]) -> [Zone]?{
         var zones = [Zone]()
-        for tdata in data{
+        for zdata in data{
             guard (zdata.id_zone != nil) else{
                 return nil
             }
