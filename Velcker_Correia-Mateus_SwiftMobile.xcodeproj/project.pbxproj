@@ -22,13 +22,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6F7D38C329C09658006B346A /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		6F7D38C329C09658006B346A /* AuthView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; tabWidth = 4; };
 		6F85FD0029C07FB5009C01AF /* Velcker_Correia-Mateus_SwiftMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Velcker_Correia-Mateus_SwiftMobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F85FD0329C07FB5009C01AF /* Velcker_Correia_Mateus_SwiftMobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Velcker_Correia_Mateus_SwiftMobileApp.swift; sourceTree = "<group>"; };
 		6F85FD0529C07FB5009C01AF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6F85FD0729C07FB5009C01AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6F85FD0A29C07FB5009C01AF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		B706403029C083C8007ACF4D /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		B706403029C083C8007ACF4D /* AuthService.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; tabWidth = 2; };
 		B706403429C084E3007ACF4D /* JSONHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
 		B706403729C085FA007ACF4D /* Zone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zone.swift; sourceTree = "<group>"; };
 		B706403929C0887D007ACF4D /* Jeu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jeu.swift; sourceTree = "<group>"; };
