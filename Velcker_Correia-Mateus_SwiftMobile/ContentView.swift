@@ -8,13 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        AuthView()
+  @StateObject var authenficiation = Authentification()
+  
+  var body: some View {
+
+    if(authenficiation.isValidated) {
+      HomeView()
+      .environmentObject(authenficiation)
     }
+    else {
+      AuthView()
+      .environmentObject(authenficiation)
+    }
+  }
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+  static var previews: some View {
+      ContentView()
+  }
 }
