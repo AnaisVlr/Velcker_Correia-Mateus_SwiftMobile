@@ -25,7 +25,7 @@ struct AuthView: View {
         
         Button {
           Task {
-            let result: () = await AuthService.tryConnect(id: identifiant, pwd: password)
+            let result: String = await AuthService.tryConnect(id: identifiant, pwd: password)
             print(result)
           }
          
