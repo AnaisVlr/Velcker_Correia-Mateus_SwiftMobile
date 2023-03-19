@@ -29,7 +29,8 @@ class AuthService{
       //let dataString = String(data: data, encoding: .utf8)!
       guard let decoded : AuthDTO = await JSONHelper.decode(data: data) else {print("Erreur lors du decode de l'authentification"); return ""}
       
-      token = "Bearer "+decoded.access_token
+      token = decoded.access_token
+      
     }catch{
       print("Erreur lors de la connexion")
       print(error)
