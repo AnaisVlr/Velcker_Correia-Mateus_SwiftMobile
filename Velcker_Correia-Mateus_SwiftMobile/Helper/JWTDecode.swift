@@ -10,7 +10,6 @@ import Foundation
 struct JWTDecode {
   static func decode(jwtToken jwt: String) -> [String: Any] {
     let segments = jwt.components(separatedBy: ".")
-    print(jwt)
     return decodeJWTPart(segments[1]) ?? [:]
   }
 
