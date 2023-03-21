@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FestivalListView: View {
   @EnvironmentObject var authentification: Authentification
+  @Environment(\.dismiss) private var dismiss
   @StateObject var festivalListMV = FestivalListViewModel()
   
   var body: some View {
@@ -25,8 +26,11 @@ struct FestivalListView: View {
           }
         }
         List(festivalListMV.festivals) { f in
-          VStack(alignment:.leading) { //Mettre des NavigationLink
-            Text(f.nom)
+          VStack(alignment:.leading) {
+            NavigationLink(f.nom) {
+              FestivalView(festival: FestivalViewModel(model: f))
+            }
+            Text("\(f.nombre_jour)")
           }
         }
         
@@ -44,7 +48,8 @@ struct FestivalListView: View {
           }
           
         }
-    }
+    }.navigationBarBackButtonHidden(true)
+      .navigationBarItems(leading: NavBackButton(dismiss: self.dismiss, texte: "Accueil"))
     
   }
 }

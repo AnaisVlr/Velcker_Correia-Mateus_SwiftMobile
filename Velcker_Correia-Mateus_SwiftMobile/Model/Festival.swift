@@ -30,10 +30,10 @@ struct FestivalDTO : Decodable{
 
 class Festival: ObservableObject, Identifiable{
   var id : Int
-  private(set) var nom : String
-  private(set) var annee : Int
-  private(set) var nombre_jour : Int
-  private(set) var is_active : Bool
+  var nom : String
+  var annee : Int
+  var nombre_jour : Int
+  var is_active : Bool
   
   init(id: Int, nom: String, annee: Int, nombre_jour: Int, is_active: Bool) {
     self.id = id
