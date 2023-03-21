@@ -16,15 +16,33 @@ struct FestivalListView: View {
       VStack(alignment: .center) {
         
         Text("Liste des festivals")
+        Button("Voir les zones") { //Faire des NavigationLink
+          
+        }
         if(authentification.is_admin) {
           Button("Ajouter un festival") {
             
           }
         }
+        List(festivalListMV.festivals) { f in
+          VStack(alignment:.leading) { //Mettre des NavigationLink
+            Text(f.nom)
+          }
+        }
         
       }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
         .onAppear {
-          print("Festival List View Ouvert")
+          Task {
+            FestivalService().getAll(token: authentification.token) {res in
+              switch res {
+              case .success(let festivals):
+                festivalListMV.setFestivals(festivals!)
+              case .failure(let error):
+                print(error)
+              }
+            }
+          }
+          
         }
     }
     
