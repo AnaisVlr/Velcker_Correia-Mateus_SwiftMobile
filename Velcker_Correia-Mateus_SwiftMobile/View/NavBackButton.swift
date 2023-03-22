@@ -11,11 +11,17 @@ struct NavBackButton: View {
   let dismiss: DismissAction
   let texte: String
   
+  func goBack() {
+    dismiss()
+  }
+  
   var body: some View {
-    Button {
-      dismiss()
-    } label: {
-      Text("\(texte)")
+    Button(action: goBack) {
+      HStack() {
+        Image(systemName: "chevron.left")
+        Text("\(texte)")
+      }
+      
     }
   }
 }

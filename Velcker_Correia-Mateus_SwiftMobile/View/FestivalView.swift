@@ -22,6 +22,6 @@ struct FestivalView: View {
         VStack(alignment: .leading) {
             TextField("", text: $nom)
         }.navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading: NavBackButton(dismiss: self.dismiss, texte: "Retourner à la liste"))
+        .navigationBarItems(leading: NavBackButton(dismiss: self.dismiss, texte: "Retourner à la liste"))
     }
 }

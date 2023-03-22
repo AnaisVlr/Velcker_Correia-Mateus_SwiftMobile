@@ -21,8 +21,8 @@ struct FestivalListView: View {
           
         }
         if(authentification.is_admin) {
-          Button("Ajouter un festival") {
-            
+          NavigationLink("Ajouter un festival") {
+            AddFestivalView()
           }
         }
         List(festivalListMV.festivals) { f in
@@ -30,7 +30,7 @@ struct FestivalListView: View {
             NavigationLink(f.nom) {
               FestivalView(festival: FestivalViewModel(model: f))
             }
-            Text("\(f.nombre_jour)")
+            Text("Sur \(f.nombre_jour) jour(s)")
           }
         }
         

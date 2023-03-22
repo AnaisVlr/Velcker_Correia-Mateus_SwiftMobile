@@ -7,11 +7,6 @@
 
 import Foundation
 
-enum ServiceError: Error {
-  case NoData
-  case WrongData
-}
-
 class FestivalService {
   private let url = "https://velcker-correia-mateus-api-mobile.cluster-ig3.igpolytech.fr/festival"
   
@@ -39,6 +34,31 @@ class FestivalService {
           }
         }
       }
+    }
+    dataTask.resume()
+  }
+  
+  func create(token: String, festival: Festival, completion: @escaping(Result<Bool, Error>) -> Void) -> Void {
+    var request = URLRequest(url: URL(string: self.url)!)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-type")
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    
+    let jsonString = "{ \"nom_festival\": \"\(festival.nom)\", \"annee_festival\": \(festival.annee), \"nombre_jour\": \(festival.nombre_jour), \"is_active\": \(festival.is_active) }"
+    guard let jsonData = jsonString.data(using: .utf8) else {return}
+    request.httpBody = jsonData
+    
+    let dataTask = URLSession.shared.uploadTask(with: request,from: jsonData) { (data, response, error) in
+      guard let data = data, error == nil else {
+        return completion(.failure(ServiceError.NoData))
+      }
+      if let httpResponse = response as? HTTPURLResponse {
+        if(httpResponse.statusCode == 201) {
+          completion(.success(true))
+        }
+        else {completion(.failure(ServiceError.Failed))}
+      }
+      else {completion(.failure(ServiceError.Failed))}
     }
     dataTask.resume()
   }
