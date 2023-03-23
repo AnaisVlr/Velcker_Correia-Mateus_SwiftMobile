@@ -17,9 +17,6 @@ struct FestivalListView: View {
       VStack(alignment: .center) {
         
         Text("Liste des festivals")
-        Button("Voir les zones") { //Faire des NavigationLink
-          
-        }
         if(authentification.is_admin) {
           NavigationLink("Ajouter un festival") {
             AddFestivalView()

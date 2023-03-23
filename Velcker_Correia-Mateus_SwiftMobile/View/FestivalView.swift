@@ -8,20 +8,22 @@
 import SwiftUI
 
 struct FestivalView: View {
-    @State var festival: FestivalViewModel
-    @Environment(\.dismiss) private var dismiss
-    
-    @State var nom: String
-    
-    init(festival: FestivalViewModel) {
-        self._festival = State(initialValue: festival)
-        self._nom = State(initialValue: festival.nom)
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            TextField("", text: $nom)
-        }.navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: NavBackButton(dismiss: self.dismiss, texte: "Retourner à la liste"))
-    }
+  @State var festival: FestivalViewModel
+  @Environment(\.dismiss) private var dismiss
+  
+  @State var nom: String
+  
+  init(festival: FestivalViewModel) {
+    self._festival = State(initialValue: festival)
+    self._nom = State(initialValue: festival.nom)
+  }
+  
+  var body: some View {
+    VStack(alignment: .leading) {
+      TextField("", text: $nom)
+      NavigationLink("Voir les zones du festival") {
+        ZoneListView(festival: festival)
+      }
+    }.navigationBarBackButtonHidden(true)
+  }
 }
