@@ -19,8 +19,7 @@ struct ZoneDTO : Decodable{
       guard (zdata.id_zone != nil) else{
         return nil
       }
-      let id : Int = zdata.id_zone!
-      let zone = Zone(id: id, id_festival: zdata.id_festival, nom: zdata.nom_zone, nb_benevole: zdata.nb_benevole_necessaire)
+      let zone = Zone(zdata)
       zones.append(zone)
     }
     return zones
@@ -39,4 +38,11 @@ class Zone: ObservableObject, Identifiable{
     self.nom = nom
     self.nb_benevole = nb_benevole
   }
+  init(_ dto: ZoneDTO) {
+    self.id = dto.id_zone!
+    self.id_festival = dto.id_festival
+    self.nom = dto.nom_zone
+    self.nb_benevole = dto.nb_benevole_necessaire
+  }
+
 }

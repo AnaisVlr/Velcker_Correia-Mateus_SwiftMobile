@@ -55,8 +55,6 @@ class JourService {
       }
       if let httpResponse = response as? HTTPURLResponse {
         if(httpResponse.statusCode == 201) {
-          let dataString = String(data: data, encoding: .utf8)!
-          print(dataString)
           guard let j : JourDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode create Jour"); completion(.failure(ServiceError.WrongData)); return}
           let jour = Jour(j)
           completion(.success(jour))

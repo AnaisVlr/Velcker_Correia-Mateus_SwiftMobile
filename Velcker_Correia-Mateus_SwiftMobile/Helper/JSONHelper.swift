@@ -63,7 +63,6 @@ struct JSONHelper{
       if let date = formatter.date(from: dateStr) {
         return date
       }
-      print("bah voilà")
       throw DateError.invalidDate
     })
     guard let decoded = try? decoder.decode(T.self, from: data) else {

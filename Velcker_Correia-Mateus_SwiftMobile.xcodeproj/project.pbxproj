@@ -50,7 +50,7 @@
 		5554BECA29CC586400DDD620 /* ZoneListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneListViewModel.swift; sourceTree = "<group>"; };
 		5554BECC29CC587700DDD620 /* ZoneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneViewModel.swift; sourceTree = "<group>"; };
 		5554BECE29CC588500DDD620 /* ZoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneView.swift; sourceTree = "<group>"; };
-		5554BED029CC58A100DDD620 /* ZoneService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneService.swift; sourceTree = "<group>"; };
+		5554BED029CC58A100DDD620 /* ZoneService.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ZoneService.swift; sourceTree = "<group>"; tabWidth = 2; };
 		5554BED229CC69A300DDD620 /* AddZoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddZoneView.swift; sourceTree = "<group>"; };
 		5554BED429CC6CAA00DDD620 /* ZoneIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneIntent.swift; sourceTree = "<group>"; };
 		6F0476A929CB16FC0016916C /* AddFestivalView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AddFestivalView.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -78,7 +78,7 @@
 		6FC765BF29C8FAD8008CD4BA /* FestivalService.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = FestivalService.swift; sourceTree = "<group>"; tabWidth = 2; };
 		B706403029C083C8007ACF4D /* AuthService.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; tabWidth = 2; };
 		B706403429C084E3007ACF4D /* JSONHelper.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; tabWidth = 2; };
-		B706403729C085FA007ACF4D /* Zone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zone.swift; sourceTree = "<group>"; };
+		B706403729C085FA007ACF4D /* Zone.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Zone.swift; sourceTree = "<group>"; tabWidth = 2; };
 		B706403929C0887D007ACF4D /* Jeu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jeu.swift; sourceTree = "<group>"; };
 		B706403B29C088A0007ACF4D /* Benevole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benevole.swift; sourceTree = "<group>"; };
 		B706403D29C08932007ACF4D /* Type.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Type.swift; sourceTree = "<group>"; };

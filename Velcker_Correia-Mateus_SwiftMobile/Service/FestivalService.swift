@@ -56,7 +56,9 @@ class FestivalService {
         if(httpResponse.statusCode == 201) {
           guard let f : FestivalDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode create Festival"); completion(.failure(ServiceError.WrongData)); return}
           let festival = Festival(dto: f)
-          
+          //Création de la zone "Libre"
+          let zone = Zone(id: -1, id_festival: festival.id, nom: "Libre", nb_benevole: 1)
+          ZoneService().create(token: token, zone: zone) { success in}
           //Création des jours
           let userCalendar = Calendar(identifier: .iso8601)
           for i in 1...festival.nombre_jour {
