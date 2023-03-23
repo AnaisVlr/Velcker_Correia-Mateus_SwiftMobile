@@ -12,9 +12,9 @@ struct ZoneListView: View {
   @Environment(\.dismiss) private var dismiss
   @StateObject var zoneListMV = ZoneListViewModel()
   
-  @State var festival : FestivalViewModel
+  @State var festival : FestivalIntent
   
-  init(festival : FestivalViewModel){
+  init(festival : FestivalIntent){
     self._festival = State(initialValue: festival)
   }
 
@@ -24,7 +24,7 @@ struct ZoneListView: View {
         Text("Liste des zones")
           if(authentification.is_admin) {
             NavigationLink("Ajouter une zone") {
-              AddZoneView(festival: FestivalViewModel(model: festival.model))
+              AddZoneView(festival: self.festival)
             }
           }
         List(zoneListMV.zones) { z in

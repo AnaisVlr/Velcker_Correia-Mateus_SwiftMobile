@@ -20,8 +20,7 @@ struct JourDTO : Decodable{
       guard (jdata.id_jour != nil) else{
           return nil
       }
-      let id : Int = jdata.id_jour!
-      let jour = Jour(id: id, id_festival: jdata.id_festival, nom: jdata.nom_jour, ouverture: jdata.ouverture, fermeture: jdata.fermeture)
+      let jour = Jour(jdata)
       jours.append(jour)
     }
     return jours
@@ -29,8 +28,8 @@ struct JourDTO : Decodable{
 }
 
 class Jour: ObservableObject{
-  private var id : Int
-  private var id_festival : Int
+  private(set) var id : Int
+  private(set) var id_festival : Int
   private(set) var nom : String
   private(set) var ouverture : Date
   private(set) var fermeture : Date
@@ -41,5 +40,12 @@ class Jour: ObservableObject{
     self.nom = nom
     self.ouverture = ouverture
     self.fermeture = fermeture
+  }
+  init(_ dto: JourDTO) {
+    self.id = dto.id_jour!
+    self.id_festival = dto.id_festival
+    self.nom = dto.nom_jour
+    self.ouverture = dto.ouverture
+    self.fermeture = dto.fermeture
   }
 }

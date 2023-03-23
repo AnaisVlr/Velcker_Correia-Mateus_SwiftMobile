@@ -20,8 +20,7 @@ struct FestivalDTO : Decodable{
       guard (fdata.id_festival != nil) else{
           return nil
       }
-      let id : Int = fdata.id_festival!
-      let festival : Festival = Festival(id: id, nom: fdata.nom_festival, annee: fdata.annee_festival, nombre_jour: fdata.nombre_jour, is_active: fdata.is_active)
+      let festival : Festival = Festival(dto: fdata)
       festivals.append(festival)
     }
     return festivals
@@ -35,11 +34,26 @@ class Festival: ObservableObject, Identifiable{
   var nombre_jour : Int
   var is_active : Bool
   
+  var observers: [FestivalViewModel]
+  
   init(id: Int, nom: String, annee: Int, nombre_jour: Int, is_active: Bool) {
     self.id = id
     self.nom = nom
     self.annee = annee
     self.nombre_jour = nombre_jour
     self.is_active = is_active
+    self.observers = []
   }
+  init(dto: FestivalDTO) {
+    self.id = dto.id_festival!
+    self.nom = dto.nom_festival
+    self.annee = dto.annee_festival
+    self.nombre_jour = dto.nombre_jour
+    self.is_active = dto.is_active
+    self.observers = []
+  }
+  public func register(_ festivalVM: FestivalViewModel) {
+    self.observers.append(festivalVM)
+  }
+  
 }

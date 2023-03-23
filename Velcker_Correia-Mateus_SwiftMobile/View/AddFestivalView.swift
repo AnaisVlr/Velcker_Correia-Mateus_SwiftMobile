@@ -10,6 +10,7 @@ import SwiftUI
 struct AddFestivalView : View {
   @EnvironmentObject var authentification: Authentification
   @Environment(\.dismiss) private var dismiss
+  var liste: FestivalListViewModel
   
   @State var nom: String = "Nom"
   @State var annee: Int = 2023
@@ -43,7 +44,15 @@ struct AddFestivalView : View {
         Button("Créer") {
           let f: Festival = Festival(id: -1, nom: nom, annee: annee, nombre_jour: nb_jour, is_active: true)
           FestivalService().create(token: authentification.token, festival: f) { res in
-           print(res)
+            switch res {
+            case .success(let festival):
+              self.liste.appendFestival(festival) //Pas nécessaire car le onAppear de la listeView refetch
+              DispatchQueue.main.async {
+                self.dismiss()
+              }
+            case .failure(let error):
+              print(error)
+            }
           }
         }
       }

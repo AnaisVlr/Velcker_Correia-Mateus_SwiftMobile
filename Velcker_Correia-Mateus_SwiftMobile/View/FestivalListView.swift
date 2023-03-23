@@ -10,7 +10,7 @@ import SwiftUI
 struct FestivalListView: View {
   @EnvironmentObject var authentification: Authentification
   @Environment(\.dismiss) private var dismiss
-  @StateObject var festivalListMV = FestivalListViewModel()
+  @StateObject var festivalList = FestivalListViewModel()
   
   var body: some View {
     NavigationView {
@@ -19,15 +19,15 @@ struct FestivalListView: View {
         Text("Liste des festivals")
         if(authentification.is_admin) {
           NavigationLink("Ajouter un festival") {
-            AddFestivalView()
+            AddFestivalView(liste: festivalList)
           }
         }
-        List(festivalListMV.festivals) { f in
+        List(festivalList.festivals) { f in
           VStack(alignment:.leading) {
-            NavigationLink(f.nom) {
-              FestivalView(festival: FestivalViewModel(model: f))
+            NavigationLink(f.getNom()) {
+              FestivalView(festival: f)
             }
-            Text("Sur \(f.nombre_jour) jour(s)")
+            Text("Sur \(f.getNbJour()) jour(s)")
           }
         }
         
@@ -37,7 +37,7 @@ struct FestivalListView: View {
             FestivalService().getAll(token: authentification.token) {res in
               switch res {
               case .success(let festivals):
-                festivalListMV.setFestivals(festivals!)
+                festivalList.setFestivals(festivals!)
               case .failure(let error):
                 print(error)
               }

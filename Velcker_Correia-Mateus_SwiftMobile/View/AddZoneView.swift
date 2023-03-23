@@ -11,12 +11,12 @@ struct AddZoneView : View {
   @EnvironmentObject var authentification: Authentification
   @Environment(\.dismiss) private var dismiss
   
-  @State var festival: FestivalViewModel
+  @State var festival: FestivalIntent
   
   @State var nom: String = "Nom"
   @State var nb_benevole: Int = 1
   
-  init(festival: FestivalViewModel){
+  init(festival: FestivalIntent){
     self._festival = State(initialValue: festival)
   }
 
@@ -37,7 +37,7 @@ struct AddZoneView : View {
           }
         }
         Button("Créer") {
-          let z: Zone = Zone(id: -1, id_festival: festival.model.id, nom: nom, nb_benevole: nb_benevole)
+            let z: Zone = Zone(id: -1, id_festival: festival.getId(), nom: nom, nb_benevole: nb_benevole)
           ZoneService().create(token: authentification.token, zone: z) { res in
            print(res)
           }
