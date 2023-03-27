@@ -24,18 +24,23 @@ struct FestivalIntent: Hashable, Equatable, Identifiable {
   init(model: FestivalViewModel) {
     self.model = model
   }
+  
   func getId() -> Int {
     return model.id_festival
   }
+  
   func getNom() -> String {
     return model.nom
   }
+  
   func getAnnee() -> Int {
     return model.annee
   }
+  
   func getNbJour() -> Int {
     return model.nombre_jour
   }
+  
   func getIsActive() -> Bool {
     return model.is_active
   }
@@ -50,6 +55,7 @@ struct FestivalIntent: Hashable, Equatable, Identifiable {
   static func == (lhs: FestivalIntent, rhs: FestivalIntent) -> Bool {
     return false
   }
+  
   func hash(into hasher: inout Hasher) {
     hasher.combine(self.id)
   }

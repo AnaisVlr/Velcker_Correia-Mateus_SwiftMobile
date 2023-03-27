@@ -7,11 +7,20 @@
 
 import Foundation
 
-class ZoneViewModel: ObservableObject {
+class ZoneViewModel: ObservableObject, Identifiable {
   var model: Zone
+  var id = UUID()
+  var observers: [ZoneListViewModel]
   
   init(model: Zone) {
     self.model = model
+    self.observers = []
+  }
+  
+  init(model : Zone, obs: ZoneListViewModel){
+    self.model = model
+    self.observers = []
+    self.register(obs)
   }
   
   @Published var state : ZoneState = .ready{
@@ -29,11 +38,19 @@ class ZoneViewModel: ObservableObject {
     }
   }
   
+  var id_zone : Int {
+    return model.id
+  }
+  
   var nom : String {
     return model.nom
   }
   
   var nb_benevole : Int {
     return model.nb_benevole
+  }
+  
+  public func register(_ zoneLVM : ZoneListViewModel){
+    self.observers.append(zoneLVM)
   }
 }

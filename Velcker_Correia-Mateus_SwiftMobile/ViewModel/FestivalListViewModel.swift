@@ -19,6 +19,7 @@ class FestivalListViewModel: ObservableObject {
       self.festivals = newList
     }
   }
+  
   func setFestivals(_ festivals: [FestivalViewModel]) {
     DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
       var newList: [FestivalIntent] = []
@@ -28,6 +29,7 @@ class FestivalListViewModel: ObservableObject {
       self.festivals = newList
     }
   }
+  
   func setFestivals(_ festivals: [FestivalIntent]) {
     DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
       self.festivals = festivals
@@ -39,24 +41,25 @@ class FestivalListViewModel: ObservableObject {
       self.objectWillChange.send()
     }
   }
+  
   func appendFestival(_ f: Festival) {
     DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
       self.festivals.append(FestivalIntent(model:FestivalViewModel(model: f)))
       self.VMUpdated()
     }
   }
+  
   func appendFestival(_ f: FestivalViewModel) {
     DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
       self.festivals.append(FestivalIntent(model:f))
       self.VMUpdated()
     }
   }
+  
   func appendFestival(_ f: FestivalIntent) {
     DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
       self.festivals.append(f)
       self.VMUpdated()
     }
   }
-  
-  
 }

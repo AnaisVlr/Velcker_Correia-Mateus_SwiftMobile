@@ -21,7 +21,19 @@ struct FestivalView: View {
   
   var body: some View {
     VStack(alignment: .leading) {
-      TextField("", text: $nom)
+      NavigationLink("Jeux") {
+      }
+      NavigationLink("Zones") {
+        ZoneListView(festival: festival)
+      }
+      if(authentification.is_admin) {
+        NavigationLink("Bénévoles") {
+          
+        }
+      }
+      NavigationLink("Mes créneaux") {
+        
+      }
       if(authentification.is_admin) {
         Button("Supprimer") {
           Task {
@@ -41,9 +53,7 @@ struct FestivalView: View {
       NavigationLink("") {
         AffectationListView(festival: festival)
       }
-      NavigationLink("Voir les zones du festival") {
-        ZoneListView(festival: festival)
-      }
     }.navigationBarBackButtonHidden(true)
+      .navigationTitle(festival.getNom())
   }
 }
