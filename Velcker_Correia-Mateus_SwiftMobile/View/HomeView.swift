@@ -18,15 +18,9 @@ struct HomeView: View {
         NavigationLink("Festivals") {
           FestivalListView()
         }
-        NavigationLink("Mes créneaux") {
+        NavigationLink("Mon profil") {
           
         }
-        if(authentification.is_admin) {
-          NavigationLink("Gérer les bénévoles") {
-            
-          }
-        }
-
       }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {

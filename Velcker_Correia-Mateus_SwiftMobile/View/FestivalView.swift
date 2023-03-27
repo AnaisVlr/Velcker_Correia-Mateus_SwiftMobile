@@ -21,8 +21,20 @@ struct FestivalView: View {
   
   var body: some View {
     VStack(alignment: .leading) {
-      TextField("", text: $nom)
-      Button("Supprimer") {
+      NavigationLink("Jeux") {
+      }
+      NavigationLink("Zones") {
+        ZoneListView(festival: festival)
+      }
+      if(authentification.is_admin) {
+        NavigationLink("Bénévoles") {
+          
+        }
+      }
+      NavigationLink("Mes créneaux") {
+        
+      }
+      Button("Supprimer ce festival") {
         Task {
           FestivalService().delete(token: authentification.token, id_festival: festival.getId()) {success in
             DispatchQueue.main.async {
@@ -31,9 +43,7 @@ struct FestivalView: View {
           }
         }
       }
-      NavigationLink("Voir les zones du festival") {
-        ZoneListView(festival: festival)
-      }
     }.navigationBarBackButtonHidden(true)
+      .navigationTitle(festival.getNom())
   }
 }

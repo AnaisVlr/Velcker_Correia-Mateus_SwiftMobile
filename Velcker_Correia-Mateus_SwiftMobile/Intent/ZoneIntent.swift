@@ -17,12 +17,24 @@ enum ZoneState : CustomStringConvertible {
   
 }
 
-struct ZoneIntent: Hashable, Equatable {
+struct ZoneIntent: Hashable, Equatable, Identifiable {
   @ObservedObject private var model: ZoneViewModel
   var id=UUID()
   
   init(model: ZoneViewModel) {
     self.model = model
+  }
+  
+  func getId() -> Int{
+    return model.id_zone
+  }
+  
+  func getNom() -> String{
+    return model.nom
+  }
+  
+  func getNbrBenevole() -> Int{
+    return model.nb_benevole
   }
   
   func change(name: String) {

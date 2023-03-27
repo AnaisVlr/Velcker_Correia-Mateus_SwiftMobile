@@ -93,4 +93,27 @@ class ZoneService {
       }
       dataTask.resume()
     }
+  
+  func delete(token: String, id_zone: Int, completion: @escaping(Result<Bool, Error>) -> Void) -> Void {
+    var request = URLRequest(url: URL(string: self.url+"/\(id_zone)")!)
+    request.httpMethod = "DELETE"
+    request.setValue("application/json", forHTTPHeaderField: "Content-type")
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    
+    
+    let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+      
+      guard error == nil else {
+        return completion(.failure(ServiceError.NoData))
+      }
+      if let httpResponse = response as? HTTPURLResponse {
+        if(httpResponse.statusCode == 201) {
+          completion(.success(true))
+        }
+        else {completion(.failure(ServiceError.Failed))}
+      }
+      else {completion(.failure(ServiceError.Failed))}
+    }
+    dataTask.resume()
+  }
 }

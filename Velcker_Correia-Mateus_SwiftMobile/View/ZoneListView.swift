@@ -29,8 +29,8 @@ struct ZoneListView: View {
           }
         List(zoneListMV.zones) { z in
           VStack(alignment:.leading) {
-            NavigationLink(z.nom) {
-              ZoneView(zone: ZoneViewModel(model: z))
+            NavigationLink(z.getNom()) {
+              ZoneView(zone: z)
             }
           }
         }
