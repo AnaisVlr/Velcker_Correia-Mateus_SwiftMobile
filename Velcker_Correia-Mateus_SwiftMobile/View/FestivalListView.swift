@@ -43,7 +43,6 @@ struct FestivalListView: View {
               }
             }
           }
-          
         }
     }.navigationBarBackButtonHidden(true)
       .navigationBarItems(leading: NavBackButton(dismiss: self.dismiss, texte: "Accueil"))

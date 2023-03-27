@@ -22,14 +22,24 @@ struct FestivalView: View {
   var body: some View {
     VStack(alignment: .leading) {
       TextField("", text: $nom)
-      Button("Supprimer") {
-        Task {
-          FestivalService().delete(token: authentification.token, id_festival: festival.getId()) {success in
-            DispatchQueue.main.async {
-              self.dismiss()
+      if(authentification.is_admin) {
+        Button("Supprimer") {
+          Task {
+            FestivalService().delete(token: authentification.token, id_festival: festival.getId()) {res in
+              switch res {
+              case .success(let festivals):
+                DispatchQueue.main.async {
+                  self.dismiss()
+                }
+              case .failure(let error):
+                print(error)
+              }
             }
           }
         }
+      }
+      NavigationLink("") {
+        AffectationListView(festival: festival)
       }
       NavigationLink("Voir les zones du festival") {
         ZoneListView(festival: festival)

@@ -107,6 +107,7 @@ class FestivalService {
         return completion(.failure(ServiceError.NoData))
       }
       if let httpResponse = response as? HTTPURLResponse {
+        print(httpResponse)
         if(httpResponse.statusCode == 201) {
           completion(.success(true))
         }
