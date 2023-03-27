@@ -94,6 +94,7 @@ class FestivalService {
     }
     dataTask.resume()
   }
+  
   func delete(token: String, id_festival: Int, completion: @escaping(Result<Bool, Error>) -> Void) -> Void {
     var request = URLRequest(url: URL(string: self.url+"/\(id_festival)")!)
     request.httpMethod = "DELETE"

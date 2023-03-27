@@ -8,7 +8,7 @@
 import Foundation
 
 class ZoneService {
-    private let url = "https://velcker-correia-mateus-api-mobile.cluster-ig3.igpolytech.fr/zone"
+  private let url = "https://velcker-correia-mateus-api-mobile.cluster-ig3.igpolytech.fr/zone"
     
     func getAll(token: String, completion: @escaping(Result<[Zone]?, Error>) -> Void) -> Void{
         var request = URLRequest(url: URL(string: self.url)!)
@@ -38,6 +38,7 @@ class ZoneService {
         }
         dataTask.resume()
     }
+  
   func getAllByFestivalId(token: String, id_festival: Int, completion: @escaping(Result<[Zone]?, Error>) -> Void) -> Void{
       var request = URLRequest(url: URL(string: self.url+"/festival/\(id_festival)")!)
       request.httpMethod = "GET"
@@ -113,6 +114,35 @@ class ZoneService {
         else {completion(.failure(ServiceError.Failed))}
       }
       else {completion(.failure(ServiceError.Failed))}
+    }
+    dataTask.resume()
+  }
+  
+  func getAllBenevoleByZone(token: String, id_zone: Int, completion: @escaping(Result<[Benevole]?, Error>) -> Void) -> Void{
+    var request = URLRequest(url: URL(string: self.url+"/\(id_zone)/benevoles")!)
+    request.httpMethod = "GET"
+    request.setValue("application/json", forHTTPHeaderField: "Content-type")
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    
+    let dataTask = URLSession.shared.dataTask(with: request) {
+      (data, response, error) in
+      guard let data = data, error == nil else{
+        return completion(.failure(ServiceError.NoData))
+      }
+      Task{
+        do{
+          let decoded : [BenevoleDTO]? = await JSONHelper.decode(data: data)
+          if let decoded = decoded {
+            guard let benevoles = BenevoleDTO.benevoleDTO2Benevole(data: decoded) else {
+                completion(.failure(ServiceError.WrongData))
+                return
+            }
+            completion(.success(benevoles))
+          }else {
+            completion(.failure(ServiceError.NoData))
+          }
+        }
+      }
     }
     dataTask.resume()
   }
