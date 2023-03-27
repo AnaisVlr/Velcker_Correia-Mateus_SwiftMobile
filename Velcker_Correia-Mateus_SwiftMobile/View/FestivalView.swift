@@ -39,7 +39,7 @@ struct FestivalView: View {
           Task {
             FestivalService().delete(token: authentification.token, id_festival: festival.getId()) {res in
               switch res {
-              case .success(let festivals):
+              case .success(let boolean):
                 DispatchQueue.main.async {
                   self.dismiss()
                 }
@@ -50,7 +50,7 @@ struct FestivalView: View {
           }
         }
       }
-      NavigationLink("") {
+      NavigationLink("Affectations") {
         AffectationListView(festival: festival)
       }
     }.navigationBarBackButtonHidden(true)

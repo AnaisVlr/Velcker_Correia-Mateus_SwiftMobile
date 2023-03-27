@@ -27,7 +27,7 @@ struct JourDTO : Decodable{
   }
 }
 
-class Jour: ObservableObject{
+class Jour: ObservableObject, Hashable{
   private(set) var id : Int
   private(set) var id_festival : Int
   private(set) var nom : String
@@ -47,5 +47,11 @@ class Jour: ObservableObject{
     self.nom = dto.nom_jour
     self.ouverture = dto.ouverture
     self.fermeture = dto.fermeture
+  }
+  static func == (lhs: Jour, rhs: Jour) -> Bool {
+    return lhs.ouverture == rhs.ouverture && lhs.fermeture == rhs.fermeture
+  }
+  func hash(into hasher: inout Hasher) {
+    return hasher.combine(id)
   }
 }

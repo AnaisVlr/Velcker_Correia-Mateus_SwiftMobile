@@ -26,7 +26,7 @@ struct CreneauDTO : Decodable{
   }
 }
 
-class Creneau : ObservableObject{
+class Creneau : ObservableObject, Hashable{
   private(set) var id : Int
   private(set) var id_jour : Int
   private(set) var debut : Date
@@ -43,5 +43,25 @@ class Creneau : ObservableObject{
     self.id_jour = dto.id_jour
     self.debut = dto.debut
     self.fin = dto.fin
+  }
+  
+  func debutString() -> String {
+    let calendar = Calendar.current
+    let hour = calendar.component(.hour, from: debut)
+    let minute = calendar.component(.minute, from: debut)
+    return "\(hour):\(minute)"
+  }
+  func finString() -> String {
+    let calendar = Calendar.current
+    let hour = calendar.component(.hour, from: fin)
+    let minute = calendar.component(.minute, from: fin)
+    return "\(hour):\(minute)"
+  }
+  
+  static func == (lhs: Creneau, rhs: Creneau) -> Bool {
+    return lhs.debut == rhs.debut && lhs.fin == rhs.fin
+  }
+  func hash(into hasher: inout Hasher) {
+    return hasher.combine(id)
   }
 }

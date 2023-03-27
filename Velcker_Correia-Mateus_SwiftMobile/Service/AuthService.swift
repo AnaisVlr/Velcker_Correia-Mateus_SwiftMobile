@@ -26,7 +26,8 @@ class AuthService{
     var token = ""
     do{
       let (data, _) = try await URLSession.shared.upload(for: request, from: jsonData)
-      //let dataString = String(data: data, encoding: .utf8)!
+//      let dataString = String(data: data, encoding: .utf8)!
+//      print(dataString)
       guard let decoded : AuthDTO = await JSONHelper.decode(data: data) else {print("Erreur lors du decode de l'authentification"); return ""}
       
       token = decoded.access_token
