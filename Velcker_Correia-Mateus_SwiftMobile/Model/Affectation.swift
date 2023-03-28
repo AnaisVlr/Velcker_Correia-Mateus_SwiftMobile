@@ -37,5 +37,8 @@ class Affectation: ObservableObject, Identifiable{
     self.id_creneau = dto.id_creneau
     self.id_benevole = dto.id_benevole
   }
+  static func ==(lhs: Affectation, rhs: Affectation) -> Bool {
+    return lhs.id_zone == rhs.id_zone && lhs.id_creneau == rhs.id_creneau && lhs.id_benevole == rhs.id_benevole
+  }
 
 }

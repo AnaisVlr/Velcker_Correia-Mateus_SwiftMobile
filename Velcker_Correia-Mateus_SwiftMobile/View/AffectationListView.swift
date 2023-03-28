@@ -24,6 +24,18 @@ struct AffectationListView: View {
   func delete(at offsets: IndexSet) {
     affectationList.remove(atOffsets: offsets)
   }
+  func alreadyTaken() -> Bool {
+    var taken = false
+    let testA = Affectation(id_zone: zoneSelected, id_creneau: creneauSelected, id_benevole: authentification.id)
+    
+    for i in affectationList {
+      if(i == testA) {
+        taken = true
+        break
+      }
+    }
+    return taken
+  }
   
   var body: some View {
     VStack(alignment: .center) {
@@ -66,7 +78,7 @@ struct AffectationListView: View {
               print(error)
             }
           }
-        }
+        }.disabled(zoneSelected == -1 || creneauSelected == -1 || jourSelected == -1 || alreadyTaken())
       }
       VStack(alignment: .leading) {
         List {

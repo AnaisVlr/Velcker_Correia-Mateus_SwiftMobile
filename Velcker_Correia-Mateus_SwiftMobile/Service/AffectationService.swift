@@ -17,7 +17,6 @@ class AffectationService {
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     
     let jsonString = "{ \"id_zone\": \"\(affectation.id_zone)\", \"id_benevole\": \"\(affectation.id_benevole)\", \"id_creneau\": \"\(affectation.id_creneau)\"}"
-    print(jsonString)
     guard let jsonData = jsonString.data(using: .utf8) else {return}
     request.httpBody = jsonData
     
@@ -25,8 +24,7 @@ class AffectationService {
       guard let data = data, error == nil else {
         return completion(.failure(ServiceError.NoData))
       }
-      print(data)
-      print(response)
+      
       if let httpResponse = response as? HTTPURLResponse {
         if(httpResponse.statusCode == 201) {
           guard let a : AffectationDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode create Zone"); completion(.failure(ServiceError.WrongData)); return}
