@@ -23,6 +23,9 @@ struct FestivalView: View {
     VStack(alignment: .leading) {
       NavigationLink("Jeux") {
       }
+      NavigationLink("Jours") {
+        JourListView()
+      }
       NavigationLink("Zones") {
         ZoneListView(festival: festival)
       }
@@ -32,7 +35,7 @@ struct FestivalView: View {
         }
       }
       NavigationLink("Mes créneaux") {
-        
+        AffectationListView(festival: festival)
       }
       if(authentification.is_admin) {
         Button("Supprimer") {
@@ -49,9 +52,6 @@ struct FestivalView: View {
             }
           }
         }
-      }
-      NavigationLink("Affectations") {
-        AffectationListView(festival: festival)
       }
     }.navigationBarBackButtonHidden(true)
       .navigationTitle(festival.getNom())

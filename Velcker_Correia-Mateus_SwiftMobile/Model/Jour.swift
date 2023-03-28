@@ -34,6 +34,15 @@ class Jour: ObservableObject, Hashable{
   private(set) var ouverture : Date
   private(set) var fermeture : Date
   
+  func setNom(_ nom: String) {
+    self.nom = nom
+  }
+  func setOuverture(_ ouverture: Date) {
+    self.ouverture = ouverture
+  }
+  func setFermeture(_ fermeture: Date) {
+    self.fermeture = fermeture
+  }
   init(id: Int, id_festival: Int, nom: String, ouverture: Date, fermeture: Date) {
     self.id = id
     self.id_festival = id_festival
