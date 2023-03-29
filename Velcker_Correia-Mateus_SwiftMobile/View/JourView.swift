@@ -13,11 +13,15 @@ struct JourView: View {
   @Environment(\.dismiss) private var dismiss
   
   @State var nom: String
+  @State var ouverture: Date
+  @State var fermeture: Date
   @State var creneaux: [Creneau] = []
   
   init(jour: JourIntent) {
     self._jour = State(initialValue: jour)
-      self._nom = State(initialValue: jour.getNom())
+    self._nom = State(initialValue: jour.getNom())
+    self._ouverture = State(initialValue: jour.getOuverture())
+    self._fermeture = State(initialValue: jour.getOuverture())
   }
   
   var body: some View {
@@ -25,7 +29,7 @@ struct JourView: View {
       //Informations
       VStack(alignment: .center) {
         Text("\(nom)")
-        Text("De \(jour.getOuverture().toString()) à \(jour.getFermeture().toString())")
+        Text("De \(ouverture.toString()) à \(fermeture.toString())")
         if(authentification.is_admin) {
           Button("Supprimer") {
             Task {

@@ -44,7 +44,7 @@ class FestivalService {
     request.setValue("application/json", forHTTPHeaderField: "Content-type")
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     
-    let jsonString = "{ \"nom_festival\": \"\(festival.nom)\", \"annee_festival\": \(festival.annee), \"nombre_jour\": \(festival.nombre_jour), \"is_active\": \(festival.is_active) }"
+    let jsonString = "{ \"nom_festival\": \"\(festival.nom)\", \"annee_festival\": \(festival.annee), \"nombre_jour\": 0, \"is_active\": \(festival.is_active) }"
     guard let jsonData = jsonString.data(using: .utf8) else {return}
     request.httpBody = jsonData
     
@@ -55,9 +55,9 @@ class FestivalService {
       if let httpResponse = response as? HTTPURLResponse {
         if(httpResponse.statusCode == 201) {
           guard let f : FestivalDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode create Festival"); completion(.failure(ServiceError.WrongData)); return}
-          let festival = Festival(dto: f)
+          let festivalRes = Festival(dto: f)
           //Création de la zone "Libre"
-          let zone = Zone(id: -1, id_festival: festival.id, nom: "Libre", nb_benevole: 1)
+          let zone = Zone(id: -1, id_festival: festivalRes.id, nom: "Libre", nb_benevole: 1)
           ZoneService().create(token: token, zone: zone) { success in}
           //Création des jours
           let userCalendar = Calendar(identifier: .iso8601)
@@ -71,22 +71,13 @@ class FestivalService {
             print(ouverture)
             dateC.hour = 18
             let fermeture = userCalendar.date(from: dateC)!
-            let jour: Jour = Jour(id: -1, id_festival: festival.id, nom: "Jour\(i)", ouverture: ouverture, fermeture: fermeture)
+            let jour: Jour = Jour(id: -1, id_festival: festivalRes.id, nom: "Jour\(i)", ouverture: ouverture, fermeture: fermeture)
             //Création des créneaux
-            JourService().create(token: token, jour: jour) { res in
-              switch res {
-              case .success(let jour):
-                let creneau = Creneau(id: -1, id_jour: jour.id, debut: ouverture, fin: fermeture)
-                CreneauService().create(token: token, creneau: creneau) { success in}
-              case .failure(let error):
-                print(error)
-              }
-                    
-            }
+            JourService().create(token: token, jour: jour) { res in}
           }
           
           
-          completion(.success(festival))
+          completion(.success(festivalRes))
         }
         else {completion(.failure(ServiceError.Failed))}
       }

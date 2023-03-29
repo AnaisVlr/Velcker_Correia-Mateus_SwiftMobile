@@ -50,7 +50,7 @@ struct AddJourView : View {
               print(error)
             }
           }
-        }
+        }.disabled(self.festival.getNom<= 1)
       }
     }.navigationBarBackButtonHidden(true)
   }

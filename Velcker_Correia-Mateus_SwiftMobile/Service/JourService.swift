@@ -57,6 +57,8 @@ class JourService {
         if(httpResponse.statusCode == 201) {
           guard let j : JourDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode create Jour"); completion(.failure(ServiceError.WrongData)); return}
           let jour = Jour(j)
+          let creneau = Creneau(id: -1, id_jour: jour.id, debut: j.ouverture, fin: j.fermeture)
+          CreneauService().create(token: token, creneau: creneau) { success in}
           completion(.success(jour))
         }
         else {completion(.failure(ServiceError.Failed))}
