@@ -27,7 +27,7 @@ struct JourListView: View {
         List(jourList.jours) { j in
           VStack(alignment:.leading) {
             NavigationLink(j.getNom()) {
-              JourView(jour: j)
+              JourView(jour: j, festival: self.festival)
             }
               Text("De \(j.getOuverture().toString()) à \(j.getFermeture().toString())")
           }

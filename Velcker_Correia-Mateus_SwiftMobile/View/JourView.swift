@@ -12,16 +12,19 @@ struct JourView: View {
   @EnvironmentObject var authentification: Authentification
   @Environment(\.dismiss) private var dismiss
   
+  
+  let festival: FestivalIntent
   @State var nom: String
   @State var ouverture: Date
   @State var fermeture: Date
   @State var creneaux: [Creneau] = []
   
-  init(jour: JourIntent) {
+  init(jour: JourIntent, festival: FestivalIntent) {
     self._jour = State(initialValue: jour)
     self._nom = State(initialValue: jour.getNom())
     self._ouverture = State(initialValue: jour.getOuverture())
     self._fermeture = State(initialValue: jour.getOuverture())
+    self.festival = festival
   }
   
   var body: some View {
@@ -44,7 +47,7 @@ struct JourView: View {
                 }
               }
             }
-          }
+          }.disabled(self.festival.getNbJour() <= 1)
         }
       }
       
