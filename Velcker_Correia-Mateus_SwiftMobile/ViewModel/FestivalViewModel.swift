@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import SwiftUI
 
 class FestivalViewModel: ObservableObject, Identifiable {
   var model: Festival
   var id=UUID()
   var observers: [FestivalListViewModel]
+  @State var state: FestivalState = .ready
   
   init(model: Festival) {
     self.model = model
@@ -22,21 +24,7 @@ class FestivalViewModel: ObservableObject, Identifiable {
     self.register(obs)
   }
   
-  @Published var state : FestivalState = .ready{
-    didSet{
-      switch state {
-        case .changingName(let newname):
-          if(newname != self.model.nom) {
-            print("Changement de nom")
-            self.model.nom = newname
-            for o in observers { o.VMUpdated()}
-          }
-          
-        default:
-          break
-      }
-    }
-  }
+
   var id_festival : Int {
     return model.id
   }

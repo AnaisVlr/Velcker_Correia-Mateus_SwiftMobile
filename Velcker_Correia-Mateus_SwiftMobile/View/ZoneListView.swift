@@ -12,9 +12,9 @@ struct ZoneListView: View {
   @Environment(\.dismiss) private var dismiss
   @StateObject var zoneListMV = ZoneListViewModel()
   
-  @State var festival : FestivalIntent
+  @State var festival : FestivalViewModel
   
-  init(festival : FestivalIntent){
+  init(festival : FestivalViewModel){
     self._festival = State(initialValue: festival)
   }
 
@@ -37,7 +37,7 @@ struct ZoneListView: View {
       }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
         .onAppear {
           Task {
-            ZoneService().getAllByFestivalId(token: authentification.token, id_festival: festival.getId()) {res in
+            ZoneService().getAllByFestivalId(token: authentification.token, id_festival: festival.id_festival) {res in
               switch res {
                 case .success(let zones):
                   zoneListMV.setZones(zones!)

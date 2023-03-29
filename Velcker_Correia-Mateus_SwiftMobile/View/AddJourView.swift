@@ -12,7 +12,7 @@ struct AddJourView : View {
   @Environment(\.dismiss) private var dismiss
     
   var liste: JourListViewModel
-  let festival: FestivalIntent
+  let festival: FestivalViewModel
   
   @State var nom: String = "Nom"
   @State var ouverture: Date = Date.now
@@ -38,7 +38,7 @@ struct AddJourView : View {
           )
         }
         Button("Créer") {
-          let j: Jour = Jour(id: -1, id_festival: self.festival.getId(), nom: nom, ouverture: ouverture, fermeture: fermeture)
+          let j: Jour = Jour(id: -1, id_festival: self.festival.id_festival, nom: nom, ouverture: ouverture, fermeture: fermeture)
           JourService().create(token: authentification.token, jour: j) { res in
             switch res {
             case .success(let jour):

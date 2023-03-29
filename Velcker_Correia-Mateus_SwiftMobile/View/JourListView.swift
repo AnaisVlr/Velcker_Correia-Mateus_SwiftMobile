@@ -12,7 +12,7 @@ struct JourListView: View {
   @Environment(\.dismiss) private var dismiss
     
   @StateObject var jourList = JourListViewModel()
-  let festival: FestivalIntent
+  let festival: FestivalViewModel
 
   var body: some View {
     NavigationView {
@@ -36,7 +36,7 @@ struct JourListView: View {
       }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
         .onAppear {
           Task {
-            JourService().getAllByFestivalId(token: authentification.token, id_festival: self.festival.getId()) {res in
+            JourService().getAllByFestivalId(token: authentification.token, id_festival: self.festival.id_festival) {res in
             switch res {
             case .success(let jours):
               jourList.setJours(jours!)

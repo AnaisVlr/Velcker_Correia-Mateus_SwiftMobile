@@ -8,15 +8,18 @@
 import SwiftUI
 
 struct FestivalView: View {
-  @State var festival: FestivalIntent
   @EnvironmentObject var authentification: Authentification
   @Environment(\.dismiss) private var dismiss
   
+  @ObservedObject var festival: FestivalViewModel
+  var intentFestival: FestivalIntent
+  
   @State var nom: String
   
-  init(festival: FestivalIntent) {
-    self._festival = State(initialValue: festival)
-      self._nom = State(initialValue: festival.getNom())
+  init(festival: FestivalViewModel) {
+    self.festival = festival
+    self.intentFestival = FestivalIntent(festivalVM: festival)
+    self._nom = State(initialValue: festival.nom)
   }
   
   var body: some View {
@@ -40,20 +43,11 @@ struct FestivalView: View {
       if(authentification.is_admin) {
         Button("Supprimer") {
           Task {
-            FestivalService().delete(token: authentification.token, id_festival: festival.getId()) {res in
-              switch res {
-              case .success(_ ):
-                DispatchQueue.main.async {
-                  self.dismiss()
-                }
-              case .failure(let error):
-                print(error)
-              }
-            }
+            
           }
         }
       }
     }.navigationBarBackButtonHidden(true)
-      .navigationTitle(festival.getNom())
+      .navigationTitle(festival.nom)
   }
 }

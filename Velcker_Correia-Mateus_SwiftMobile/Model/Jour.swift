@@ -36,7 +36,7 @@ struct JourDTO : Decodable{
   }
 }
 
-class Jour: ObservableObject, Hashable{
+class Jour: ObservableObject, Hashable, Identifiable{
   private(set) var id : Int
   private(set) var id_festival : Int
   private(set) var nom : String
