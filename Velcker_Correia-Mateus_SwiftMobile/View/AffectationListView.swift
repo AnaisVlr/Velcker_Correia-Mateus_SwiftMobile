@@ -53,7 +53,7 @@ struct AffectationListView: View {
           Picker("Créneau", selection: $creneauSelected) {
             ForEach(creneauList, id: \.self) {
               if($0.id_jour == jourSelected) {
-                Text(verbatim: "De \($0.debutString()) à \($0.finString())").tag($0.id)
+                Text(verbatim: "De \($0.debut.toString()) à \($0.fin.toString())").tag($0.id)
               }
               
             }
@@ -89,7 +89,7 @@ struct AffectationListView: View {
                 let jour: Jour? = jourList.first(where: {$0.id == creneau!.id_jour})
                 if(jour != nil) {
                   Text("\(jour!.nom)")
-                  Text("De \(creneau!.debutString()) à \(creneau!.finString())")
+                  Text("De \(creneau!.debut.toString()) à \(creneau!.fin.toString())")
                 }
               }
               

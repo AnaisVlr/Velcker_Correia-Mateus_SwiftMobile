@@ -79,7 +79,7 @@ class JourService {
         return completion(.failure(ServiceError.NoData))
       }
       if let httpResponse = response as? HTTPURLResponse {
-        if(httpResponse.statusCode == 201) {
+        if(httpResponse.statusCode == 200) {
           completion(.success(true))
         }
         else {completion(.failure(ServiceError.Failed))}

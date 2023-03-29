@@ -8,44 +8,46 @@
 import SwiftUI
 
 struct JourListView: View {
-@EnvironmentObject var authentification: Authentification
-@Environment(\.dismiss) private var dismiss
-@StateObject var jourList = JourListViewModel()
+  @EnvironmentObject var authentification: Authentification
+  @Environment(\.dismiss) private var dismiss
+    
+  @StateObject var jourList = JourListViewModel()
+  let festival: FestivalIntent
 
-var body: some View {
-  NavigationView {
-    VStack(alignment: .center) {
-      
-      Text("Liste des jours")
-      if(authentification.is_admin) {
-        NavigationLink("Ajouter un Jour") {
-          
-        }
-      }
-      List(jourList.jours) { j in
-        VStack(alignment:.leading) {
-          NavigationLink(j.getNom()) {
-            JourView(jour: j)
+  var body: some View {
+    NavigationView {
+      VStack(alignment: .center) {
+        
+        Text("Liste des jours")
+        if(authentification.is_admin) {
+          NavigationLink("Ajouter un Jour") {
+            AddJourView(liste: self.jourList, festival: self.festival)
           }
-          Text("De ?? à ??")
         }
-      }
-      
-    }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-      .onAppear {
-        Task {
-          /*JourService().getAll(token: authentification.token) {res in
+        List(jourList.jours) { j in
+          VStack(alignment:.leading) {
+            NavigationLink(j.getNom()) {
+              JourView(jour: j)
+            }
+              Text("De \(j.getOuverture().toString()) à \(j.getFermeture().toString())")
+          }
+        }
+        
+      }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+        .onAppear {
+          Task {
+            JourService().getAllByFestivalId(token: authentification.token, id_festival: self.festival.getId()) {res in
             switch res {
             case .success(let jours):
               jourList.setJours(jours!)
             case .failure(let error):
               print(error)
             }
-          }*/
+          }
         }
       }
-  }.navigationBarBackButtonHidden(true)
-    .navigationBarItems(leading: NavBackButton(dismiss: self.dismiss, texte: "Accueil"))
-  
-}
+    }.navigationBarBackButtonHidden(true)
+      .navigationBarItems(leading: NavBackButton(dismiss: self.dismiss, texte: "Retour"))
+    
+  }
 }

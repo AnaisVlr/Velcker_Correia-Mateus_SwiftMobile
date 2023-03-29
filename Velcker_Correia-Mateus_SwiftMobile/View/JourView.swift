@@ -13,6 +13,7 @@ struct JourView: View {
   @Environment(\.dismiss) private var dismiss
   
   @State var nom: String
+  @State var creneaux: [Creneau] = []
   
   init(jour: JourIntent) {
     self._jour = State(initialValue: jour)
@@ -21,23 +22,46 @@ struct JourView: View {
   
   var body: some View {
     VStack(alignment: .leading) {
-      
-      if(authentification.is_admin) {
-        Button("Supprimer") {
-          Task {
-            /*FestivalService().delete(token: authentification.token, id_festival: festival.getId()) {res in
-              switch res {
-              case .success(let boolean):
-                DispatchQueue.main.async {
-                  self.dismiss()
+      //Informations
+      VStack(alignment: .center) {
+        Text("\(nom)")
+        Text("De \(jour.getOuverture().toString()) à \(jour.getFermeture().toString())")
+        if(authentification.is_admin) {
+          Button("Supprimer") {
+            Task {
+              JourService().delete(token: authentification.token, id_jour: jour.getId()) {res in
+                switch res {
+                case .success(_ ):
+                  DispatchQueue.main.async {
+                    self.dismiss()
+                  }
+                case .failure(let error):
+                  print(error)
                 }
-              case .failure(let error):
-                print(error)
               }
-            }*/
+            }
           }
         }
       }
+      
+      //Créneaux
+      List(self.creneaux) { c in
+        VStack(alignment:.leading) {
+          Text("De \(c.debut.toString()) à \(c.fin.toString())")
+        }
+      }
     }.navigationBarBackButtonHidden(true)
+      .onAppear {
+        Task {
+          CreneauService().getAllByJourId(token: authentification.token, id_jour: self.jour.getId()) {res in
+          switch res {
+          case .success(let creneaux):
+            self.creneaux = creneaux!
+          case .failure(let error):
+            print(error)
+          }
+        }
+      }
+    }
   }
 }

@@ -24,7 +24,7 @@ struct FestivalView: View {
       NavigationLink("Jeux") {
       }
       NavigationLink("Jours") {
-        JourListView()
+        JourListView(festival: self.festival)
       }
       NavigationLink("Zones") {
         ZoneListView(festival: festival)
@@ -42,7 +42,7 @@ struct FestivalView: View {
           Task {
             FestivalService().delete(token: authentification.token, id_festival: festival.getId()) {res in
               switch res {
-              case .success(let boolean):
+              case .success(_ ):
                 DispatchQueue.main.async {
                   self.dismiss()
                 }

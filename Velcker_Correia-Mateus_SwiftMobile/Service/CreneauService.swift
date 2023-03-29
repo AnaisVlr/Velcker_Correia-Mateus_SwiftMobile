@@ -37,6 +37,33 @@ class CreneauService {
     }
     dataTask.resume()
   }
+  func getAllByJourId(token: String, id_jour: Int, completion: @escaping(Result<[Creneau]?, Error>) -> Void) -> Void {
+    var request = URLRequest(url: URL(string: self.url+"/jour/\(id_jour)")!)
+    request.httpMethod = "GET"
+    request.setValue("application/json", forHTTPHeaderField: "Content-type")
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    
+    let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+      guard let data = data, error == nil else {
+        return completion(.failure(ServiceError.NoData))
+      }
+      Task {
+        do {
+          let decoded : [CreneauDTO]? = await JSONHelper.decode(data: data)
+          if let decoded = decoded {
+            guard let creneaux = CreneauDTO.creneauDTO2Creneau(data: decoded) else {
+              completion(.failure(ServiceError.WrongData)); return
+            }
+            
+            completion(.success(creneaux))
+          } else {
+            completion(.failure(ServiceError.NoData))
+          }
+        }
+      }
+    }
+    dataTask.resume()
+  }
   
   
   func create(token: String, creneau: Creneau, completion: @escaping(Result<Creneau, Error>) -> Void) -> Void {
@@ -79,7 +106,7 @@ class CreneauService {
         return completion(.failure(ServiceError.NoData))
       }
       if let httpResponse = response as? HTTPURLResponse {
-        if(httpResponse.statusCode == 201) {
+        if(httpResponse.statusCode == 200) {
           completion(.success(true))
         }
         else {completion(.failure(ServiceError.Failed))}

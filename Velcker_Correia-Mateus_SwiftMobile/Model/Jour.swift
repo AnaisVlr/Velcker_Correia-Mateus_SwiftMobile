@@ -7,6 +7,15 @@
 
 import Foundation
 
+extension Date {
+  func toString() -> String {
+    let calendar = Calendar.current
+    let hour = calendar.component(.hour, from: self)
+    let minute = calendar.component(.minute, from: self)
+    return "\(hour):\(minute)"
+  }
+}
+
 struct JourDTO : Decodable{
   var id_jour : Int?
   var id_festival : Int
@@ -37,12 +46,15 @@ class Jour: ObservableObject, Hashable{
   func setNom(_ nom: String) {
     self.nom = nom
   }
+  
   func setOuverture(_ ouverture: Date) {
     self.ouverture = ouverture
   }
+  
   func setFermeture(_ fermeture: Date) {
     self.fermeture = fermeture
   }
+  
   init(id: Int, id_festival: Int, nom: String, ouverture: Date, fermeture: Date) {
     self.id = id
     self.id_festival = id_festival
@@ -50,6 +62,7 @@ class Jour: ObservableObject, Hashable{
     self.ouverture = ouverture
     self.fermeture = fermeture
   }
+  
   init(_ dto: JourDTO) {
     self.id = dto.id_jour!
     self.id_festival = dto.id_festival
@@ -57,9 +70,11 @@ class Jour: ObservableObject, Hashable{
     self.ouverture = dto.ouverture
     self.fermeture = dto.fermeture
   }
+  
   static func == (lhs: Jour, rhs: Jour) -> Bool {
     return lhs.ouverture == rhs.ouverture && lhs.fermeture == rhs.fermeture
   }
+  
   func hash(into hasher: inout Hasher) {
     return hasher.combine(id)
   }
