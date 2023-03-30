@@ -40,13 +40,7 @@ struct FestivalView: View {
       NavigationLink("Mes créneaux") {
         AffectationListView(festival: festival)
       }
-      if(authentification.is_admin) {
-        Button("Supprimer") {
-          Task {
-            
-          }
-        }
-      }
+      
     }.navigationBarBackButtonHidden(true)
       .navigationTitle(festival.nom)
   }

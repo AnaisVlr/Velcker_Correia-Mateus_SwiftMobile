@@ -25,57 +25,60 @@ struct AffectationListIntent {
   
   func getAll(token: String, id_festival: Int, id_benevole: Int) {
     affectationListVM.state = .loading
+    print("Fait des bébés")
+    print(affectationListVM.state)
     
-    
-    CreneauService().getAllByFestivalId(token: token, id_festival: id_festival) {res in
+    AffectationService().getAllByFestivalIdAndBenevoleId(token: token, id_festival: id_festival, id_benevole: id_benevole) {res in
       switch res {
-      case .success(let creneaux):
-        self.affectationListVM.setCreneau(creneaux!)
-        AffectationService().getAllByFestivalIdAndBenevoleId(token: token, id_festival: id_festival, id_benevole: id_benevole) {res in
+      case .success(let affectations):
+        self.affectationListVM.setAffectations(affectations!)
+        
+        CreneauService().getAllByFestivalId(token: token, id_festival: id_festival) {res in
           switch res {
-          case .success(let affectations):
-            self.affectationListVM.setAffectations(affectations!)
+          case .success(let creneaux):
+            self.affectationListVM.setCreneau(creneaux!)
+            
+            JourService().getAllByFestivalId(token: token, id_festival: id_festival) {res in
+              switch res {
+              case .success(let jours):
+                self.affectationListVM.setJours(jours!)
+                if(jours != nil && !jours!.isEmpty) {
+                  self.affectationListVM.setJourSelected(jours!.first!.id)
+                  if(!self.affectationListVM.creneauList.isEmpty) {
+                    let idCreneau = self.affectationListVM.creneauList.first(where: {$0.id_jour == self.affectationListVM.jourSelected})
+                    if(idCreneau != nil) {
+                      self.affectationListVM.setCreneauSelected(idCreneau!.id)
+                    }
+                  }
+                }
+                ZoneService().getAllByFestivalId(token: token, id_festival: id_festival) {res in
+                  switch res {
+                  case .success(let zones):
+                    self.affectationListVM.setZones(zones!)
+                    if(zones != nil && !zones!.isEmpty) {
+                      self.affectationListVM.setZoneSelected(zones!.first!.id)
+                    }
+                    affectationListVM.state = .errorLoading
+                  case .failure(let error):
+                    print(error)
+                    affectationListVM.state = .errorLoading
+                  }
+                }
+              case .failure(let error):
+                print(error)
+                affectationListVM.state = .errorLoading
+              }
+            }
           case .failure(let error):
             print(error)
+            affectationListVM.state = .errorLoading
           }
         }
       case .failure(let error):
         print(error)
+        affectationListVM.state = .errorLoading
       }
     }
-    JourService().getAllByFestivalId(token: token, id_festival: id_festival) {res in
-      switch res {
-      case .success(let jours):
-        self.affectationListVM.setJours(jours!)
-        if(jours != nil && !jours!.isEmpty) {
-          self.affectationListVM.setJourSelected(jours!.first!.id)
-          if(!self.affectationListVM.creneauList.isEmpty) {
-            let idCreneau = self.affectationListVM.creneauList.first(where: {$0.id_jour == self.affectationListVM.jourSelected})
-            if(idCreneau != nil) {
-              self.affectationListVM.setCreneauSelected(idCreneau!.id)
-            }
-          }
-        }
-      case .failure(let error):
-        print(error)
-      }
-    }
-    
-
-    ZoneService().getAllByFestivalId(token: token, id_festival: id_festival) {res in
-      switch res {
-      case .success(let zones):
-        self.affectationListVM.setZones(zones!)
-        if(zones != nil && !zones!.isEmpty) {
-          self.affectationListVM.setZoneSelected(zones!.first!.id)
-        }
-        
-      case .failure(let error):
-        print(error)
-      }
-    }
-    
-    affectationListVM.state = .ready
   }
   
   func create(token: String, id_benevole: Int) {

@@ -22,7 +22,7 @@ struct AffectationDTO : Decodable{
   }
 }
 
-class Affectation: ObservableObject, Identifiable{
+class Affectation: ObservableObject, Identifiable, Equatable{
   var id_zone : Int
   var id_creneau : Int
   var id_benevole : Int

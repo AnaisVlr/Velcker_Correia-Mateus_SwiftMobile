@@ -10,7 +10,7 @@ import SwiftUI
 
 class FestivalListViewModel: ObservableObject {
   @Published var festivalList: [FestivalViewModel] = []
-  @State var state: FestivalListState = .ready
+  @Published var state: FestivalListState = .ready
   
   func setFestivals(_ festivals: [Festival]) {
     DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
@@ -23,27 +23,27 @@ class FestivalListViewModel: ObservableObject {
   }
   
   func setFestivals(_ festivals: [FestivalViewModel]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
+    DispatchQueue.main.async {
       self.festivalList = festivals
     }
   }
   
   
   func VMUpdated() {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
+    DispatchQueue.main.async {
       self.objectWillChange.send()
     }
   }
   
   func appendFestival(_ f: Festival) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
+    DispatchQueue.main.async {
       self.festivalList.append(FestivalViewModel(model: f))
       self.VMUpdated()
     }
   }
   
   func appendFestival(_ f: FestivalViewModel) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
+    DispatchQueue.main.async {
       self.festivalList.append(f)
       self.VMUpdated()
     }

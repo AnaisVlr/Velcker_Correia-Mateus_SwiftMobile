@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 class AffectationListViewModel: ObservableObject {
-  @State var state: AffectationListState = .ready
+  @Published var state: AffectationListState = .ready
     
   @Published var creneauList: [Creneau] = []
   @Published var jourList: [Jour] = []
@@ -22,48 +22,41 @@ class AffectationListViewModel: ObservableObject {
   @Published var creneauSelected: Int = -1
   
   func setCreneau(_ creneaux: [Creneau]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
       self.creneauList = creneaux
-    }
+      print(self.affectationList.count)
   }
   
   func setZones(_ zones: [Zone]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
       self.zoneList = zones
-    }
+      print(self.affectationList.count)
   }
   
   func setJours(_ jours: [Jour]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
       self.jourList = jours
-      
-    }
+      print(self.affectationList.count)
   }
+  
   func setAffectations(_ affectations: [Affectation]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
+    DispatchQueue.main.async {
       self.affectationList = affectations
+      print(self.affectationList.count)
     }
   }
   
   func appendAffectation(_ a: Affectation) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
       self.affectationList.append(a)
-    }
   }
+  
   func setZoneSelected(_ z: Int) {
-    DispatchQueue.main.async {
       self.zoneSelected = z
-    }
   }
+  
   func setJourSelected(_ j: Int) {
-    DispatchQueue.main.async {
       self.jourSelected = j
-    }
   }
+  
   func setCreneauSelected(_ c: Int) {
-    DispatchQueue.main.async {
       self.creneauSelected = c
-    }
   }
 }
 

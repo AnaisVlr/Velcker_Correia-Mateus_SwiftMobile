@@ -16,9 +16,9 @@ struct AffectationListView: View {
   var intentListAffectation: AffectationListIntent
   
   init(festival: FestivalViewModel) {
-    let al = AffectationListViewModel()
-    self.affectationList = al
-    self.intentListAffectation = AffectationListIntent(affectationListVM: al)
+    let aLVM = AffectationListViewModel()
+    self.affectationList = aLVM
+    self.intentListAffectation = AffectationListIntent(affectationListVM: aLVM)
     self.festival = festival
   }
   
@@ -37,6 +37,32 @@ struct AffectationListView: View {
   
   var body: some View {
     VStack(alignment: .center) {
+      switch self.affectationList.state {
+      case .loading:
+        Text("Chargement")
+      case .deleting:
+        Text("Suppression")
+      case .ready:
+        Text("Prêt")
+      case .creating:
+        Text("Création")
+      case .errorCreating:
+        Text("Erreur Création")
+      case .errorLoading:
+        Text("Erreur Chargement")
+      case .errorDeleting:
+        Text("Erreur Suppression")
+      }
+      Button("Test"){
+        print(self.affectationList.affectationList.count)
+        print(self.affectationList.creneauList.count)
+        print(self.affectationList.jourList.count)
+        print(self.affectationList.zoneList.count)
+        print(self.intentListAffectation.affectationListVM.affectationList.count)
+        print(self.intentListAffectation.affectationListVM.creneauList.count)
+        print(self.intentListAffectation.affectationListVM.jourList.count)
+        print(self.intentListAffectation.affectationListVM.zoneList.count)
+      }
       VStack(alignment: .leading) {
         VStack() {
           Text("Jour :")
@@ -89,7 +115,7 @@ struct AffectationListView: View {
               if(zone != nil) {
                 Text("Zone : \( zone!.nom )")
               }
-              
+              Text("\(a.id_benevole)")
             }
           }.onDelete { indexSet in
             for i in indexSet { //Pour récupérer l'objet supprimé
@@ -101,9 +127,13 @@ struct AffectationListView: View {
         }
       }
     }.onAppear {
-      Task {
-        intentListAffectation.getAll(token: authentification.token, id_festival: festival.id_festival, id_benevole: authentification.id)
+      DispatchQueue.main.async {
+        Task {
+          intentListAffectation.getAll(token: authentification.token, id_festival: festival.id_festival, id_benevole: authentification.id)
+          
+        }
       }
+      
     }
   }
 }

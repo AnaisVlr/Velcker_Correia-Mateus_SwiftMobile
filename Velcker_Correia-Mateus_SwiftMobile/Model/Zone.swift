@@ -26,7 +26,7 @@ struct ZoneDTO : Decodable{
   }
 }
 
-class Zone: ObservableObject, Identifiable, Hashable{
+class Zone: ObservableObject, Identifiable, Hashable, Equatable{
   
   var id : Int
   var id_festival : Int
