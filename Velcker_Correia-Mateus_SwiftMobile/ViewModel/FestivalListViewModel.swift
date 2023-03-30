@@ -12,6 +12,12 @@ class FestivalListViewModel: ObservableObject {
   @Published var festivalList: [FestivalViewModel] = []
   @Published var state: FestivalListState = .ready
   
+  func setState(_ state: FestivalListState) {
+    DispatchQueue.main.async {
+      self.state = state
+    }
+  }
+  
   func setFestivals(_ festivals: [Festival]) {
     DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
       var newList: [FestivalViewModel] = []

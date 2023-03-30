@@ -21,12 +21,8 @@ enum AffectationListState {
 struct AffectationListIntent {
   var affectationListVM: AffectationListViewModel
   
-  
-  
   func getAll(token: String, id_festival: Int, id_benevole: Int) {
-    affectationListVM.state = .loading
-    print("Fait des bébés")
-    print(affectationListVM.state)
+    affectationListVM.setState(.loading)
     
     AffectationService().getAllByFestivalIdAndBenevoleId(token: token, id_festival: id_festival, id_benevole: id_benevole) {res in
       switch res {
@@ -58,61 +54,60 @@ struct AffectationListIntent {
                     if(zones != nil && !zones!.isEmpty) {
                       self.affectationListVM.setZoneSelected(zones!.first!.id)
                     }
-                    affectationListVM.state = .errorLoading
+                    affectationListVM.setState(.ready)
                   case .failure(let error):
                     print(error)
-                    affectationListVM.state = .errorLoading
+                    affectationListVM.setState(.errorLoading)
                   }
                 }
               case .failure(let error):
                 print(error)
-                affectationListVM.state = .errorLoading
+                affectationListVM.setState(.errorLoading)
               }
             }
           case .failure(let error):
             print(error)
-            affectationListVM.state = .errorLoading
+            affectationListVM.setState(.errorLoading)
           }
         }
       case .failure(let error):
         print(error)
-        affectationListVM.state = .errorLoading
+        affectationListVM.setState(.errorLoading)
       }
     }
   }
   
   func create(token: String, id_benevole: Int) {
-    affectationListVM.state = .creating
+    affectationListVM.setState(.creating)
     
     let a: Affectation = Affectation(id_zone: affectationListVM.zoneSelected, id_creneau: affectationListVM.creneauSelected, id_benevole: id_benevole)
     AffectationService().create(token: token, affectation: a) { res in
       switch res {
       case .success(let affectation):
         affectationListVM.appendAffectation(affectation)
-        affectationListVM.state = .ready
+        affectationListVM.setState(.ready)
       case .failure(let error):
         print(error)
-        affectationListVM.state = .errorCreating
+        affectationListVM.setState(.errorCreating)
       }
     }
   }
   
   func delete(token: String, index: Int) {
-    affectationListVM.state = .deleting
-    affectationListVM.state = .ready
+    affectationListVM.setState(.deleting)
     
-    /*let affectation = affectationListVM.affectationList[index]
-    AffectationService().delete(token: token, affectation: affectation) {res in
+    let affectation = affectationListVM.affectationList[index]
+    AffectationService().delete(token: token, id_benevole:  affectation.id_benevole, id_creneau: affectation.id_creneau, id_zone: affectation.id_zone) {res in
       switch res {
       case .success(_ ):
-        self.festivalListVM.festivalList.remove(at: index)
-        self.festivalListVM.state = .ready
+        affectationListVM.affectationList.remove(at: index)
+        affectationListVM.setState(.ready)
         
       case .failure(let error):
         print(error)
-        self.festivalListVM.state = .errorDeleting
+        affectationListVM.setState(.errorDeleting)
       }
-    }*/
+    }
   }
 }
 

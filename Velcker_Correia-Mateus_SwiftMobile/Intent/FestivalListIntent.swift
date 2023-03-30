@@ -19,32 +19,32 @@ struct FestivalListIntent {
   var festivalListVM: FestivalListViewModel
   
   func getFestivalList(token: String) {
-    festivalListVM.state = .loading
+    festivalListVM.setState(.loading)
     
     FestivalService().getAll(token: token) {res in
       switch res {
       case .success(let festivals):
         festivalListVM.setFestivals(festivals!)
-        festivalListVM.state = .ready
+        festivalListVM.setState(.ready)
         
       case .failure(_ ):
-        festivalListVM.state = .errorLoading
+        festivalListVM.setState(.errorLoading)
       }
     }
   }
   func delete(token: String, index: Int) {
-    festivalListVM.state = .deleting
+    festivalListVM.setState(.deleting)
     
     let festival = festivalListVM.festivalList[index]
     FestivalService().delete(token: token, id_festival: festival.id_festival) {res in
       switch res {
       case .success(_ ):
         self.festivalListVM.festivalList.remove(at: index)
-        self.festivalListVM.state = .ready
+        festivalListVM.setState(.ready)
         
       case .failure(let error):
         print(error)
-        self.festivalListVM.state = .errorDeleting
+        festivalListVM.setState(.errorDeleting)
       }
     }
   }

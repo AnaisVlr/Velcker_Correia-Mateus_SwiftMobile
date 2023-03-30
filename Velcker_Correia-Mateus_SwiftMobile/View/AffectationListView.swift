@@ -12,13 +12,11 @@ struct AffectationListView: View {
   @Environment(\.dismiss) private var dismiss
   
   var festival: FestivalViewModel
-  @ObservedObject var affectationList: AffectationListViewModel
-  var intentListAffectation: AffectationListIntent
+  @StateObject var affectationList: AffectationListViewModel = AffectationListViewModel()
+  @State var intentListAffectation: AffectationListIntent = AffectationListIntent(affectationListVM: AffectationListViewModel())
+
   
   init(festival: FestivalViewModel) {
-    let aLVM = AffectationListViewModel()
-    self.affectationList = aLVM
-    self.intentListAffectation = AffectationListIntent(affectationListVM: aLVM)
     self.festival = festival
   }
   
@@ -53,16 +51,7 @@ struct AffectationListView: View {
       case .errorDeleting:
         Text("Erreur Suppression")
       }
-      Button("Test"){
-        print(self.affectationList.affectationList.count)
-        print(self.affectationList.creneauList.count)
-        print(self.affectationList.jourList.count)
-        print(self.affectationList.zoneList.count)
-        print(self.intentListAffectation.affectationListVM.affectationList.count)
-        print(self.intentListAffectation.affectationListVM.creneauList.count)
-        print(self.intentListAffectation.affectationListVM.jourList.count)
-        print(self.intentListAffectation.affectationListVM.zoneList.count)
-      }
+      
       VStack(alignment: .leading) {
         VStack() {
           Text("Jour :")
@@ -72,6 +61,7 @@ struct AffectationListView: View {
             }
           }
         }
+        
         VStack() {
           Text("Créneau :")
           Picker("Créneau", selection: $affectationList.creneauSelected) {
@@ -83,6 +73,7 @@ struct AffectationListView: View {
             }
           }
         }
+        
         VStack() {
           Text("Zone :")
           Picker("Zone", selection: $affectationList.zoneSelected) {
@@ -129,6 +120,7 @@ struct AffectationListView: View {
     }.onAppear {
       DispatchQueue.main.async {
         Task {
+          intentListAffectation = AffectationListIntent(affectationListVM: affectationList)
           intentListAffectation.getAll(token: authentification.token, id_festival: festival.id_festival, id_benevole: authentification.id)
           
         }

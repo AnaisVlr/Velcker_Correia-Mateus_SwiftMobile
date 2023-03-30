@@ -12,7 +12,7 @@ class FestivalViewModel: ObservableObject, Identifiable {
   var model: Festival
   var id=UUID()
   var observers: [FestivalListViewModel]
-  @State var state: FestivalState = .ready
+  @Published  var state: FestivalState = .ready
   
   init(model: Festival) {
     self.model = model
@@ -24,6 +24,11 @@ class FestivalViewModel: ObservableObject, Identifiable {
     self.register(obs)
   }
   
+  func setState(_ state: FestivalState) {
+    DispatchQueue.main.async {
+      self.state = state
+    }
+  }
 
   var id_festival : Int {
     return model.id

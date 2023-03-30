@@ -21,30 +21,40 @@ class AffectationListViewModel: ObservableObject {
   @Published var zoneSelected: Int = -1
   @Published var creneauSelected: Int = -1
   
+  func setState(_ state: AffectationListState) {
+    DispatchQueue.main.async {
+      self.state = state
+    }
+  }
+  
   func setCreneau(_ creneaux: [Creneau]) {
+    DispatchQueue.main.async {
       self.creneauList = creneaux
-      print(self.affectationList.count)
+    }
   }
   
   func setZones(_ zones: [Zone]) {
+    DispatchQueue.main.async {
       self.zoneList = zones
-      print(self.affectationList.count)
+    }
   }
   
   func setJours(_ jours: [Jour]) {
+    DispatchQueue.main.async {
       self.jourList = jours
-      print(self.affectationList.count)
+    }
   }
   
   func setAffectations(_ affectations: [Affectation]) {
     DispatchQueue.main.async {
       self.affectationList = affectations
-      print(self.affectationList.count)
     }
   }
   
   func appendAffectation(_ a: Affectation) {
+    DispatchQueue.main.async {
       self.affectationList.append(a)
+    }
   }
   
   func setZoneSelected(_ z: Int) {
