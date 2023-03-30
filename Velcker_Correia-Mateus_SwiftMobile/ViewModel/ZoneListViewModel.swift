@@ -6,60 +6,52 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ZoneListViewModel: ObservableObject{
-  @Published var zones: [ZoneIntent] = []
+  @Published var zoneList: [ZoneViewModel] = []
+  @Published var state: ZoneListState = .ready
+  
+  func setState(_ state: ZoneListState) {
+    DispatchQueue.main.async {
+      self.state = state
+    }
+  }
   
   func setZones(_ zones: [Zone]){
     DispatchQueue.main.async {
-      var newList: [ZoneIntent] = []
+      var newList: [ZoneViewModel] = []
       for z in zones{
-        newList.append(ZoneIntent(model: ZoneViewModel(model: z, obs: self)))
+        newList.append(ZoneViewModel(model: z, obs: self))
       }
-      self.zones = newList
+      self.zoneList = newList
     }
   }
   
   func setZones(_ zones: [ZoneViewModel]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      var newList: [ZoneIntent] = []
-      for z in zones {
-        newList.append(ZoneIntent(model: z))
-      }
-      self.zones = newList
-    }
-  }
-  
-  func setZones(_ zones: [ZoneIntent]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      self.zones = zones
+    DispatchQueue.main.async {
+      self.zoneList = zones
     }
   }
   
   func VMUpdated() {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
+    DispatchQueue.main.async {
       self.objectWillChange.send()
     }
   }
   
   func appendZone(_ z: Zone) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      self.zones.append(ZoneIntent(model:ZoneViewModel(model: z)))
+    DispatchQueue.main.async {
+      self.zoneList.append(ZoneViewModel(model: z))
       self.VMUpdated()
     }
   }
   
   func appendZone(_ z: ZoneViewModel) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      self.zones.append(ZoneIntent(model:z))
+    DispatchQueue.main.async {
+      self.zoneList.append(z)
       self.VMUpdated()
     }
   }
   
-  func appendZone(_ z: ZoneIntent) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      self.zones.append(z)
-      self.VMUpdated()
-    }
-  }
 }

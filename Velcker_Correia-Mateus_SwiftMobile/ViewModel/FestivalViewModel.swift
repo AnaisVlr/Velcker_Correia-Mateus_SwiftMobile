@@ -12,7 +12,7 @@ class FestivalViewModel: ObservableObject, Identifiable {
   var model: Festival
   var id=UUID()
   var observers: [FestivalListViewModel]
-  @Published  var state: FestivalState = .ready
+  @Published var state: FestivalState = .ready
   
   init(model: Festival) {
     self.model = model

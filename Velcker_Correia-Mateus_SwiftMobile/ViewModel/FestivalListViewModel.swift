@@ -19,7 +19,7 @@ class FestivalListViewModel: ObservableObject {
   }
   
   func setFestivals(_ festivals: [Festival]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
+    DispatchQueue.main.async {
       var newList: [FestivalViewModel] = []
       for f in festivals {
         newList.append(FestivalViewModel(model: f, obs: self))
