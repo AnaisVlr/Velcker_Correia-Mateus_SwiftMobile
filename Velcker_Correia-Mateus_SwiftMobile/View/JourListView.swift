@@ -11,12 +11,33 @@ struct JourListView: View {
   @EnvironmentObject var authentification: Authentification
   @Environment(\.dismiss) private var dismiss
     
-  @StateObject var jourList = JourListViewModel()
+  @ObservedObject var jourList = JourListViewModel()
+  var intentListJour: JourListIntent
+  
   let festival: FestivalViewModel
 
+  init(festival: FestivalViewModel) {
+    let jl = JourListViewModel()
+    self.jourList = jl
+    self.intentListJour = JourListIntent(jourListVM: jl)
+    self.festival = festival
+  }
+  
   var body: some View {
     NavigationView {
       VStack(alignment: .center) {
+        switch self.jourList.state {
+        case .loading:
+          Text("")
+        case .deleting:
+          Text("")
+        case .ready:
+          Text("Prêt")
+        case .errorLoading:
+          Text("Erreur Chargement")
+        case .errorDeleting:
+          Text("Erreur Suppression")
+        }
         
         Text("Liste des jours")
         if(authentification.is_admin) {
@@ -24,26 +45,27 @@ struct JourListView: View {
             AddJourView(liste: self.jourList, festival: self.festival)
           }
         }
-        List(jourList.jours) { j in
-          VStack(alignment:.leading) {
-            NavigationLink(j.getNom()) {
-              JourView(jour: j, festival: self.festival)
+        List {
+          ForEach(jourList.jourList) { j in
+            VStack(alignment:.leading) {
+              NavigationLink(j.nom) {
+                JourView(jour: j)
+              }
+                Text("De \(j.ouverture.toString()) à \(j.fermeture.toString())")
             }
-              Text("De \(j.getOuverture().toString()) à \(j.getFermeture().toString())")
-          }
+          }.onDelete { indexSet in
+            for i in indexSet { //Pour récupérer l'objet supprimé
+              Task {
+                self.intentListJour.delete(token: authentification.token, index: i)
+              }
+            }
+          }.deleteDisabled(!authentification.is_admin)
         }
         
       }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-        .onAppear {
-          Task {
-            JourService().getAllByFestivalId(token: authentification.token, id_festival: self.festival.id_festival) {res in
-            switch res {
-            case .success(let jours):
-              jourList.setJours(jours!)
-            case .failure(let error):
-              print(error)
-            }
-          }
+      .onAppear {
+        Task {
+          intentListJour.getJourListByFestivalId(token: authentification.token, id_festival: festival.id_festival)
         }
       }
     }.navigationBarBackButtonHidden(true)

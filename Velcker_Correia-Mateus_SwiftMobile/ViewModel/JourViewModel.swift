@@ -6,11 +6,15 @@
 //
 
 import Foundation
+import SwiftUI
 
 class JourViewModel: ObservableObject, Identifiable {
   var model: Jour
   var id=UUID()
   var observers: [JourListViewModel]
+  
+  @Published var state: JourState = .ready
+  @Published var creneauxList: [Creneau] = []
   
   init(model: Jour) {
     self.model = model
@@ -21,22 +25,18 @@ class JourViewModel: ObservableObject, Identifiable {
     self.observers = []
     self.register(obs)
   }
-  
-  @Published var state : JourState = .ready{
-    didSet{
-      switch state {
-        case .changingName(let newname):
-          if(newname != self.model.nom) {
-            print("Changement de nom")
-            self.model.setNom(newname)
-            for o in observers { o.VMUpdated()}
-          }
-          
-        default:
-          break
-      }
+  func setCreneaux(_ creneaux: [Creneau]) {
+    DispatchQueue.main.async {
+      self.creneauxList = creneaux
     }
   }
+  
+  func setState(_ state: JourState) {
+    DispatchQueue.main.async {
+      self.state = state
+    }
+  }
+
   var id_jour : Int {
     return model.id
   }

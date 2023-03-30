@@ -39,7 +39,7 @@ struct FestivalListIntent {
     FestivalService().delete(token: token, id_festival: festival.id_festival) {res in
       switch res {
       case .success(_ ):
-        self.festivalListVM.festivalList.remove(at: index)
+        festivalListVM.festivalList.remove(at: index)
         festivalListVM.setState(.ready)
         
       case .failure(let error):

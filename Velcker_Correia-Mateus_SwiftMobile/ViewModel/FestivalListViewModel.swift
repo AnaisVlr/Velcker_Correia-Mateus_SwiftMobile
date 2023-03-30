@@ -9,8 +9,8 @@ import Foundation
 import SwiftUI
 
 class FestivalListViewModel: ObservableObject {
-  @Published var festivalList: [FestivalViewModel] = []
-  @Published var state: FestivalListState = .ready
+@Published var festivalList: [FestivalViewModel] = []
+@Published var state: FestivalListState = .ready
   
   func setState(_ state: FestivalListState) {
     DispatchQueue.main.async {

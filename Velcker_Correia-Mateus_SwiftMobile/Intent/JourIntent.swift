@@ -7,54 +7,30 @@
 
 import SwiftUI
 
-
-enum JourState : CustomStringConvertible {
-  case ready
-  case changingName(String)
-  case changingCreneau([Creneau])
-  var description: String {
-    "Etat jour"
-  }
+enum JourState {
+    case ready
+    case loading
+    case error
+    case updating
   
 }
 
-struct JourIntent: Hashable, Equatable, Identifiable {
-  @ObservedObject private var model: JourViewModel
-  var id=UUID()
-  
-  init(model: JourViewModel) {
-    self.model = model
-  }
-  
-  func getId() -> Int {
-    return model.id_jour
-  }
-  
-  func getNom() -> String {
-    return model.nom
-  }
-  
-  func getOuverture() -> Date {
-    return model.ouverture
-  }
-  
-  func getFermeture() -> Date {
-    return model.fermeture
-  }
-  
-  func change(name: String) {
-    let newname = name.trimmingCharacters(in: .whitespacesAndNewlines)
-    self.model.state = .changingName(newname)
-    self.model.state = .ready
-  }
-  
-  
-  static func == (lhs: JourIntent, rhs: JourIntent) -> Bool {
-    return lhs.id == rhs.id
-  }
-  
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(self.id)
+struct JourIntent {
+  var jourVM: JourViewModel
+    
+  func getCreneaux(token: String) {
+    jourVM.setState(.loading)
+    
+    CreneauService().getAllByJourId(token: token, id_jour: jourVM.id_jour) {res in
+      switch res {
+      case .success(let creneaux):
+        jourVM.setCreneaux(creneaux!)
+        jourVM.setState(.ready)
+      case .failure(let error):
+        print(error)
+        jourVM.setState(.error)
+      }
+    }
   }
 }
 

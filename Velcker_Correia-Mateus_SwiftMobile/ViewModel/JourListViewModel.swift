@@ -6,35 +6,35 @@
 //
 
 import Foundation
+import SwiftUI
 
 class JourListViewModel: ObservableObject {
-  @Published var jours: [JourIntent] = []
+  @Published var jourList: [JourViewModel] = []
+  @Published var state: JourListState = .ready
+  
+  func setState(_ state: JourListState) {
+    DispatchQueue.main.async {
+      self.state = state
+    }
+  }
   
   func setJours(_ jours: [Jour]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      var newList: [JourIntent] = []
+    DispatchQueue.main.async {
+      var newList: [JourViewModel] = []
       for j in jours {
-        newList.append(JourIntent(model: JourViewModel(model: j, obs: self)))
+        newList.append(JourViewModel(model: j, obs: self))
       }
-      self.jours = newList
+      self.jourList = newList
     }
   }
   
   func setJours(_ jours: [JourViewModel]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      var newList: [JourIntent] = []
-      for j in jours {
-        newList.append(JourIntent(model: j))
-      }
-      self.jours = newList
+    DispatchQueue.main.async {
+      self.jourList = jours
     }
   }
   
-  func setjours(_ jours: [JourIntent]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      self.jours = jours
-    }
-  }
+  
   
   func VMUpdated() {
     DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
@@ -43,23 +43,17 @@ class JourListViewModel: ObservableObject {
   }
   
   func appendJour(_ j: Jour) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      self.jours.append(JourIntent(model:JourViewModel(model: j)))
+    DispatchQueue.main.async {
+      self.jourList.append(JourViewModel(model: j))
       self.VMUpdated()
     }
   }
   
   func appendJour(_ j: JourViewModel) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      self.jours.append(JourIntent(model:j))
+    DispatchQueue.main.async {
+      self.jourList.append(j)
       self.VMUpdated()
     }
   }
   
-  func appendJour(_ j: JourIntent) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      self.jours.append(j)
-      self.VMUpdated()
-    }
-  }
 }
