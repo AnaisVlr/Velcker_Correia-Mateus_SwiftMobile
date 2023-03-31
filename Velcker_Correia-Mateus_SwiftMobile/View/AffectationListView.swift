@@ -52,42 +52,45 @@ struct AffectationListView: View {
         Text("Erreur Suppression")
       }
       
-      VStack(alignment: .leading) {
-        VStack() {
-          Text("Jour :")
-          Picker("Jour", selection: $affectationList.jourSelected) {
-            ForEach(affectationList.jourList) {
-              Text(verbatim: "\($0.nom)").tag($0.id)
-            }
-          }
-        }
-        
-        VStack() {
-          Text("Créneau :")
-          Picker("Créneau", selection: $affectationList.creneauSelected) {
-            ForEach(affectationList.creneauList, id: \.self) {
-              if($0.id_jour == affectationList.jourSelected) {
-                Text(verbatim: "De \($0.debut.toString()) à \($0.fin.toString())").tag($0.id)
+      if(festival.is_active) {
+        VStack(alignment: .leading) {
+          VStack() {
+            Text("Jour :")
+            Picker("Jour", selection: $affectationList.jourSelected) {
+              ForEach(affectationList.jourList) {
+                Text(verbatim: "\($0.nom)").tag($0.id)
               }
-              
             }
           }
-        }
-        
-        VStack() {
-          Text("Zone :")
-          Picker("Zone", selection: $affectationList.zoneSelected) {
-            ForEach(affectationList.zoneList, id: \.self) {
-              Text(verbatim: "\($0.nom)").tag($0.id)
+          
+          VStack() {
+            Text("Créneau :")
+            Picker("Créneau", selection: $affectationList.creneauSelected) {
+              ForEach(affectationList.creneauList, id: \.self) {
+                if($0.id_jour == affectationList.jourSelected) {
+                  Text(verbatim: "De \($0.debut.toString()) à \($0.fin.toString())").tag($0.id)
+                }
+                
+              }
             }
           }
-        }
-        
-        Button("S'affecter") {
-          Task {
-            intentListAffectation.create(token: authentification.token, id_benevole: authentification.id)
+          
+          VStack() {
+            Text("Zone :")
+            Picker("Zone", selection: $affectationList.zoneSelected) {
+              ForEach(affectationList.zoneList, id: \.self) {
+                Text(verbatim: "\($0.nom)").tag($0.id)
+              }
+            }
           }
-        }.disabled(affectationList.zoneSelected == -1 || affectationList.creneauSelected == -1 || affectationList.jourSelected == -1 || alreadyTaken())
+        
+        
+          Button("S'affecter") {
+            Task {
+              intentListAffectation.create(token: authentification.token, id_benevole: authentification.id)
+            }
+          }.disabled(affectationList.zoneSelected == -1 || affectationList.creneauSelected == -1 || affectationList.jourSelected == -1 || alreadyTaken())
+        }
       }
       VStack(alignment: .leading) {
         List {
@@ -114,7 +117,7 @@ struct AffectationListView: View {
                 self.intentListAffectation.delete(token: authentification.token, index: i)
               }
             }
-          }
+          }.deleteDisabled(!festival.is_active)
         }
       }
     }.onAppear {

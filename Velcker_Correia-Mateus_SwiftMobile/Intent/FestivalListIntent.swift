@@ -24,7 +24,7 @@ struct FestivalListIntent {
     FestivalService().getAll(token: token) {res in
       switch res {
       case .success(let festivals):
-        festivalListVM.setFestivals(festivals!)
+        festivalListVM.setFestivals(festivals!.sorted(by: { $0.id > $1.id}))
         festivalListVM.setState(.ready)
         
       case .failure(_ ):

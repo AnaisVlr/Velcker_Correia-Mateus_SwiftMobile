@@ -40,7 +40,7 @@ struct JourListView: View {
         }
         
         Text("Liste des jours")
-        if(authentification.is_admin) {
+        if(authentification.is_admin && festival.is_active) {
           NavigationLink("Ajouter un Jour") {
             AddJourView(liste: self.jourList, festival: self.festival)
           }
@@ -59,7 +59,7 @@ struct JourListView: View {
                 self.intentListJour.delete(token: authentification.token, index: i)
               }
             }
-          }.deleteDisabled(!authentification.is_admin)
+          }.deleteDisabled(!authentification.is_admin || jourList.jourList.count <= 1  || !festival.is_active)
         }
         
       }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))

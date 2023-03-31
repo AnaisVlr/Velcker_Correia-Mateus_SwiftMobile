@@ -108,4 +108,30 @@ class FestivalService {
     }
     dataTask.resume()
   }
+  
+  func openOrClose(token: String, festival: Festival, completion: @escaping(Result<Bool, Error>) -> Void) -> Void {
+    var request = URLRequest(url: URL(string: self.url+"/closeopen")!)
+    request.httpMethod = "PUT"
+    request.setValue("application/json", forHTTPHeaderField: "Content-type")
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    
+    let jsonString = "{ \"id_festival\": \"\(festival.id)\", \"nom_festival\": \"\(festival.nom)\", \"annee_festival\": \(festival.annee), \"nombre_jour\": \(festival.nombre_jour), \"is_active\": \(festival.is_active) }"
+    guard let jsonData = jsonString.data(using: .utf8) else {return}
+    request.httpBody = jsonData
+    
+    let dataTask = URLSession.shared.uploadTask(with: request,from: jsonData) { (data, response, error) in
+      
+      guard error == nil else {
+        return completion(.failure(ServiceError.NoData))
+      }
+      if let httpResponse = response as? HTTPURLResponse {
+        if(httpResponse.statusCode == 200) {
+          completion(.success(true))
+        }
+        else {completion(.failure(ServiceError.Failed))}
+      }
+      else {completion(.failure(ServiceError.Failed))}
+    }
+    dataTask.resume()
+  }
 }

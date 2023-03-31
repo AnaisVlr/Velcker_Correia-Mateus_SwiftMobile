@@ -36,6 +36,9 @@ struct FestivalView: View {
         NavigationLink("Bénévoles") {
           
         }
+        Button("\(festival.is_active ? "Clôturer " : "Ouvrir")") {
+          intentFestival.openOrClose(token: authentification.token)
+        }
       }
       NavigationLink("Mes créneaux") {
         AffectationListView(festival: festival)

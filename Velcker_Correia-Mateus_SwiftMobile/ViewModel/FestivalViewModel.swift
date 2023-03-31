@@ -29,6 +29,11 @@ class FestivalViewModel: ObservableObject, Identifiable {
       self.state = state
     }
   }
+  func setIsActive(_ is_active: Bool) {
+    DispatchQueue.main.async {
+      self.model.is_active = is_active
+    }
+  }
 
   var id_festival : Int {
     return model.id

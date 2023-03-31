@@ -29,7 +29,7 @@ struct ZoneListView: View {
     NavigationView {
       VStack(alignment: .center) {
         Text("Liste des zones")
-          if(authentification.is_admin) {
+          if(authentification.is_admin && festival.is_active) {
             NavigationLink("Ajouter une zone") {
               AddZoneView(festival: self.festival)
             }
@@ -47,7 +47,7 @@ struct ZoneListView: View {
                 intentListZone.delete(token: authentification.token, index: i)
               }
             }
-          }.deleteDisabled(!authentification.is_admin || zoneListMV.zoneList.count <= 1)
+          }.deleteDisabled(!authentification.is_admin || zoneListMV.zoneList.count <= 1 || !festival.is_active)
         }
         
       }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))

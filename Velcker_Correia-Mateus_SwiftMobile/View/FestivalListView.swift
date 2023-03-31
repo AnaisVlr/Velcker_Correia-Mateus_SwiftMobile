@@ -46,7 +46,8 @@ struct FestivalListView: View {
         List {
           ForEach(festivalList.festivalList) { f in
             VStack(alignment:.leading) {
-              NavigationLink(f.nom) {
+              let str = f.is_active ? f.nom : "(Clôturé) \(f.nom)"
+              NavigationLink(str) {
                 FestivalView(festival: f)
               }
               Text("Sur \(f.nombre_jour) jour(s)")
