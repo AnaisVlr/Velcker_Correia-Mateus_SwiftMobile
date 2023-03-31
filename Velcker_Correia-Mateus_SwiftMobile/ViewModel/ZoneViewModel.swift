@@ -6,11 +6,15 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ZoneViewModel: ObservableObject, Identifiable {
   var model: Zone
   var id = UUID()
   var observers: [ZoneListViewModel]
+  @Published var state: ZoneState = .ready
+  
+  @Published var nb_benevole_present = 0
   
   init(model: Zone) {
     self.model = model
@@ -23,18 +27,15 @@ class ZoneViewModel: ObservableObject, Identifiable {
     self.register(obs)
   }
   
-  @Published var state : ZoneState = .ready{
-    didSet{
-      switch state {
-        case .changingName(let newname):
-          print("Changement de nom")
-          self.model.nom = newname
-        case .changingNbBenevole(let newNumber):
-          print("Changement du nombre de bénévoles nécessaires")
-          self.model.nb_benevole = newNumber
-        default:
-          break
-      }
+  func setState(_ state: ZoneState) {
+    DispatchQueue.main.async {
+      self.state = state
+    }
+  }
+  
+  func setNbBenevolePresent(_ nb: Int) {
+    DispatchQueue.main.async {
+      self.nb_benevole_present = nb
     }
   }
   

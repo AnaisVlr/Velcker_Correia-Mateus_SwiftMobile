@@ -7,47 +7,57 @@
 
 import SwiftUI
 
-enum ZoneState : CustomStringConvertible {
+enum ZoneState {
   case ready
-  case changingName(String)
-  case changingNbBenevole(Int)
-  var description: String {
-    "Etat Zone"
-  }
-  
+  case loading
+  case error
+  case updating
 }
 
-struct ZoneIntent: Hashable, Equatable, Identifiable {
-  @ObservedObject private var model: ZoneViewModel
-  var id=UUID()
+struct ZoneIntent {
+    var zoneVM: ZoneViewModel
   
-  init(model: ZoneViewModel) {
-    self.model = model
+  func getAllBenevole(token: String) {
+    zoneVM.setState(.loading)
+    
+    ZoneService().getAllBenevoleByZone(token:token, id_zone: zoneVM.id_zone){
+      res in
+      switch res{
+      case .success(let benevoles):
+        zoneVM.setNbBenevolePresent(self.getNbrBenevolePresent(benevoles: benevoles))
+        print(zoneVM.nb_benevole_present)
+        zoneVM.setState(.ready)
+      case .failure(let error):
+        print(error)
+        zoneVM.setState(.error)
+      }
+    }
   }
-  
-  func getId() -> Int{
-    return model.id_zone
-  }
-  
-  func getNom() -> String{
-    return model.nom
-  }
-  
-  func getNbrBenevole() -> Int{
-    return model.nb_benevole
-  }
-  
-  func change(name: String) {
-    let newname = name.trimmingCharacters(in: .whitespacesAndNewlines)
-    self.model.state = .changingName(newname)
-    self.model.state = .ready
-  }
-  
-  static func == (lhs: ZoneIntent, rhs: ZoneIntent) -> Bool {
-    return false
-  }
-  
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(self.id)
+  private func getNbrBenevolePresent(benevoles : [Benevole]?) -> Int{
+    var nbr : Int = 0
+    var benevolesD : [Benevole] = []
+    var cpt1 : Int = 0
+    var cpt2: Int = 0
+    
+    if benevoles != nil {
+      nbr = benevoles!.count
+      benevolesD = benevoles!
+      print(benevolesD.count)
+      if benevolesD.count != 1 {
+        cpt2 = 1
+        while cpt1 < benevolesD.count{
+          while cpt2 < benevolesD.count{
+            if benevolesD[cpt1].email == benevolesD[cpt2].email{
+              nbr -= 1
+              benevolesD.remove(at: cpt2)
+            }else{
+              cpt2 += 1
+            }
+            cpt1 += 1
+          }
+        }
+      }
+    }
+    return nbr
   }
 }

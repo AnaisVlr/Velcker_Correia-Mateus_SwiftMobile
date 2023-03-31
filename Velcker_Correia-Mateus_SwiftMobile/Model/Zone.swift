@@ -26,7 +26,8 @@ struct ZoneDTO : Decodable{
   }
 }
 
-class Zone: ObservableObject, Identifiable{
+class Zone: ObservableObject, Identifiable, Hashable, Equatable{
+  
   var id : Int
   var id_festival : Int
   var nom : String
@@ -43,6 +44,13 @@ class Zone: ObservableObject, Identifiable{
     self.id_festival = dto.id_festival
     self.nom = dto.nom_zone
     self.nb_benevole = dto.nb_benevole_necessaire
+  }
+  
+  static func == (lhs: Zone, rhs: Zone) -> Bool {
+    return lhs.id == rhs.id && lhs.id_festival == rhs.id_festival && lhs.nom == rhs.nom && lhs.nb_benevole == rhs.nb_benevole
+  }
+  func hash(into hasher: inout Hasher) {
+    return hasher.combine(id)
   }
 
 }

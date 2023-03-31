@@ -10,41 +10,50 @@ import SwiftUI
 struct ZoneListView: View {
   @EnvironmentObject var authentification: Authentification
   @Environment(\.dismiss) private var dismiss
-  @StateObject var zoneListMV = ZoneListViewModel()
   
-  @State var festival : FestivalIntent
   
-  init(festival : FestivalIntent){
+  @ObservedObject var zoneListMV: ZoneListViewModel
+  var intentListZone: ZoneListIntent
+  
+  @State var festival : FestivalViewModel
+  
+  init(festival : FestivalViewModel){
     self._festival = State(initialValue: festival)
+    
+    let zl = ZoneListViewModel()
+    self.zoneListMV = zl
+    self.intentListZone = ZoneListIntent(zoneListVM: zl)
   }
 
   var body: some View {
     NavigationView {
       VStack(alignment: .center) {
         Text("Liste des zones")
-          if(authentification.is_admin) {
+          if(authentification.is_admin && festival.is_active) {
             NavigationLink("Ajouter une zone") {
               AddZoneView(festival: self.festival)
             }
           }
-        List(zoneListMV.zones) { z in
-          VStack(alignment:.leading) {
-            NavigationLink(z.getNom()) {
-              ZoneView(zone: z)
+        List {
+          ForEach(zoneListMV.zoneList) { z in
+            VStack(alignment:.leading) {
+              NavigationLink(z.nom) {
+                ZoneView(zone: z)
+              }
             }
-          }
+          }.onDelete { indexSet in
+            for i in indexSet { //Pour récupérer l'objet supprimé
+              Task {
+                intentListZone.delete(token: authentification.token, index: i)
+              }
+            }
+          }.deleteDisabled(!authentification.is_admin || zoneListMV.zoneList.count <= 1 || !festival.is_active)
         }
+        
       }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
         .onAppear {
           Task {
-            ZoneService().getAllByFestivalId(token: authentification.token, id_festival: festival.getId()) {res in
-              switch res {
-                case .success(let zones):
-                  zoneListMV.setZones(zones!)
-                case .failure(let error):
-                  print(error)
-              }
-            }
+            intentListZone.getZoneList(token: authentification.token, id_festival: festival.id_festival)
           }
         }
     }.navigationBarBackButtonHidden(true)

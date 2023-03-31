@@ -8,20 +8,26 @@
 import SwiftUI
 
 struct FestivalView: View {
-  @State var festival: FestivalIntent
   @EnvironmentObject var authentification: Authentification
   @Environment(\.dismiss) private var dismiss
   
+  @ObservedObject var festival: FestivalViewModel
+  var intentFestival: FestivalIntent
+  
   @State var nom: String
   
-  init(festival: FestivalIntent) {
-    self._festival = State(initialValue: festival)
-      self._nom = State(initialValue: festival.getNom())
+  init(festival: FestivalViewModel) {
+    self.festival = festival
+    self.intentFestival = FestivalIntent(festivalVM: festival)
+    self._nom = State(initialValue: festival.nom)
   }
   
   var body: some View {
     VStack(alignment: .leading) {
       NavigationLink("Jeux") {
+      }
+      NavigationLink("Jours") {
+        JourListView(festival: self.festival)
       }
       NavigationLink("Zones") {
         ZoneListView(festival: festival)
@@ -30,30 +36,15 @@ struct FestivalView: View {
         NavigationLink("Bénévoles") {
           
         }
-      }
-      NavigationLink("Mes créneaux") {
-        
-      }
-      if(authentification.is_admin) {
-        Button("Supprimer") {
-          Task {
-            FestivalService().delete(token: authentification.token, id_festival: festival.getId()) {res in
-              switch res {
-              case .success(let festivals):
-                DispatchQueue.main.async {
-                  self.dismiss()
-                }
-              case .failure(let error):
-                print(error)
-              }
-            }
-          }
+        Button("\(festival.is_active ? "Clôturer " : "Ouvrir")") {
+          intentFestival.openOrClose(token: authentification.token)
         }
       }
-      NavigationLink("") {
+      NavigationLink("Mes créneaux") {
         AffectationListView(festival: festival)
       }
+      
     }.navigationBarBackButtonHidden(true)
-      .navigationTitle(festival.getNom())
+      .navigationTitle(festival.nom)
   }
 }

@@ -7,56 +7,29 @@
 
 import SwiftUI
 
-enum FestivalState : CustomStringConvertible {
+enum FestivalState {
   case ready
-  case changingName(String)
-  case changingZones([Zone])
-  var description: String {
-    "Etat festival"
-  }
-  
+  case loading
+  case errorLoading
+  case updating
+  case errorUpdating
 }
 
-struct FestivalIntent: Hashable, Equatable, Identifiable {
-  @ObservedObject private var model: FestivalViewModel
-  var id=UUID()
+struct FestivalIntent {
+  var festivalVM: FestivalViewModel
   
-  init(model: FestivalViewModel) {
-    self.model = model
-  }
-  
-  func getId() -> Int {
-    return model.id_festival
-  }
-  
-  func getNom() -> String {
-    return model.nom
-  }
-  
-  func getAnnee() -> Int {
-    return model.annee
-  }
-  
-  func getNbJour() -> Int {
-    return model.nombre_jour
-  }
-  
-  func getIsActive() -> Bool {
-    return model.is_active
-  }
-  
-  func change(name: String) {
-    let newname = name.trimmingCharacters(in: .whitespacesAndNewlines)
-    self.model.state = .changingName(newname)
-    self.model.state = .ready
-  }
-  
-  
-  static func == (lhs: FestivalIntent, rhs: FestivalIntent) -> Bool {
-    return false
-  }
-  
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(self.id)
+  func openOrClose(token: String) {
+    festivalVM.setState(.updating)
+    
+    FestivalService().openOrClose(token: token, festival: festivalVM.model) {res in
+      switch res {
+      case .success(_):
+        festivalVM.setState(.ready)
+        festivalVM.setIsActive(!festivalVM.is_active)
+      case .failure(let error):
+        print(error)
+        festivalVM.setState(.errorUpdating)
+      }
+    }
   }
 }

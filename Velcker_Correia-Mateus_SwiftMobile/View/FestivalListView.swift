@@ -10,11 +10,31 @@ import SwiftUI
 struct FestivalListView: View {
   @EnvironmentObject var authentification: Authentification
   @Environment(\.dismiss) private var dismiss
-  @StateObject var festivalList = FestivalListViewModel()
+  
+  @ObservedObject var festivalList: FestivalListViewModel
+  var intentListFestival: FestivalListIntent
+  
+  init() {
+    let fl = FestivalListViewModel()
+    self.festivalList = fl
+    self.intentListFestival = FestivalListIntent(festivalListVM: fl)
+  }
   
   var body: some View {
     NavigationView {
       VStack(alignment: .center) {
+        switch self.festivalList.state {
+        case .loading:
+          Text("")
+        case .deleting:
+          Text("")
+        case .ready:
+          Text("Prêt")
+        case .errorLoading:
+          Text("Erreur Chargement")
+        case .errorDeleting:
+          Text("Erreur Suppression")
+        }
         
         Text("Liste des festivals")
         if(authentification.is_admin) {
@@ -22,26 +42,29 @@ struct FestivalListView: View {
             AddFestivalView(liste: festivalList)
           }
         }
-        List(festivalList.festivals) { f in
-          VStack(alignment:.leading) {
-            NavigationLink(f.getNom()) {
-              FestivalView(festival: f)
+        
+        List {
+          ForEach(festivalList.festivalList) { f in
+            VStack(alignment:.leading) {
+              let str = f.is_active ? f.nom : "(Clôturé) \(f.nom)"
+              NavigationLink(str) {
+                FestivalView(festival: f)
+              }
+              Text("Sur \(f.nombre_jour) jour(s)")
             }
-            Text("Sur \(f.getNbJour()) jour(s)")
-          }
+          }.onDelete { indexSet in
+            for i in indexSet { //Pour récupérer l'objet supprimé
+              Task {
+                self.intentListFestival.delete(token: authentification.token, index: i)
+              }
+            }
+          }.deleteDisabled(!authentification.is_admin)
         }
         
       }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
         .onAppear {
           Task {
-            FestivalService().getAll(token: authentification.token) {res in
-              switch res {
-              case .success(let festivals):
-                festivalList.setFestivals(festivals!)
-              case .failure(let error):
-                print(error)
-              }
-            }
+            intentListFestival.getFestivalList(token: authentification.token)
           }
         }
     }.navigationBarBackButtonHidden(true)

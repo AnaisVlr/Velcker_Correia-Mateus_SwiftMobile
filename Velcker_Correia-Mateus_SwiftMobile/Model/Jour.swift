@@ -7,6 +7,15 @@
 
 import Foundation
 
+extension Date {
+  func toString() -> String {
+    let calendar = Calendar.current
+    let hour = calendar.component(.hour, from: self)
+    let minute = calendar.component(.minute, from: self)
+    return "\(hour):\(minute)"
+  }
+}
+
 struct JourDTO : Decodable{
   var id_jour : Int?
   var id_festival : Int
@@ -27,12 +36,24 @@ struct JourDTO : Decodable{
   }
 }
 
-class Jour: ObservableObject{
+class Jour: ObservableObject, Hashable, Identifiable, Equatable{
   private(set) var id : Int
   private(set) var id_festival : Int
   private(set) var nom : String
   private(set) var ouverture : Date
   private(set) var fermeture : Date
+  
+  func setNom(_ nom: String) {
+    self.nom = nom
+  }
+  
+  func setOuverture(_ ouverture: Date) {
+    self.ouverture = ouverture
+  }
+  
+  func setFermeture(_ fermeture: Date) {
+    self.fermeture = fermeture
+  }
   
   init(id: Int, id_festival: Int, nom: String, ouverture: Date, fermeture: Date) {
     self.id = id
@@ -41,11 +62,20 @@ class Jour: ObservableObject{
     self.ouverture = ouverture
     self.fermeture = fermeture
   }
+  
   init(_ dto: JourDTO) {
     self.id = dto.id_jour!
     self.id_festival = dto.id_festival
     self.nom = dto.nom_jour
     self.ouverture = dto.ouverture
     self.fermeture = dto.fermeture
+  }
+  
+  static func == (lhs: Jour, rhs: Jour) -> Bool {
+    return lhs.ouverture == rhs.ouverture && lhs.fermeture == rhs.fermeture && lhs.id == rhs.id && lhs.id_festival == rhs.id_festival && lhs.nom == rhs.nom
+  }
+  
+  func hash(into hasher: inout Hasher) {
+    return hasher.combine(id)
   }
 }

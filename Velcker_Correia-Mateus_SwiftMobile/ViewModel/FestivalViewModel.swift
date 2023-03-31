@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import SwiftUI
 
 class FestivalViewModel: ObservableObject, Identifiable {
   var model: Festival
   var id=UUID()
   var observers: [FestivalListViewModel]
+  @Published var state: FestivalState = .ready
   
   init(model: Festival) {
     self.model = model
@@ -22,21 +24,17 @@ class FestivalViewModel: ObservableObject, Identifiable {
     self.register(obs)
   }
   
-  @Published var state : FestivalState = .ready{
-    didSet{
-      switch state {
-        case .changingName(let newname):
-          if(newname != self.model.nom) {
-            print("Changement de nom")
-            self.model.nom = newname
-            for o in observers { o.VMUpdated()}
-          }
-          
-        default:
-          break
-      }
+  func setState(_ state: FestivalState) {
+    DispatchQueue.main.async {
+      self.state = state
     }
   }
+  func setIsActive(_ is_active: Bool) {
+    DispatchQueue.main.async {
+      self.model.is_active = is_active
+    }
+  }
+
   var id_festival : Int {
     return model.id
   }

@@ -6,59 +6,51 @@
 //
 
 import Foundation
+import SwiftUI
 
 class FestivalListViewModel: ObservableObject {
-  @Published var festivals: [FestivalIntent] = []
+@Published var festivalList: [FestivalViewModel] = []
+@Published var state: FestivalListState = .ready
+  
+  func setState(_ state: FestivalListState) {
+    DispatchQueue.main.async {
+      self.state = state
+    }
+  }
   
   func setFestivals(_ festivals: [Festival]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      var newList: [FestivalIntent] = []
+    DispatchQueue.main.async {
+      var newList: [FestivalViewModel] = []
       for f in festivals {
-        newList.append(FestivalIntent(model: FestivalViewModel(model: f, obs: self)))
+        newList.append(FestivalViewModel(model: f, obs: self))
       }
-      self.festivals = newList
+      self.festivalList = newList
     }
   }
   
   func setFestivals(_ festivals: [FestivalViewModel]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      var newList: [FestivalIntent] = []
-      for f in festivals {
-        newList.append(FestivalIntent(model: f))
-      }
-      self.festivals = newList
+    DispatchQueue.main.async {
+      self.festivalList = festivals
     }
   }
   
-  func setFestivals(_ festivals: [FestivalIntent]) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      self.festivals = festivals
-    }
-  }
   
   func VMUpdated() {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
+    DispatchQueue.main.async {
       self.objectWillChange.send()
     }
   }
   
   func appendFestival(_ f: Festival) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      self.festivals.append(FestivalIntent(model:FestivalViewModel(model: f)))
+    DispatchQueue.main.async {
+      self.festivalList.append(FestivalViewModel(model: f))
       self.VMUpdated()
     }
   }
   
   func appendFestival(_ f: FestivalViewModel) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      self.festivals.append(FestivalIntent(model:f))
-      self.VMUpdated()
-    }
-  }
-  
-  func appendFestival(_ f: FestivalIntent) {
-    DispatchQueue.main.async { //Pour pouvoir modifier des variables Published dans des fonctions async
-      self.festivals.append(f)
+    DispatchQueue.main.async {
+      self.festivalList.append(f)
       self.VMUpdated()
     }
   }
