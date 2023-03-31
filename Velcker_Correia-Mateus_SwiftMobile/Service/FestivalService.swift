@@ -38,7 +38,7 @@ class FestivalService {
     dataTask.resume()
   }
   
-  func create(token: String, festival: Festival, completion: @escaping(Result<Festival, Error>) -> Void) -> Void {
+  func create(token: String, festival: Festival, jours: [JourViewModel], completion: @escaping(Result<Festival, Error>) -> Void) -> Void {
     var request = URLRequest(url: URL(string: self.url)!)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-type")
@@ -55,25 +55,18 @@ class FestivalService {
       if let httpResponse = response as? HTTPURLResponse {
         if(httpResponse.statusCode == 201) {
           guard let f : FestivalDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode create Festival"); completion(.failure(ServiceError.WrongData)); return}
+          
           let festivalRes = Festival(dto: f)
           //Création de la zone "Libre"
           let zone = Zone(id: -1, id_festival: festivalRes.id, nom: "Libre", nb_benevole: 1)
           ZoneService().create(token: token, zone: zone) { success in}
+          
           //Création des jours
-          let userCalendar = Calendar(identifier: .iso8601)
-          for i in 1...festival.nombre_jour {
-            var dateC = DateComponents()
-            dateC.hour = 8
-            dateC.minute = 0
-            dateC.second = 0
-            let ouverture = userCalendar.date(from: dateC)!
-            print(dateC)
-            print(ouverture)
-            dateC.hour = 18
-            let fermeture = userCalendar.date(from: dateC)!
-            let jour: Jour = Jour(id: -1, id_festival: festivalRes.id, nom: "Jour\(i)", ouverture: ouverture, fermeture: fermeture)
+          for j in jours {
+            
+            let jour: Jour = Jour(id: -1, id_festival: festivalRes.id, nom: "\(j.nom)", ouverture: j.ouverture, fermeture: j.fermeture)
             //Création des créneaux
-            JourService().create(token: token, jour: jour) { res in}
+            JourService().create(token: token, jour: jour, creneaux: j.creneauxList) { res in}
           }
           
           

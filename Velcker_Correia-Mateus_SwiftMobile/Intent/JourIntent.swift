@@ -24,7 +24,7 @@ struct JourIntent {
     CreneauService().getAllByJourId(token: token, id_jour: jourVM.id_jour) {res in
       switch res {
       case .success(let creneaux):
-        jourVM.setCreneaux(creneaux!)
+        jourVM.setCreneaux(creneaux!.sorted(by: { $0.debut < $1.debut}))
         jourVM.setState(.ready)
       case .failure(let error):
         print(error)

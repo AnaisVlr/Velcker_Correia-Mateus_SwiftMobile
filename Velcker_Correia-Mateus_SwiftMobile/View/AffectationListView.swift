@@ -96,7 +96,7 @@ struct AffectationListView: View {
         List {
           ForEach(affectationList.affectationList) { a in
             VStack(alignment:.leading) {
-              let creneau: Creneau? = affectationList.creneauList.first(where: {$0.id == a.id_creneau})
+              let creneau: Creneau? = affectationList.creneauList.first(where: {$0.id_creneau == a.id_creneau})
               if(creneau != nil) {
                 let jour: Jour? = affectationList.jourList.first(where: {$0.id == creneau!.id_jour})
                 if(jour != nil) {
