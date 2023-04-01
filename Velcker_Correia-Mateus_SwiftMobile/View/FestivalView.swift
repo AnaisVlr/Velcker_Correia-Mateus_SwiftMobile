@@ -15,6 +15,7 @@ struct FestivalView: View {
   var intentFestival: FestivalIntent
   
   @State var nom: String
+  @State var cbon = false //Obligé car la liste disparaît après avoir chargé
   
   init(festival: FestivalViewModel) {
     
@@ -24,14 +25,25 @@ struct FestivalView: View {
   }
   
   var body: some View {
-    VStack(alignment: .leading) {
-      if(authentification.is_admin) {
-        Button("\(festival.is_active ? "Cliquer ici pour clôturer le festival" : "Cliquer ici pour ouvrir le festival")") {
-          intentFestival.openOrClose(token: authentification.token)
+    ZStack() {
+      VStack(alignment: .leading) {
+        if(authentification.is_admin) {
+          Button("\(festival.is_active ? "Cliquer ici pour clôturer le festival" : "Cliquer ici pour rouvrir le festival")") {
+            intentFestival.openOrClose(token: authentification.token)
+          }
         }
+        if(cbon){
+          JourListView(festival: self.festival)
+        }
+      }.navigationBarBackButtonHidden(true)
+        .navigationTitle(festival.nom)
+    }
+    .onAppear {
+      Task {
+        try? await Task.sleep(nanoseconds: 500_000_000) // 1 seconde = 1_000_000_000
+        cbon = true
       }
-      JourListView(festival: self.festival)
-    }.navigationBarBackButtonHidden(true)
-      .navigationTitle(festival.nom)
+      
+    }
   }
 }

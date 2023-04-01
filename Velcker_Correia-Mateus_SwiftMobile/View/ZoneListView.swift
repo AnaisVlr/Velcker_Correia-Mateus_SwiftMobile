@@ -26,36 +26,38 @@ struct ZoneListView: View {
   }
 
   var body: some View {
-    NavigationView {
-      VStack(alignment: .center) {
-        Text("Liste des zones")
+    ZStack() { //Empêche le onAppear de se faire 2 fois
+      NavigationView {
+        VStack(alignment: .center) {
+          Text("Liste des zones")
           if(authentification.is_admin && festival.is_active) {
             NavigationLink("Ajouter une zone") {
               AddZoneView(festival: self.festival)
             }
           }
-        List {
-          ForEach(zoneListMV.zoneList) { z in
-            VStack(alignment:.leading) {
-              NavigationLink(z.nom) {
-                ZoneView(zone: z)
+          List {
+            ForEach(zoneListMV.zoneList) { z in
+              VStack(alignment:.leading) {
+                NavigationLink(z.nom) {
+                  ZoneView(zone: z)
+                }
               }
-            }
-          }.onDelete { indexSet in
-            for i in indexSet { //Pour récupérer l'objet supprimé
-              Task {
-                intentListZone.delete(token: authentification.token, index: i)
+            }.onDelete { indexSet in
+              for i in indexSet { //Pour récupérer l'objet supprimé
+                Task {
+                  intentListZone.delete(token: authentification.token, index: i)
+                }
               }
-            }
-          }.deleteDisabled(!authentification.is_admin || zoneListMV.zoneList.count <= 1 || !festival.is_active)
-        }.frame(height: 600)
-        
-      }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-        .onAppear {
-          Task {
-            intentListZone.getZoneList(token: authentification.token, id_festival: festival.id_festival)
+            }.deleteDisabled(!authentification.is_admin || zoneListMV.zoneList.count <= 1 || !festival.is_active)
           }
-        }
-    }.navigationBarBackButtonHidden(true)
+          
+        }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+          
+      }.navigationBarBackButtonHidden(true)
+    }.onAppear {
+      Task {
+        intentListZone.getZoneList(token: authentification.token, id_festival: festival.id_festival)
+      }
+    }
   }
 }

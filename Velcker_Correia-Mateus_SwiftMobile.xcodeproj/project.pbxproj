@@ -72,23 +72,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		55471FBE29D73A8A004E5505 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
-		55471FC029D73AF0004E5505 /* MenuFestivalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFestivalView.swift; sourceTree = "<group>"; };
+		55471FBE29D73A8A004E5505 /* MenuView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; tabWidth = 2; };
+		55471FC029D73AF0004E5505 /* MenuFestivalView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = MenuFestivalView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		55471FC229D73CA5004E5505 /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
 		55471FC429D73D09004E5505 /* ProfilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilView.swift; sourceTree = "<group>"; };
 		55471FC629D73E88004E5505 /* JeuxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JeuxView.swift; sourceTree = "<group>"; };
 		55471FC829D74018004E5505 /* BenevoleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenevoleListView.swift; sourceTree = "<group>"; };
-		55471FCC29D7656F004E5505 /* BenevoleIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenevoleIntent.swift; sourceTree = "<group>"; };
+		55471FCC29D7656F004E5505 /* BenevoleIntent.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = BenevoleIntent.swift; sourceTree = "<group>"; tabWidth = 2; };
 		55471FCE29D765A6004E5505 /* BenevoleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenevoleViewModel.swift; sourceTree = "<group>"; };
 		55471FD029D76676004E5505 /* BenevoleListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenevoleListViewModel.swift; sourceTree = "<group>"; };
 		55471FD229D766B7004E5505 /* BenevoleListIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenevoleListIntent.swift; sourceTree = "<group>"; };
-		55471FD429D76707004E5505 /* BenevoleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BenevoleService.swift; sourceTree = "<group>"; };
+		55471FD429D76707004E5505 /* BenevoleService.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = BenevoleService.swift; sourceTree = "<group>"; tabWidth = 2; };
 		5554BEC829CC576A00DDD620 /* ZoneListView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ZoneListView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		5554BECA29CC586400DDD620 /* ZoneListViewModel.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ZoneListViewModel.swift; sourceTree = "<group>"; tabWidth = 2; };
 		5554BECC29CC587700DDD620 /* ZoneViewModel.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ZoneViewModel.swift; sourceTree = "<group>"; tabWidth = 2; };
 		5554BECE29CC588500DDD620 /* ZoneView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ZoneView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		5554BED029CC58A100DDD620 /* ZoneService.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ZoneService.swift; sourceTree = "<group>"; tabWidth = 2; };
-		5554BED229CC69A300DDD620 /* AddZoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddZoneView.swift; sourceTree = "<group>"; };
+		5554BED229CC69A300DDD620 /* AddZoneView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AddZoneView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		5554BED429CC6CAA00DDD620 /* ZoneIntent.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ZoneIntent.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F0476A929CB16FC0016916C /* AddFestivalView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AddFestivalView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F0476AB29CB1CD50016916C /* ServiceError.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -132,7 +132,7 @@
 		B706403429C084E3007ACF4D /* JSONHelper.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; tabWidth = 2; };
 		B706403729C085FA007ACF4D /* Zone.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Zone.swift; sourceTree = "<group>"; tabWidth = 2; };
 		B706403929C0887D007ACF4D /* Jeu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jeu.swift; sourceTree = "<group>"; };
-		B706403B29C088A0007ACF4D /* Benevole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Benevole.swift; sourceTree = "<group>"; };
+		B706403B29C088A0007ACF4D /* Benevole.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Benevole.swift; sourceTree = "<group>"; tabWidth = 2; };
 		B706403D29C08932007ACF4D /* Type.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Type.swift; sourceTree = "<group>"; };
 		B706403F29C08F6E007ACF4D /* Creneau.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Creneau.swift; sourceTree = "<group>"; tabWidth = 2; };
 /* End PBXFileReference section */

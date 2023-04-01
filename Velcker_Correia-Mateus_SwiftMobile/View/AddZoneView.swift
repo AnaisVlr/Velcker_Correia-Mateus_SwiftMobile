@@ -44,6 +44,10 @@ struct AddZoneView : View {
         }
       }
     }.navigationBarBackButtonHidden(true)
-      .navigationBarItems(leading: NavBackButton(dismiss: self.dismiss, texte: "Retour aux festivals"))
+      .toolbar {
+      ToolbarItem(placement: .navigationBarLeading) {
+        NavBackButton(dismiss: self.dismiss, texte: "Retour")
+      }
+    }
   }
 }

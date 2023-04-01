@@ -16,7 +16,8 @@ struct MenuView: View {
   
   init() {
     UITabBar.appearance().barTintColor = UIColor.white
-    let b = Benevole()
+    UITabBar.appearance().backgroundColor = UIColor.white
+    let b = Benevole(id: -1, prenom: "ss", nom: "", email: "", isAdmin: false)
     let b1 = BenevoleViewModel(model: b)
     self.benevole = b1
     self.intentBenevole = BenevoleIntent(benevoleVM: b1)
@@ -42,7 +43,8 @@ struct MenuView: View {
         .tabItem{
           Label("Profil", systemImage: "person.fill")
         }
-    }.onAppear{
+    }
+    .onAppear{
       Task{
         intentBenevole.getBenevoleByEmail(token: authentification.token, email: authentification.email)
       }

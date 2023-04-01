@@ -12,8 +12,10 @@ struct MenuFestivalView: View {
   
   @ObservedObject var festival: FestivalViewModel
   var intentFestival: FestivalIntent
+  @Environment(\.dismiss) private var dismiss
   
   @State var nom: String
+  @State private var selected = 1
   
   init(festival: FestivalViewModel) {
     self.festival = festival
@@ -22,28 +24,63 @@ struct MenuFestivalView: View {
   }
   
   var body: some View {
-    TabView(){
-      FestivalView(festival: festival)
-        .tabItem {
-          Label("Festival", systemImage: "house.fill")
+    ZStack(alignment: .bottom) {
+      TabView(selection: $selected){
+        FestivalView(festival: festival)
+          .tabItem {
+            Text("")
+          }.tag(1)
+        ZoneListView(festival: festival)
+          .tabItem {
+            Text("")
+          }.tag(2)
+        JeuxView()
+          .tabItem {
+          Text("")
+        }.tag(3)
+        if(authentification.is_admin) {
+          BenevoleListView()
+            .tabItem {
+              Text("")
+            }.tag(4)}
+        AffectationListView(festival: festival)
+          .tabItem {
+          Text("")
+        }.tag(5)
+      }
+      HStack {
+        VStack(alignment: .leading) {
+        Button(action: {self.selected = 1}) {
+          Text("JOUR").foregroundColor( self.selected == 1 ? .accentColor : .gray)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
         }
-      ZoneListView(festival: festival)
-        .tabItem {
-          Label("Zones", systemImage: "door.right.hand.closed")
+          
         }
-      JeuxView()
-        .tabItem{
-          Label("Jeux", systemImage: "party.popper.fill")
+        Button(action: {self.selected = 2}) {
+          Text("ZONE").foregroundColor( self.selected == 2 ? .accentColor : .gray)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
         }
-      if(authentification.is_admin) {
-        BenevoleListView()
-          .tabItem{
-            Label("Bénévoles", systemImage: "person.3.fill")
-          }      }
-      AffectationListView(festival: festival)
-        .tabItem{
-          Label("Mes créneaux", systemImage: "clock.fill")
+        Button(action: {self.selected = 3}) {
+          Text("JEU").foregroundColor( self.selected == 3 ? .accentColor : .gray)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
         }
+        if(authentification.is_admin) {
+          Button(action: {self.selected = 4}) {
+            Text("BENEVOLE").foregroundColor( self.selected == 4 ? .accentColor : .gray)
+              .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+          }
+        }
+        Button(action: {self.selected = 5}) {
+          Text("MES CRENEAUX").foregroundColor( self.selected == 5 ? .accentColor : .gray)
+            .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+        }
+      }
+    }.navigationBarBackButtonHidden(true)
+    .toolbar {
+      ToolbarItem(placement: .navigationBarLeading) {
+        NavBackButton(dismiss: self.dismiss, texte: "Festivals")
+      }
     }
+    
   }
 }

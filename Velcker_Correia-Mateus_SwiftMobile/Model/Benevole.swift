@@ -8,25 +8,23 @@
 import Foundation
 
 struct BenevoleDTO : Decodable{
-    var id_benevole : Int?
-    var prenom_benevole : String
-    var nom_benevole : String
-    var email_benevole : String
-    var password_benevole : String
-    var is_admin : Bool
-    
-    static func benevoleDTO2Benevole(data : [BenevoleDTO]) -> [Benevole]?{
-        var benevoles = [Benevole]()
-        for bdata in data{
-            guard (bdata.id_benevole != nil) else{
-                return nil
-            }
-            let id : Int = bdata.id_benevole!
-            let benevole = Benevole(id: id, prenom: bdata.prenom_benevole, nom: bdata.nom_benevole, email: bdata.email_benevole, isAdmin: bdata.is_admin, creneau: [Creneau]())
-            benevoles.append(benevole)
-        }
-        return benevoles
+  var id_benevole : Int?
+  var prenom_benevole : String
+  var nom_benevole : String
+  var email_benevole : String
+  var is_admin : Bool
+  
+  static func benevoleDTO2Benevole(data : [BenevoleDTO]) -> [Benevole]?{
+    var benevoles = [Benevole]()
+    for bdata in data{
+      guard (bdata.id_benevole != nil) else{
+          return nil
+      }
+      let benevole = Benevole(bdata)
+      benevoles.append(benevole)
     }
+    return benevoles
+  }
     
 }
 
@@ -38,12 +36,21 @@ class Benevole : ObservableObject, Identifiable{
   var isAdmin : Bool
   var creneau : [Creneau]
   
-  init(id: Int, prenom: String, nom: String, email: String, isAdmin: Bool, creneau: [Creneau]) {
-      self.id = id
-      self.prenom = prenom
-      self.nom = nom
-      self.email = email
-      self.isAdmin = isAdmin
-      self.creneau = creneau
+  init(id: Int, prenom: String, nom: String, email: String, isAdmin: Bool) {
+    self.id = id
+    self.prenom = prenom
+    self.nom = nom
+    self.email = email
+    self.isAdmin = isAdmin
+    self.creneau = []
+  }
+  init(_ dto: BenevoleDTO) {
+    self.id = dto.id_benevole!
+    self.prenom = dto.prenom_benevole
+    self.nom = dto.nom_benevole
+    self.email = dto.email_benevole
+    self.isAdmin = dto.is_admin
+    self.creneau = []
   }
 }
+
