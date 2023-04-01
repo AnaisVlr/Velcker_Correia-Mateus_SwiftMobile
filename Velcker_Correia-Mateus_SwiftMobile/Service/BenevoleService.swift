@@ -49,8 +49,7 @@ class BenevoleService{
       guard let data = data, error == nil else{
         return completion(.failure(ServiceError.NoData))
       }
-        let dataString = String(data: data, encoding: .utf8)!
-        print(dataString)
+      
       Task{
         do{
           let decoded : BenevoleDTO? = await JSONHelper.decode(data: data)

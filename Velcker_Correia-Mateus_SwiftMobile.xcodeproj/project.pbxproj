@@ -72,8 +72,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		55471FBE29D73A8A004E5505 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
-		55471FC029D73AF0004E5505 /* MenuFestivalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFestivalView.swift; sourceTree = "<group>"; };
+		55471FBE29D73A8A004E5505 /* MenuView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; tabWidth = 2; };
+		55471FC029D73AF0004E5505 /* MenuFestivalView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = MenuFestivalView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		55471FC229D73CA5004E5505 /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
 		55471FC429D73D09004E5505 /* ProfilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilView.swift; sourceTree = "<group>"; };
 		55471FC629D73E88004E5505 /* JeuxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JeuxView.swift; sourceTree = "<group>"; };
