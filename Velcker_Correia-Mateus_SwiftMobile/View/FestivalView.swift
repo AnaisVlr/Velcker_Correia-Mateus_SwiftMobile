@@ -24,26 +24,12 @@ struct FestivalView: View {
   
   var body: some View {
     VStack(alignment: .leading) {
-      NavigationLink("Jeux") {
-      }
-      NavigationLink("Jours") {
-        JourListView(festival: self.festival)
-      }
-      NavigationLink("Zones") {
-        ZoneListView(festival: festival)
-      }
       if(authentification.is_admin) {
-        NavigationLink("Bénévoles") {
-          
-        }
-        Button("\(festival.is_active ? "Clôturer " : "Ouvrir")") {
+        Button("\(festival.is_active ? "Cliquer ici pour clôturer le festival" : "Cliquer ici pour ouvrir le festival")") {
           intentFestival.openOrClose(token: authentification.token)
         }
       }
-      NavigationLink("Mes créneaux") {
-        AffectationListView(festival: festival)
-      }
-      
+      JourListView(festival: self.festival)
     }.navigationBarBackButtonHidden(true)
       .navigationTitle(festival.nom)
   }

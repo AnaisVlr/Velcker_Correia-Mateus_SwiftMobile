@@ -13,7 +13,7 @@ struct ContentView: View {
   var body: some View {
 
     if(authenficiation.isValidated) {
-      HomeView()
+      MenuView()
       .environmentObject(authenficiation)
     }
     else {

@@ -10,29 +10,24 @@ import SwiftUI
 struct HomeView: View {
   @EnvironmentObject var authentification: Authentification
   
+  @ObservedObject var benevole: BenevoleViewModel
+  var intentBenevole: BenevoleIntent
+  
+  init(benevole : BenevoleViewModel) {
+    self.benevole = benevole
+    self.intentBenevole = BenevoleIntent(benevoleVM: benevole)
+  }
+  
   var body: some View {
-    NavigationView {
+    VStack{
       VStack(alignment: .center) {
-        Text("Bonjour \(authentification.email)")
-          .padding()
-        NavigationLink("Festivals") {
-          FestivalListView()
-        }
-        NavigationLink("Mon profil") {
-          
-        }
-      }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-      .toolbar {
-        ToolbarItem(placement: .navigationBarLeading) {
-          Button("Déconnexion") {
-            Task {
-              await authentification.updateValidation(success: false, token: "")
-            }
-          }
-        }
-        
+        Text("Bonjour \(benevole.prenom) !")
+      }
+      VStack(){
+        Text("Mes créneaux : ")
+        Text("Trier par festival : ")
       }
     }
-    
   }
 }
+

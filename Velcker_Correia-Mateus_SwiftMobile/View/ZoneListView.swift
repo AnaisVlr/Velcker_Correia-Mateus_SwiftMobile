@@ -48,7 +48,7 @@ struct ZoneListView: View {
               }
             }
           }.deleteDisabled(!authentification.is_admin || zoneListMV.zoneList.count <= 1 || !festival.is_active)
-        }
+        }.frame(height: 600)
         
       }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
         .onAppear {

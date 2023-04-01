@@ -60,7 +60,7 @@ struct JourListView: View {
               }
             }
           }.deleteDisabled(!authentification.is_admin || jourList.jourList.count <= 1  || !festival.is_active)
-        }
+        }.frame(height: 400)
         
       }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
       .onAppear {

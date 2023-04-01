@@ -30,20 +30,20 @@ struct BenevoleDTO : Decodable{
     
 }
 
-class Benevole : ObservableObject{
-    private var id : Int
-    private(set) var prenom : String
-    private(set) var nom : String
-    private(set) var email : String
-    private(set) var isAdmin : Bool
-    private(set) var creneau : [Creneau]
-    
-    init(id: Int, prenom: String, nom: String, email: String, isAdmin: Bool, creneau: [Creneau]) {
-        self.id = id
-        self.prenom = prenom
-        self.nom = nom
-        self.email = email
-        self.isAdmin = isAdmin
-        self.creneau = creneau
-    }
+class Benevole : ObservableObject, Identifiable{
+  var id : Int
+  var prenom : String
+  var nom : String
+  var email : String
+  var isAdmin : Bool
+  var creneau : [Creneau]
+  
+  init(id: Int, prenom: String, nom: String, email: String, isAdmin: Bool, creneau: [Creneau]) {
+      self.id = id
+      self.prenom = prenom
+      self.nom = nom
+      self.email = email
+      self.isAdmin = isAdmin
+      self.creneau = creneau
+  }
 }

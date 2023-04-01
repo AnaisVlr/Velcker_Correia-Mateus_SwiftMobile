@@ -118,7 +118,7 @@ struct AffectationListView: View {
               }
             }
           }.deleteDisabled(!festival.is_active)
-        }
+        }.frame(height: 300)
       }
     }.onAppear {
       DispatchQueue.main.async {
