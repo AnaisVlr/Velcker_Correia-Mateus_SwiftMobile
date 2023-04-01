@@ -67,6 +67,34 @@ class ZoneService {
       }
       dataTask.resume()
   }
+  func getAllByBenevoleId(token: String, id_benevole: Int, completion: @escaping(Result<[Zone]?, Error>) -> Void) -> Void{
+      var request = URLRequest(url: URL(string: self.url+"/benevole/\(id_benevole)")!)
+      request.httpMethod = "GET"
+      request.setValue("application/json", forHTTPHeaderField: "Content-type")
+      request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+      
+      let dataTask = URLSession.shared.dataTask(with: request) {
+          (data, response, error) in
+          guard let data = data, error == nil else{
+              return completion(.failure(ServiceError.NoData))
+          }
+          Task{
+              do{
+                  let decoded : [ZoneDTO]? = await JSONHelper.decode(data: data)
+                  if let decoded = decoded {
+                      guard let zones = ZoneDTO.zoneDTO2Zone(data: decoded) else {
+                          completion(.failure(ServiceError.WrongData))
+                          return
+                      }
+                      completion(.success(zones))
+                  }else {
+                      completion(.failure(ServiceError.NoData))
+                  }
+              }
+          }
+      }
+      dataTask.resume()
+  }
     
     func create(token: String, zone: Zone, completion: @escaping(Result<Zone, Error>) -> Void) -> Void {
       var request = URLRequest(url: URL(string: self.url)!)
