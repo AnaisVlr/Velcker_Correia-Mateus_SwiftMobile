@@ -95,4 +95,58 @@ class BenevoleService{
     }
     dataTask.resume()
   }
+  
+  func modify(token: String, benevole: Benevole, completion: @escaping(Result<Benevole, Error>) -> Void) -> Void {
+    var request = URLRequest(url: URL(string: self.url)!)
+    request.httpMethod = "PUT"
+    request.setValue("application/json", forHTTPHeaderField: "Content-type")
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    
+    let jsonString = "{ \"id_benevole\": \"\(benevole.id)\", \"prenom_benevole\": \"\(benevole.prenom)\", \"nom_benevole\": \"\(benevole.nom)\", \"email_benevole\": \(benevole.email)\"}"
+    guard let jsonData = jsonString.data(using: .utf8) else {return}
+    request.httpBody = jsonData
+    
+    let dataTask = URLSession.shared.uploadTask(with: request,from: jsonData) { (data, response, error) in
+      guard let data = data, error == nil else {
+        return completion(.failure(ServiceError.NoData))
+      }
+      if let httpResponse = response as? HTTPURLResponse {
+        if(httpResponse.statusCode == 201) {
+          guard let b : BenevoleDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode create Benevole"); completion(.failure(ServiceError.WrongData)); return}
+          let benevole = Benevole(b)
+          completion(.success(benevole))
+        }
+        else {completion(.failure(ServiceError.Failed))}
+      }
+      else {completion(.failure(ServiceError.Failed))}
+    }
+    dataTask.resume()
+  }
+  
+  func create(token: String, benevole: Benevole, completion: @escaping(Result<Benevole, Error>) -> Void) -> Void {
+    var request = URLRequest(url: URL(string: self.url)!)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-type")
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    
+    let jsonString = "{ \"prenom_benevole\": \"\(benevole.prenom)\", \"nom_benevole\": \"\(benevole.nom)\", \"email_benevole\": \(benevole.email)\", \"is_admin\": \"\(benevole.isAdmin)\"}"
+    guard let jsonData = jsonString.data(using: .utf8) else {return}
+    request.httpBody = jsonData
+    
+    let dataTask = URLSession.shared.uploadTask(with: request,from: jsonData) { (data, response, error) in
+      guard let data = data, error == nil else {
+        return completion(.failure(ServiceError.NoData))
+      }
+      if let httpResponse = response as? HTTPURLResponse {
+        if(httpResponse.statusCode == 201) {
+          guard let b : BenevoleDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode create Benevole"); completion(.failure(ServiceError.WrongData)); return}
+          let benevole = Benevole(b)
+          completion(.success(benevole))
+        }
+        else {completion(.failure(ServiceError.Failed))}
+      }
+      else {completion(.failure(ServiceError.Failed))}
+    }
+    dataTask.resume()
+  }
 }

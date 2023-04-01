@@ -44,6 +44,7 @@ class Benevole : ObservableObject, Identifiable{
     self.isAdmin = isAdmin
     self.creneau = []
   }
+  
   init(_ dto: BenevoleDTO) {
     self.id = dto.id_benevole!
     self.prenom = dto.prenom_benevole
@@ -51,6 +52,14 @@ class Benevole : ObservableObject, Identifiable{
     self.email = dto.email_benevole
     self.isAdmin = dto.is_admin
     self.creneau = []
+  }
+  
+  static func == (lhs: Benevole, rhs: Benevole) -> Bool {
+    return lhs.id == rhs.id && lhs.nom == rhs.nom && lhs.prenom == rhs.prenom && lhs.email == rhs.email && lhs.isAdmin == rhs.isAdmin && lhs.creneau == rhs.creneau
+  }
+  
+  func hash(into hasher: inout Hasher) {
+    return hasher.combine(id)
   }
 }
 

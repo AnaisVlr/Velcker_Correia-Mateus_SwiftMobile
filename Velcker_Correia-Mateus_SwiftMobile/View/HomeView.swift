@@ -19,14 +19,13 @@ struct HomeView: View {
   }
   
   var body: some View {
-    VStack{
-      VStack(alignment: .center) {
-        Text("Bonjour \(benevole.prenom) !")
-      }
-      VStack(){
-        Text("Mes créneaux : ")
-        Text("Trier par festival : ")
-      }
+    NavigationView(){
+      VStack{
+        VStack(){
+          Text("Mes créneaux : ")
+          Text("Trier par festival : ")
+        }
+      }.navigationTitle("Bonjour \(benevole.prenom) !")
     }
   }
 }
