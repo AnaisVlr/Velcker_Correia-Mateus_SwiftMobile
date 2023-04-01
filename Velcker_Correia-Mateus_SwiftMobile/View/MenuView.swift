@@ -24,27 +24,30 @@ struct MenuView: View {
   }
   
   var body: some View {
-    TabView(){
-      HomeView(benevole: benevole)
-        .tabItem {
-          Label("Accueil", systemImage: "house.fill")
-        }
-      if (authentification.is_admin) {
-        AdminView()
-          .tabItem{
-            Label("Admin", systemImage: "lock")
+    ZStack() {
+      if(benevole.id_benevole != -1) {
+        TabView(){
+          HomeView(benevole: benevole)
+            .tabItem {
+              Label("Accueil", systemImage: "house.fill")
+            }
+          if (authentification.is_admin) {
+            AdminView()
+              .tabItem{
+                Label("Admin", systemImage: "lock")
+              }
           }
+          FestivalListView()
+            .tabItem {
+              Label("Festivals", systemImage: "flag.2.crossed.fill")
+            }
+          ProfilView(benevole: benevole)
+            .tabItem{
+              Label("Profil", systemImage: "person.fill")
+            }
+        }
       }
-      FestivalListView()
-        .tabItem {
-          Label("Festivals", systemImage: "flag.2.crossed.fill")
-        }
-      ProfilView(benevole: benevole)
-        .tabItem{
-          Label("Profil", systemImage: "person.fill")
-        }
-    }
-    .onAppear{
+    } .onAppear{
       Task{
         intentBenevole.getBenevoleByEmail(token: authentification.token, email: authentification.email)
       }
