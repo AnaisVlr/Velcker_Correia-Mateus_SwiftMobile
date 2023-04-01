@@ -43,7 +43,6 @@ struct AddJeuView : View {
         Button("Créer") {
           let j: Jeu = Jeu(id: -1,  nom: nom, type: type, id_festival: festival.id_festival)
           JeuService().create(token: authentification.token, jeu: j) { res in
-           
           }
         }
       }
