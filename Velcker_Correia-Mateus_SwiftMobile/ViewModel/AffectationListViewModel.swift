@@ -58,15 +58,21 @@ class AffectationListViewModel: ObservableObject {
   }
   
   func setZoneSelected(_ z: Int) {
+    DispatchQueue.main.async {
       self.zoneSelected = z
+    }
   }
   
   func setJourSelected(_ j: Int) {
+    DispatchQueue.main.async {
       self.jourSelected = j
+    }
   }
   
   func setCreneauSelected(_ c: Int) {
+    DispatchQueue.main.async {
       self.creneauSelected = c
+    }
   }
 }
 

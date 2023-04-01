@@ -16,7 +16,7 @@ struct MenuView: View {
   
   init() {
     UITabBar.appearance().barTintColor = UIColor.white
-    let b = Benevole()
+    let b = Benevole(id: -1, prenom: "ss", nom: "", email: "", isAdmin: false)
     let b1 = BenevoleViewModel(model: b)
     self.benevole = b1
     self.intentBenevole = BenevoleIntent(benevoleVM: b1)
