@@ -68,8 +68,7 @@ struct FestivalListView: View {
               intentListFestival.getFestivalList(token: authentification.token)
             }
           }
-      }.navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: NavBackButton(dismiss: self.dismiss, texte: "Accueil"))
+      }
     }
   }
 }

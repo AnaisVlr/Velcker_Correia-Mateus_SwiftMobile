@@ -12,6 +12,7 @@ struct MenuFestivalView: View {
   
   @ObservedObject var festival: FestivalViewModel
   var intentFestival: FestivalIntent
+  @Environment(\.dismiss) private var dismiss
   
   @State var nom: String
   @State private var selected = 1
@@ -73,6 +74,11 @@ struct MenuFestivalView: View {
           Text("MES CRENEAUX").foregroundColor( self.selected == 5 ? .accentColor : .gray)
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
         }
+      }
+    }.navigationBarBackButtonHidden(true)
+    .toolbar {
+      ToolbarItem(placement: .navigationBarLeading) {
+        NavBackButton(dismiss: self.dismiss, texte: "Festivals")
       }
     }
     

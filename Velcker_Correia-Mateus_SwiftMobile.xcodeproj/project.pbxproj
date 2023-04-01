@@ -88,7 +88,7 @@
 		5554BECC29CC587700DDD620 /* ZoneViewModel.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ZoneViewModel.swift; sourceTree = "<group>"; tabWidth = 2; };
 		5554BECE29CC588500DDD620 /* ZoneView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ZoneView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		5554BED029CC58A100DDD620 /* ZoneService.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ZoneService.swift; sourceTree = "<group>"; tabWidth = 2; };
-		5554BED229CC69A300DDD620 /* AddZoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddZoneView.swift; sourceTree = "<group>"; };
+		5554BED229CC69A300DDD620 /* AddZoneView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AddZoneView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		5554BED429CC6CAA00DDD620 /* ZoneIntent.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ZoneIntent.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F0476A929CB16FC0016916C /* AddFestivalView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AddFestivalView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F0476AB29CB1CD50016916C /* ServiceError.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; tabWidth = 2; };
