@@ -41,6 +41,11 @@ struct ZoneView: View {
       }
       
     }.navigationBarBackButtonHidden(true)
+      .toolbar {
+      ToolbarItem(placement: .navigationBarLeading) {
+        NavBackButton(dismiss: self.dismiss, texte: "Retour")
+      }
+    }
       .onAppear{
         Task{
           intentZone.getAllBenevole(token: authentification.token)

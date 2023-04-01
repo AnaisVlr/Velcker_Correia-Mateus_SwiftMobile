@@ -44,6 +44,11 @@ struct JourView: View {
         }
       }
     }.navigationBarBackButtonHidden(true)
+      .toolbar {
+      ToolbarItem(placement: .navigationBarLeading) {
+        NavBackButton(dismiss: self.dismiss, texte: "Retour")
+      }
+    }
     .onAppear {
       Task {
         intentJour.getCreneaux(token: authentification.token)

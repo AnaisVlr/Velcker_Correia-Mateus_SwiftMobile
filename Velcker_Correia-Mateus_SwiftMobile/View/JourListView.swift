@@ -66,8 +66,6 @@ struct JourListView: View {
         }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
         
       }.onAppear {
-
-        print("JourListView")
         Task {
           intentListJour.getJourListByFestivalId(token: authentification.token, id_festival: festival.id_festival)
         }
