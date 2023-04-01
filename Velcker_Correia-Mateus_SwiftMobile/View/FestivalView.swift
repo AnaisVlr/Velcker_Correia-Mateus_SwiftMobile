@@ -40,7 +40,7 @@ struct FestivalView: View {
     }
     .onAppear {
       Task {
-        try? await Task.sleep(nanoseconds: 300_000_000)
+        try? await Task.sleep(nanoseconds: 500_000_000) // 1 seconde = 1_000_000_000
         cbon = true
       }
       
