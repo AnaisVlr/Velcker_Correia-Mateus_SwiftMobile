@@ -109,7 +109,6 @@ struct AffectationListView: View {
               if(zone != nil) {
                 Text("Zone : \( zone!.nom )")
               }
-              Text("\(a.id_benevole)")
             }
           }.onDelete { indexSet in
             for i in indexSet { //Pour récupérer l'objet supprimé
