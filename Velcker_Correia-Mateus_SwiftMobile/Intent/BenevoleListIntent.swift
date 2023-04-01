@@ -32,4 +32,19 @@ struct BenevoleListIntent {
       }
     }
   }
+  
+  func getBenevoleByFestival(token : String, id_festival : Int){
+    benevoleListVM.setState(.loading)
+    
+    BenevoleService().getByFestival(token: token, id_festival: id_festival){ res in
+      switch res{
+      case .success(let benevoles):
+        benevoleListVM.setBenevoles(benevoles!)
+        benevoleListVM.setState(.ready)
+        
+      case .failure(_):
+        benevoleListVM.setState(.errorLoading)
+      }
+    }
+  }
 }

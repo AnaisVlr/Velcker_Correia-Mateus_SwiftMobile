@@ -39,7 +39,7 @@ struct MenuFestivalView: View {
           Text("")
         }.tag(3)
         if(authentification.is_admin) {
-          BenevoleListView()
+          BenevoleListView(festival: festival)
             .tabItem {
               Text("")
             }.tag(4)}
