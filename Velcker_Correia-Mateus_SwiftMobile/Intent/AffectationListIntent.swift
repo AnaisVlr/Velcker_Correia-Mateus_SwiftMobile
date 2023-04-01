@@ -43,7 +43,7 @@ struct AffectationListIntent {
                   if(!self.affectationListVM.creneauList.isEmpty) {
                     let idCreneau = self.affectationListVM.creneauList.first(where: {$0.id_jour == self.affectationListVM.jourSelected})
                     if(idCreneau != nil) {
-                      self.affectationListVM.setCreneauSelected(idCreneau!.id)
+                      self.affectationListVM.setCreneauSelected(idCreneau!.id_creneau)
                     }
                   }
                 }

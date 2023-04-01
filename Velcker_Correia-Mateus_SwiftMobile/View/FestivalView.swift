@@ -17,6 +17,7 @@ struct FestivalView: View {
   @State var nom: String
   
   init(festival: FestivalViewModel) {
+    
     self.festival = festival
     self.intentFestival = FestivalIntent(festivalVM: festival)
     self._nom = State(initialValue: festival.nom)

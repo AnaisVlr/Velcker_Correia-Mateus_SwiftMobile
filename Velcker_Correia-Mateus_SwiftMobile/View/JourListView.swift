@@ -42,7 +42,7 @@ struct JourListView: View {
         Text("Liste des jours")
         if(authentification.is_admin && festival.is_active) {
           NavigationLink("Ajouter un Jour") {
-            AddJourView(liste: self.jourList, festival: self.festival)
+            AddJourView(festival: self.festival, liste: self.jourList, jour: nil)
           }
         }
         List {

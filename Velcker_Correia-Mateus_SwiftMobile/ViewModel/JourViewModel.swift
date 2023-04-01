@@ -36,6 +36,16 @@ class JourViewModel: ObservableObject, Identifiable {
       self.state = state
     }
   }
+  
+  func setNom(_ nom: String) {
+    self.model.setNom(nom)
+  }
+  func setOuverture(_ date: Date) {
+    self.model.setOuverture(date)
+  }
+  func setFermeture(_ date: Date) {
+    self.model.setFermeture(date)
+  }
 
   var id_jour : Int {
     return model.id

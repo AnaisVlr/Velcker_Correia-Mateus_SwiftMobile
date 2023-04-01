@@ -38,7 +38,7 @@ class JourService {
     dataTask.resume()
   }
   
-  func create(token: String, jour: Jour, completion: @escaping(Result<Jour, Error>) -> Void) -> Void {
+  func create(token: String, jour: Jour, creneaux: [Creneau], completion: @escaping(Result<Jour, Error>) -> Void) -> Void {
     var request = URLRequest(url: URL(string: self.url)!)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-type")
@@ -56,9 +56,13 @@ class JourService {
       if let httpResponse = response as? HTTPURLResponse {
         if(httpResponse.statusCode == 201) {
           guard let j : JourDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode create Jour"); completion(.failure(ServiceError.WrongData)); return}
+          
           let jour = Jour(j)
-          let creneau = Creneau(id: -1, id_jour: jour.id, debut: j.ouverture, fin: j.fermeture)
-          CreneauService().create(token: token, creneau: creneau) { success in}
+          for c in creneaux {
+            let creneau = Creneau(id: -1, id_jour: jour.id, debut: c.debut, fin: c.fin)
+            CreneauService().create(token: token, creneau: creneau) { success in}
+          }
+          
           completion(.success(jour))
         }
         else {completion(.failure(ServiceError.Failed))}

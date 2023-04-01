@@ -27,7 +27,7 @@ struct JourDTO : Decodable{
     var jours = [Jour]()
     for jdata in data{
       guard (jdata.id_jour != nil) else{
-          return nil
+        return nil
       }
       let jour = Jour(jdata)
       jours.append(jour)

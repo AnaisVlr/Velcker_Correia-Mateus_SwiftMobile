@@ -49,6 +49,7 @@
 		6F9A336129D178A600B044F5 /* AffectationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9A336029D178A600B044F5 /* AffectationService.swift */; };
 		6F9A336329D17E4B00B044F5 /* Affectation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9A336229D17E4B00B044F5 /* Affectation.swift */; };
 		6F9A336529D2C1DF00B044F5 /* JourListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9A336429D2C1DF00B044F5 /* JourListView.swift */; };
+		6FA65AB529D7654200C481A9 /* CreneauDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA65AB429D7654200C481A9 /* CreneauDatePickerView.swift */; };
 		6FC765BE29C7754F008CD4BA /* Festival.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC765BD29C7754F008CD4BA /* Festival.swift */; };
 		6FC765C029C8FAD8008CD4BA /* FestivalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC765BF29C8FAD8008CD4BA /* FestivalService.swift */; };
 		6FD838F629D2C4660002953E /* JourListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD838F529D2C4660002953E /* JourListViewModel.swift */; };
@@ -114,6 +115,7 @@
 		6F9A336029D178A600B044F5 /* AffectationService.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AffectationService.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F9A336229D17E4B00B044F5 /* Affectation.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Affectation.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F9A336429D2C1DF00B044F5 /* JourListView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = JourListView.swift; sourceTree = "<group>"; tabWidth = 2; };
+		6FA65AB429D7654200C481A9 /* CreneauDatePickerView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CreneauDatePickerView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6FC765BD29C7754F008CD4BA /* Festival.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Festival.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6FC765BF29C8FAD8008CD4BA /* FestivalService.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = FestivalService.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6FD838F529D2C4660002953E /* JourListViewModel.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = JourListViewModel.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				6F7CE28C29C64C61006BE2D3 /* HomeView.swift */,
+				6FA65AB429D7654200C481A9 /* CreneauDatePickerView.swift */,
 				6F7D38C329C09658006B346A /* AuthView.swift */,
 				6F7CE29329C75C70006BE2D3 /* FestivalListView.swift */,
 				6F07F7C829C9B03F00C588C5 /* FestivalView.swift */,
@@ -396,6 +399,7 @@
 				6F9A335F29D1777000B044F5 /* AffectationListView.swift in Sources */,
 				6F7CE29629C762F5006BE2D3 /* FestivalListViewModel.swift in Sources */,
 				6F7CE28B29C64B3F006BE2D3 /* Authentification.swift in Sources */,
+				6FA65AB529D7654200C481A9 /* CreneauDatePickerView.swift in Sources */,
 				6FD838F629D2C4660002953E /* JourListViewModel.swift in Sources */,
 				6F9A336329D17E4B00B044F5 /* Affectation.swift in Sources */,
 				6F0476B029CCE6F80016916C /* CreneauService.swift in Sources */,
