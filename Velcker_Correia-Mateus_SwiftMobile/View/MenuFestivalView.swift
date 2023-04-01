@@ -34,10 +34,10 @@ struct MenuFestivalView: View {
           .tabItem {
             Text("")
           }.tag(2)
-        JeuxView()
+        JeuListView(festival: festival)
           .tabItem {
-          Text("")
-        }.tag(3)
+            Text("")
+          }.tag(3)
         if(authentification.is_admin) {
           BenevoleListView(festival: festival)
             .tabItem {
