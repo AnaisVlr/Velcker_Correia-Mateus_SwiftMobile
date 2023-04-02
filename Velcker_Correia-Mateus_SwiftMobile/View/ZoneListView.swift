@@ -33,14 +33,14 @@ struct ZoneListView: View {
           if(authentification.is_admin && festival.is_active) {
             NavigationLink("Ajouter une zone") {
               AddZoneView(festival: self.festival)
-            }
+            }.buttonStyle(CustomButton())
           }
           List {
             ForEach(zoneListMV.zoneList) { z in
               VStack(alignment:.leading) {
                 NavigationLink(z.nom) {
                   ZoneView(zone: z)
-                }
+                }.buttonStyle(CustomButton())
               }
             }.onDelete { indexSet in
               for i in indexSet { //Pour récupérer l'objet supprimé

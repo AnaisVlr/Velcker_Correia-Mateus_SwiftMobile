@@ -39,7 +39,7 @@ struct BenevoleListView: View {
           }
           Button("Chercher par créneau") {
             searchByCreneau = true
-          }
+          }.buttonStyle(CustomButton())
         }
         
         List {

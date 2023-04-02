@@ -21,7 +21,7 @@ struct FestivalListView: View {
   }
   
   var body: some View {
-    HStack{
+    HStack(alignment: .top){
       NavigationView {
         VStack(alignment: .center) {
           switch self.festivalList.state {
@@ -41,7 +41,7 @@ struct FestivalListView: View {
           if(authentification.is_admin) {
             NavigationLink("Ajouter un festival") {
               AddFestivalView(liste: festivalList)
-            }
+            }.buttonStyle(CustomButton())
           }
           
           List {
@@ -50,7 +50,7 @@ struct FestivalListView: View {
                 let str = f.is_active ? f.nom : "(Clôturé) \(f.nom)"
                 NavigationLink(str) {
                   MenuFestivalView(festival: f)
-                }
+                }.buttonStyle(CustomButton())
                 Text("Sur \(f.nombre_jour) jour(s)")
               }
             }.onDelete { indexSet in

@@ -29,11 +29,11 @@ struct JeuListView: View {
         VStack(alignment: .center) {
           switch self.jeuList.state {
           case .loading:
-            Text("")
+            CircleLoader()
           case .deleting:
-            Text("")
+            CircleLoader()
           case .ready:
-            Text("Prêt")
+            Text("")
           case .errorLoading:
             Text("Erreur Chargement")
           case .errorDeleting:
@@ -44,7 +44,7 @@ struct JeuListView: View {
           if(authentification.is_admin) {
             NavigationLink("Ajouter un Jeu") {
               AddJeuView(liste: jeuList, festival: festival)
-            }
+            }.buttonStyle(CustomButton())
           }
           
           List {
@@ -52,7 +52,7 @@ struct JeuListView: View {
               VStack(alignment:.leading) {
                 NavigationLink(j.nom) {
                   JeuView(jeu: j)
-                }
+                }.buttonStyle(CustomButton())
               }
             }.onDelete { indexSet in
               for i in indexSet { //Pour récupérer l'objet supprimé

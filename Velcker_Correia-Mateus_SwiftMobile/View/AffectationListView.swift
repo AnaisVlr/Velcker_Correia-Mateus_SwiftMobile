@@ -90,6 +90,7 @@ struct AffectationListView: View {
               intentListAffectation.notEnoughBenevolesInZoneCreneau(token: authentification.token, id_benevole: authentification.id)
             }
           }.disabled(affectationList.zoneSelected == -1 || affectationList.creneauSelected == -1 || affectationList.jourSelected == -1 || alreadyTaken())
+            .buttonStyle(CustomButton())
         }
       }
       VStack(alignment: .leading) {

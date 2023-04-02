@@ -33,6 +33,7 @@
 		6F07F7CB29C9B78100C588C5 /* FestivalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F07F7CA29C9B78100C588C5 /* FestivalViewModel.swift */; };
 		6F07F7CE29C9E42D00C588C5 /* FestivalIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F07F7CD29C9E42D00C588C5 /* FestivalIntent.swift */; };
 		6F07F7D029CA4BE300C588C5 /* NavBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F07F7CF29CA4BE300C588C5 /* NavBackButton.swift */; };
+		6F36F41829D9EFB400E8208A /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F36F41729D9EFB400E8208A /* CustomButton.swift */; };
 		6F41A5A729D85FBA0021FC80 /* JeuListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F41A5A629D85FBA0021FC80 /* JeuListView.swift */; };
 		6F41A5A929D8615F0021FC80 /* JeuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F41A5A829D8615F0021FC80 /* JeuView.swift */; };
 		6F41A5AB29D862200021FC80 /* JeuIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F41A5AA29D862200021FC80 /* JeuIntent.swift */; };
@@ -110,6 +111,7 @@
 		6F07F7CA29C9B78100C588C5 /* FestivalViewModel.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = FestivalViewModel.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F07F7CD29C9E42D00C588C5 /* FestivalIntent.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = FestivalIntent.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F07F7CF29CA4BE300C588C5 /* NavBackButton.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = NavBackButton.swift; sourceTree = "<group>"; tabWidth = 2; };
+		6F36F41729D9EFB400E8208A /* CustomButton.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F41A5A629D85FBA0021FC80 /* JeuListView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = JeuListView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F41A5A829D8615F0021FC80 /* JeuView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = JeuView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F41A5AA29D862200021FC80 /* JeuIntent.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = JeuIntent.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -191,6 +193,14 @@
 			path = Intent;
 			sourceTree = "<group>";
 		};
+		6F36F41929D9EFD100E8208A /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				6F36F41729D9EFB400E8208A /* CustomButton.swift */,
+			);
+			path = Style;
+			sourceTree = "<group>";
+		};
 		6F7CE28929C64B18006BE2D3 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +271,7 @@
 		6F85FD0229C07FB5009C01AF /* Velcker_Correia-Mateus_SwiftMobile */ = {
 			isa = PBXGroup;
 			children = (
+				6F36F41929D9EFD100E8208A /* Style */,
 				6F07F7CC29C9E41F00C588C5 /* Intent */,
 				6F7CE28929C64B18006BE2D3 /* ViewModel */,
 				6F7D38C529C0966B006B346A /* View */,
@@ -447,6 +458,7 @@
 				6FA65AB529D7654200C481A9 /* CreneauDatePickerView.swift in Sources */,
 				6FD838F629D2C4660002953E /* JourListViewModel.swift in Sources */,
 				6F9A336329D17E4B00B044F5 /* Affectation.swift in Sources */,
+				6F36F41829D9EFB400E8208A /* CustomButton.swift in Sources */,
 				6F0476B029CCE6F80016916C /* CreneauService.swift in Sources */,
 				6F7CE28F29C64EAF006BE2D3 /* AuthViewModel.swift in Sources */,
 				55471FD329D766B7004E5505 /* BenevoleListIntent.swift in Sources */,

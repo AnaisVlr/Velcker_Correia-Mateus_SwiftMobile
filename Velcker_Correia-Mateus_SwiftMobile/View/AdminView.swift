@@ -44,13 +44,7 @@ struct AdminView: View {
         VStack(alignment: .center){
           Button("Ajouter un bénévole") {
             showAddBenevole = true
-          } .padding()
-            .border(Color("AccentColor"))
-            .cornerRadius(10)
-            .overlay(
-                   RoundedRectangle(cornerRadius: 10)
-                       .stroke(Color("AccentColor"), lineWidth: 2)
-               )
+          }.buttonStyle(CustomButton())
         }
       }.sheet(isPresented: $showAddBenevole) {
         AddBenevoleView()

@@ -50,24 +50,10 @@ struct AddBenevoleView : View {
                     print(error)
                 }
             }
-          }
-          .padding()
-          .border(Color("AccentColor"))
-          .cornerRadius(10)
-          .overlay(
-                 RoundedRectangle(cornerRadius: 10)
-                     .stroke(Color("AccentColor"), lineWidth: 2)
-             )
+          }.buttonStyle(CustomButton())
           Button("Retour"){
             self.dismiss()
-          }
-          .padding()
-          .border(Color("AccentColor"))
-          .cornerRadius(10)
-          .overlay(
-                 RoundedRectangle(cornerRadius: 10)
-                     .stroke(Color("AccentColor"), lineWidth: 2)
-             )
+          }.buttonStyle(CustomButton())
         }
       }
     }.navigationBarBackButtonHidden(true)
