@@ -37,7 +37,7 @@ struct CreneauBenevoleIntent {
     creneauBenevoleVM.setState(.deleting)
     
     let benevole = creneauBenevoleVM.benevoleList[index]
-    BenevoleService().delete(token: token, id_benevole: benevole.id) {res in
+    AffectationService().delete(token: token, id_benevole: benevole.id, id_creneau: creneauBenevoleVM.creneau.id_creneau, id_zone: creneauBenevoleVM.zone.id) {res in
       switch res {
       case .success(_ ):
         creneauBenevoleVM.benevoleList.remove(at: index)
