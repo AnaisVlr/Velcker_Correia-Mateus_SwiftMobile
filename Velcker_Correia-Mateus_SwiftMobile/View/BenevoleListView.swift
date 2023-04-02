@@ -15,6 +15,8 @@ struct BenevoleListView: View {
   
   @State var festival : FestivalViewModel
   
+  @State var searchByCreneau: Bool = false
+  
   init(festival : FestivalViewModel){
     self._festival = State(initialValue: festival)
     
@@ -27,19 +29,44 @@ struct BenevoleListView: View {
     if(festival.is_active) {
       VStack(alignment: .leading) {
         HStack(alignment: .center) {
-          Text("Liste des bénévoles présents au festival :")
+          Text("\(benevoleListVM.benevoleList.count) bénévole(s) présent(s) au festival :")
         }.padding()
-        List {
-          ForEach(benevoleListVM.benevoleList) { b in
-            VStack(alignment:.leading) {
-              Text(b.prenom + " " + b.nom).bold()
-              Text(b.email)
+        HStack() {
+          Picker("Créneaux", selection: $benevoleListVM.selectionCreneau) {
+            ForEach(benevoleListVM.creneauList, id:\.self) {
+              Text("\($0.debut.toString()) - \($0.fin.toString())").tag($0.id_creneau)
             }
           }
-        }.frame(height: 550)
+          Button("Chercher par créneau") {
+            searchByCreneau = true
+          }
+        }
+        
+        List {
+          if(!searchByCreneau) {
+            ForEach(benevoleListVM.benevoleList) { b in
+              VStack(alignment:.leading) {
+                Text(b.prenom + " " + b.nom).bold()
+                Text(b.email)
+              }
+            }
+          }
+          else {
+            ForEach(benevoleListVM.zoneList) {z in
+              CreneauBenevoleView(creneau: benevoleListVM.creneauList.first(where: {$0.id_creneau == benevoleListVM.selectionCreneau})!, zone: z)
+            }
+          }
+          
+        }.frame(height: 500)
       }.onAppear(){
         Task {
           intentBenevoleList.getBenevoleByFestival(token:authentification.token, id_festival: festival.id_festival)
+        }
+        Task {
+          intentBenevoleList.getCreneauByFestival(token: authentification.token, id_festival: festival.id_festival)
+        }
+        Task {
+          intentBenevoleList.getZoneByFestival(token: authentification.token, id_festival: festival.id_festival)
         }
       }
     }

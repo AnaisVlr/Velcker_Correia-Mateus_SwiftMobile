@@ -9,12 +9,31 @@ import Foundation
 import SwiftUI
 
 class BenevoleListViewModel: ObservableObject {
-@Published var benevoleList: [BenevoleViewModel] = []
-@Published var state: BenevoleListState = .ready
+  @Published var benevoleList: [BenevoleViewModel] = []
+  @Published var creneauList: [Creneau] = []
+  @Published var zoneList: [Zone] = []
+  @Published var state: BenevoleListState = .ready
+  
+  @Published var selectionCreneau: Int = 0
   
   func setState(_ state: BenevoleListState) {
     DispatchQueue.main.async {
       self.state = state
+    }
+  }
+  
+  func setCreneaux(_ creneaux: [Creneau]) {
+    DispatchQueue.main.async {
+      self.creneauList = creneaux
+      if(creneaux.count > 0) {
+        self.selectionCreneau = creneaux.first!.id_creneau
+      }
+    }
+  }
+  
+  func setZones(_ zones: [Zone]) {
+    DispatchQueue.main.async {
+      self.zoneList = zones
     }
   }
   

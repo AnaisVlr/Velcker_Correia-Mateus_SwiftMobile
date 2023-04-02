@@ -33,13 +33,43 @@ struct BenevoleListIntent {
     }
   }
   
-  func getBenevoleByFestival(token : String, id_festival : Int){
+  func getBenevoleByFestival(token : String, id_festival : Int) {
     benevoleListVM.setState(.loading)
     
     BenevoleService().getByFestival(token: token, id_festival: id_festival){ res in
       switch res{
       case .success(let benevoles):
         benevoleListVM.setBenevoles(benevoles!)
+        benevoleListVM.setState(.ready)
+        
+      case .failure(_):
+        benevoleListVM.setState(.errorLoading)
+      }
+    }
+  }
+  
+  func getCreneauByFestival(token: String, id_festival: Int) {
+    benevoleListVM.setState(.loading)
+    
+    CreneauService().getAllByFestivalId(token: token, id_festival: id_festival){ res in
+      switch res{
+      case .success(let creneaux):
+        benevoleListVM.setCreneaux(creneaux!)
+        benevoleListVM.setState(.ready)
+        
+      case .failure(_):
+        benevoleListVM.setState(.errorLoading)
+      }
+    }
+  }
+  
+  func getZoneByFestival(token: String, id_festival: Int) {
+    benevoleListVM.setState(.loading)
+    
+    ZoneService().getAllByFestivalId(token: token, id_festival: id_festival){ res in
+      switch res{
+      case .success(let zones):
+        benevoleListVM.setZones(zones!)
         benevoleListVM.setState(.ready)
         
       case .failure(_):
