@@ -38,13 +38,13 @@ struct AffectationListView: View {
     VStack(alignment: .center) {
       switch self.affectationList.state {
       case .loading:
-        Text("Chargement")
+        CircleLoader()
       case .deleting:
-        Text("Suppression")
+        CircleLoader()
       case .ready:
-        Text("Prêt")
+        Text("")
       case .creating:
-        Text("Création")
+        CircleLoader()
       case .errorCreating:
         Text("Erreur Création")
       case .errorLoading:

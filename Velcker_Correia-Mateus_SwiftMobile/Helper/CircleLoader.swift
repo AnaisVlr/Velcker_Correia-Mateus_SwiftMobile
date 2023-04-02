@@ -2,84 +2,29 @@
 //  CircleLoader.swift
 //  SwiftUI-Animations
 //
-//  Created by Shubham Singh on 05/09/20.
-//  Copyright © 2020 Shubham Singh. All rights reserved.
 //
+//
+//
+
 import SwiftUI
 
 struct CircleLoader: View {
     
-    // MARK:- variables
-    let circleTrackGradient = LinearGradient(gradient: Gradient(colors: [Color(red: 237, green: 242, blue: 255), Color(red: 235, green: 248, blue: 255)]), startPoint: .leading, endPoint: .bottomLeading)
-    let circleRoundGradient = LinearGradient(gradient: .init(colors: [Color(red: 71, green: 198, blue: 255), Color(red: 90, green: 131, blue: 255)]), startPoint: .topLeading, endPoint: .trailing)
-    
-    let trackerRotation: Double = 2
-    let animationDuration: Double = 0.75
-    
-    @State var isAnimating: Bool = false
-    @State var circleStart: CGFloat = 0.17
-    @State var circleEnd: CGFloat = 0.325
-    
-    @State var rotationDegree: Angle = Angle.degrees(0)
-    
-     // MARK:- views
-    var body: some View {
-        ZStack {
-            Color.white
-                .edgesIgnoringSafeArea(.all)
-            
-            ZStack {
-                Circle()
-                    .stroke(style: StrokeStyle(lineWidth: 20))
-                    .fill(circleTrackGradient)
-                Circle()
-                    .trim(from: circleStart, to: circleEnd)
-                    .stroke(style: StrokeStyle(lineWidth: 15, lineCap: .round))
-                    .fill(circleRoundGradient)
-                    .rotationEffect(self.rotationDegree)
-            }.frame(width: 200, height: 200)
-            .onAppear() {
-                self.animateLoader()
-                Timer.scheduledTimer(withTimeInterval: self.trackerRotation * self.animationDuration + (self.animationDuration), repeats: true) { (mainTimer) in
-                    self.animateLoader()
-                }
-            }
+  @State private var rotateDegrees: Double = 0.0
+  var body: some View {
+    Circle()
+      .trim(from: 0.1, to: 1)
+      .stroke(
+        LinearGradient(gradient: Gradient(colors: [Color.red, Color.blue]), startPoint: .topTrailing, endPoint: .bottomLeading), style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round, miterLimit: .infinity, dash: [20, 0], dashPhase: 0)
+      )
+      .rotationEffect(Angle(degrees: rotateDegrees))
+      .rotation3DEffect(Angle(degrees: 180), axis: (x: 1, y: 0, z:0))
+      .frame(width: 44, height: 44, alignment: .center)
+      .shadow(color: Color.blue.opacity(0.1), radius: 3, x: 0, y: 3)
+      .onAppear {
+        withAnimation(Animation.linear(duration: 3).repeatForever(autoreverses: false)) {
+          self.rotateDegrees = 360
         }
-    }
-    
-    // MARK:- functions
-    func getRotationAngle() -> Angle {
-        return .degrees(360 * self.trackerRotation) + .degrees(120)
-    }
-    
-    func animateLoader() {
-        withAnimation(Animation.spring(response: animationDuration * 2 )) {
-            self.rotationDegree = .degrees(-57.5)
-        }
-        
-        Timer.scheduledTimer(withTimeInterval: animationDuration, repeats: false) { _ in
-            withAnimation(Animation.easeInOut(duration: self.trackerRotation * self.animationDuration)) {
-                self.rotationDegree += self.getRotationAngle()
-            }
-        }
-        
-        Timer.scheduledTimer(withTimeInterval: animationDuration * 1.25, repeats: false) { _ in
-            withAnimation(Animation.easeOut(duration: (self.trackerRotation * self.animationDuration) / 2.25 )) {
-                self.circleEnd = 0.925
-            }
-        }
-        
-        Timer.scheduledTimer(withTimeInterval: trackerRotation * animationDuration, repeats: false) { _ in
-            self.rotationDegree = .degrees(47.5)
-            withAnimation(Animation.easeOut(duration: self.animationDuration)) {
-                self.circleEnd = 0.325
-            }
-        }
-    }
-}
-
-struct CircleLoader_Previews: PreviewProvider {
-    static var previews: some View {
-        CircleLoader()
-    }
+      }
+  }
 }

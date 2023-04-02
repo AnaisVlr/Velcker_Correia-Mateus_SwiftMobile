@@ -121,7 +121,7 @@
 		6F41A5B629D96B5E0021FC80 /* CreneauBenevoleView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CreneauBenevoleView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F41A5B829D96BD40021FC80 /* CreneauBenevoleModelView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CreneauBenevoleModelView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F41A5BA29D96D170021FC80 /* CreneauBenevoleIntent.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CreneauBenevoleIntent.swift; sourceTree = "<group>"; tabWidth = 2; };
-		6F41A5BC29D9D5B90021FC80 /* CircleLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleLoader.swift; sourceTree = "<group>"; };
+		6F41A5BC29D9D5B90021FC80 /* CircleLoader.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CircleLoader.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F7CE28A29C64B3F006BE2D3 /* Authentification.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Authentification.swift; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; };
 		6F7CE28C29C64C61006BE2D3 /* HomeView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F7CE28E29C64EAF006BE2D3 /* AuthViewModel.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; tabWidth = 2; };

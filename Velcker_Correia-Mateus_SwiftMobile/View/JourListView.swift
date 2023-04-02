@@ -29,11 +29,11 @@ struct JourListView: View {
         VStack(alignment: .center) {
           switch self.jourList.state {
           case .loading:
-            Text("")
+            CircleLoader()
           case .deleting:
-            Text("")
+            CircleLoader()
           case .ready:
-            Text("Prêt")
+            Text("")
           case .errorLoading:
             Text("Erreur Chargement")
           case .errorDeleting:

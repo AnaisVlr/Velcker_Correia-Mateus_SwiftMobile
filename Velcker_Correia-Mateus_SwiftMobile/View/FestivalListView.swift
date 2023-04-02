@@ -26,11 +26,11 @@ struct FestivalListView: View {
         VStack(alignment: .center) {
           switch self.festivalList.state {
           case .loading:
-            Text("Chargement")
+            CircleLoader()
           case .deleting:
-            Text("Suppression")
+            CircleLoader()
           case .ready:
-            Text("Prêt")
+            Text("")
           case .errorLoading:
             Text("Erreur Chargement")
           case .errorDeleting:
