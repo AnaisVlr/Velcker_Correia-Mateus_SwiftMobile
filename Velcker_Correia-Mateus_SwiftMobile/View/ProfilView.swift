@@ -63,7 +63,7 @@ struct ProfilView: View {
       .toolbar{
         Button("Déconnexion") {
           Task {
-            await authentification.updateValidation(success: false, token: "")
+            authentification.updateValidation(success: false, token: "")
           }
         }
       }

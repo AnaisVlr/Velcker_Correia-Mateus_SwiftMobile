@@ -42,8 +42,13 @@ struct AddBenevoleView : View {
         Spacer().frame(height: 50)
         VStack(alignment: .center){
           Button("Créer un bénévole") {
-            AuthService.create(token: authentification.token, email: self.email, nom: self.nom, prenom: self.prenom, password: "123"){ res in
-              print(res)
+            BenevoleService().create(token: authentification.token, email: self.email, nom: self.nom, prenom: self.prenom, password: "123"){ res in
+                switch res {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    print(error)
+                }
             }
           }
           .padding()
