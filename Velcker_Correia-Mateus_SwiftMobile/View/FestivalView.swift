@@ -43,9 +43,9 @@ struct FestivalView: View {
                 .foregroundColor(Color(.systemRed))
             }
           }
-        }.navigationBarBackButtonHidden(true)
-          .navigationTitle(nom)
-      }
+        }
+      }.navigationBarBackButtonHidden(true)
+        .navigationTitle(nom)
       .onAppear {
         Task {
           try? await Task.sleep(nanoseconds: 500_000_000) // 1 seconde = 1_000_000_000
