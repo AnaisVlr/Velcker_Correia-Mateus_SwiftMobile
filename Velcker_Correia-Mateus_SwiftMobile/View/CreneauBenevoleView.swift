@@ -14,15 +14,33 @@ struct CreneauBenevoleView: View {
   @ObservedObject var creneauBenevolVM: CreneauBenevoleViewModel
   var intentCB: CreneauBenevoleIntent
   
-  init(creneau: Creneau, zone: Zone) {
-    let cbVM = CreneauBenevoleViewModel(creneau: creneau, zone: zone)
+  @State var benevoleList : [BenevoleViewModel]
+  
+  @State private var showAddBenevoleInZone = false
+  
+  init(creneau: Creneau, zone: Zone, jour: Jour, benevoleList : [BenevoleViewModel]) {
+    let cbVM = CreneauBenevoleViewModel(creneau: creneau, zone: zone, jour: jour)
     self.creneauBenevolVM = cbVM
     self.intentCB = CreneauBenevoleIntent(creneauBenevoleVM: cbVM)
+    self.benevoleList = benevoleList
   }
   
   var body: some View {
     VStack() {
-      Text("\(creneauBenevolVM.zone.nom) : \(creneauBenevolVM.benevoleList.count) sur \(creneauBenevolVM.zone.nb_benevole)")
+      if creneauBenevolVM.benevoleList.count < creneauBenevolVM.zone.nb_benevole{
+        Text("\(creneauBenevolVM.zone.nom) : \(creneauBenevolVM.benevoleList.count) sur \(creneauBenevolVM.zone.nb_benevole)")
+          .foregroundColor(Color(.red))
+      }else{
+        Text("\(creneauBenevolVM.zone.nom) : \(creneauBenevolVM.benevoleList.count) sur \(creneauBenevolVM.zone.nb_benevole)")
+          .foregroundColor(Color(.systemGreen))
+      }
+      HStack{
+        Button(action: {
+          showAddBenevoleInZone = true
+          }) {
+            Image(systemName: "person.fill.badge.plus")
+          }
+      }
       List {
         ForEach(creneauBenevolVM.benevoleList, id:\.id) {
           Text("\($0.prenom) \($0.nom)")
@@ -34,7 +52,10 @@ struct CreneauBenevoleView: View {
           }
         }
       }.frame(height: 50*CGFloat(creneauBenevolVM.benevoleList.count > 0 ? creneauBenevolVM.benevoleList.count+1 : 0), alignment: .center)
-    }.onAppear {
+    }.sheet(isPresented: $showAddBenevoleInZone) {
+      AddBenevoleCreneauxView(zone: creneauBenevolVM.zone, creneau: creneauBenevolVM.creneau, benevoleList: creneauBenevolVM.benevoleList, jour: creneauBenevolVM.jour)
+    }
+    .onAppear {
       Task {
         intentCB.getBenevoleList(token: authentification.token)
       }

@@ -14,11 +14,14 @@ class CreneauBenevoleViewModel: ObservableObject {
   
   var creneau: Creneau
   var zone: Zone
+  var jour : Jour
+  
   @Published var state: CreneauBenevoleState = .ready
   
-  init(creneau: Creneau, zone: Zone) {
+  init(creneau: Creneau, zone: Zone, jour: Jour) {
     self.creneau = creneau
     self.zone = zone
+    self.jour = jour
   }
   
   func setState(_ state: CreneauBenevoleState) {
@@ -32,7 +35,4 @@ class CreneauBenevoleViewModel: ObservableObject {
       self.benevoleList = benevoles
     }
   }
-  
-  
-  
 }

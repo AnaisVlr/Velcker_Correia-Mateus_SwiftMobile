@@ -28,7 +28,7 @@ struct BenevoleDTO : Decodable{
     
 }
 
-class Benevole : ObservableObject, Identifiable{
+class Benevole : ObservableObject, Hashable, Identifiable, Equatable{
   var id : Int
   var prenom : String
   var nom : String

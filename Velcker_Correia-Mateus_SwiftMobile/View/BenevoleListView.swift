@@ -53,7 +53,7 @@ struct BenevoleListView: View {
           }
           else {
             ForEach(benevoleListVM.zoneList) {z in
-              CreneauBenevoleView(creneau: benevoleListVM.creneauList.first(where: {$0.id_creneau == benevoleListVM.selectionCreneau})!, zone: z)
+              CreneauBenevoleView(creneau: benevoleListVM.creneauList.first(where: {$0.id_creneau == benevoleListVM.selectionCreneau})!, zone: z, jour: Jour(id: -1, id_festival: -1, nom: "J1", ouverture: Date.now, fermeture: Date.now), benevoleList: benevoleListVM.benevoleList)
             }
           }
           
