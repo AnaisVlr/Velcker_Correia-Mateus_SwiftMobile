@@ -20,10 +20,17 @@ class AffectationListViewModel: ObservableObject {
   @Published var jourSelected: Int = -1
   @Published var zoneSelected: Int = -1
   @Published var creneauSelected: Int = -1
+  @Published var erreur: String = ""
   
   func setState(_ state: AffectationListState) {
     DispatchQueue.main.async {
       self.state = state
+    }
+  }
+  
+  func setErreur(_ erreur: String) {
+    DispatchQueue.main.async {
+      self.erreur = erreur
     }
   }
   

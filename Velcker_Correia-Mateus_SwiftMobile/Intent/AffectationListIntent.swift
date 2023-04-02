@@ -33,16 +33,18 @@ struct AffectationListIntent {
           switch res {
           case .success(let creneaux):
             self.affectationListVM.setCreneau(creneaux!)
-            
+            print("Print nécessaire sinon ne fonctionne pas")
             JourService().getAllByFestivalId(token: token, id_festival: id_festival) {res in
               switch res {
               case .success(let jours):
                 self.affectationListVM.setJours(jours!)
                 if(jours != nil && !jours!.isEmpty) {
                   self.affectationListVM.setJourSelected(jours!.first!.id)
-                  if(!self.affectationListVM.creneauList.isEmpty) {
-                    let idCreneau = self.affectationListVM.creneauList.first(where: {$0.id_jour == self.affectationListVM.jourSelected})
+                  if(!creneaux!.isEmpty) {
+                    print("Print nécessaire sinon ne fonctionne pas")
+                    let idCreneau = creneaux!.first(where: {$0.id_jour == self.affectationListVM.jourSelected})
                     if(idCreneau != nil) {
+                      print("Print nécessaire sinon ne fonctionne pas")
                       self.affectationListVM.setCreneauSelected(idCreneau!.id_creneau)
                     }
                   }
@@ -69,6 +71,31 @@ struct AffectationListIntent {
             print(error)
             affectationListVM.setState(.errorLoading)
           }
+        }
+      case .failure(let error):
+        print(error)
+        affectationListVM.setState(.errorLoading)
+      }
+    }
+  }
+  
+  func notEnoughBenevolesInZoneCreneau(token: String, id_benevole: Int) {
+    affectationListVM.setState(.loading)
+    affectationListVM.setErreur("")
+    
+    BenevoleService().getCountByZoneAndCreneau(token: token, id_zone: affectationListVM.zoneSelected, id_creneau: affectationListVM.creneauSelected) { res in
+      switch res {
+      case .success(let nb):
+        let z = affectationListVM.zoneList.first(where: {$0.id == affectationListVM.zoneSelected})
+        var bool = true
+        if(z != nil) {
+          if(nb! >= z!.nb_benevole) {
+            affectationListVM.setErreur("Trop de bénévoles pour ce créneau")
+            bool = false
+          }
+        }
+        if(bool) {
+          self.create(token: token, id_benevole: id_benevole)
         }
       case .failure(let error):
         print(error)
