@@ -77,4 +77,21 @@ struct BenevoleListIntent {
       }
     }
   }
+  
+  func delete(token: String, index: Int) {
+    benevoleListVM.setState(.deleting)
+    
+    let benevole = benevoleListVM.benevoleList[index]
+    BenevoleService().delete(token: token, id_benevole: benevole.id_benevole) {res in
+      switch res {
+      case .success(_ ):
+        benevoleListVM.benevoleList.remove(at: index)
+        benevoleListVM.setState(.ready)
+        
+      case .failure(let error):
+        print(error)
+        benevoleListVM.setState(.errorDeleting)
+      }
+    }
+  }
 }

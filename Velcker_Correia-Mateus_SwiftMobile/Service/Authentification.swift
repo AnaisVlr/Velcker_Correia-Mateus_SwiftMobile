@@ -37,19 +37,19 @@ class Authentification: ObservableObject {
     }
   }
   
-  func updateValidation(success: Bool, token: String) async {
-    self.isValidated = success
-    if(self.isValidated) {
-      self.token = token
-      
-      let decodedString: [String : Any]  = JWTDecode.decode(jwtToken: token)
-      let decodedData: Data = try! JSONSerialization.data(withJSONObject: decodedString)
-      guard let decoded : JSONDecoded = await JSONHelper.decode(data: decodedData) else {print("Erreur lors du decode de l'authentification"); return}
-
-      self.email = decoded.email
-      self.id = decoded.sub
-      self.is_admin = decoded.is_admin
-      
+  func updateValidation(success: Bool, token: String) {
+    DispatchQueue.main.async{
+      self.isValidated = success
+        if(self.isValidated) {
+          self.token = token
+          let decodedString: [String : Any]  = JWTDecode.decode(jwtToken: token)
+          let decodedData: Data = try! JSONSerialization.data(withJSONObject: decodedString)
+          guard let decoded : JSONDecoded = JSONHelper.decodePasAsync(data: decodedData) else {print("Erreur lors du decode de l'authentification"); return}
+          
+          self.email = decoded.email
+          self.id = decoded.sub
+          self.is_admin = decoded.is_admin
+        }
     }
   }
 }

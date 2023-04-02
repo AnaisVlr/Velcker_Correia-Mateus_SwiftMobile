@@ -11,6 +11,8 @@ enum CreneauBenevoleState {
   case ready
   case loading
   case errorLoading
+  case deleting
+  case errorDeleting
 }
 
 struct CreneauBenevoleIntent {
@@ -27,6 +29,23 @@ struct CreneauBenevoleIntent {
         
       case .failure(_ ):
         creneauBenevoleVM.setState(.errorLoading)
+      }
+    }
+  }
+  
+  func delete(token: String, index: Int) {
+    creneauBenevoleVM.setState(.deleting)
+    
+    let benevole = creneauBenevoleVM.benevoleList[index]
+    BenevoleService().delete(token: token, id_benevole: benevole.id) {res in
+      switch res {
+      case .success(_ ):
+        creneauBenevoleVM.benevoleList.remove(at: index)
+        creneauBenevoleVM.setState(.ready)
+        
+      case .failure(let error):
+        print(error)
+        creneauBenevoleVM.setState(.errorDeleting)
       }
     }
   }

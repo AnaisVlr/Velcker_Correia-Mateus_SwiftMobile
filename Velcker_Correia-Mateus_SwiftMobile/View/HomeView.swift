@@ -24,76 +24,78 @@ struct HomeView: View {
   }
   
   var body: some View {
-    VStack{
-      VStack(alignment: .center) {
-        Text("Bonjour \(benevole.prenom) !")
-      }
-      VStack(){
-        if(festivals.filter {$0.is_active}.count > 0) {
-          Text("Prochains créneaux :")
+    NavigationView(){
+      VStack{
+        VStack(){
+          if(festivals.filter {$0.is_active}.count > 0) {
+            Text("Mes prochains créneaux :")
+          }
         }
-        List {
-          ForEach(festivals.filter {$0.is_active}) { f in
-            Text("\(f.nom)")
-            ForEach(zones.filter {$0.id_festival == f.id}) {z in
-              ForEach(affectations.filter {$0.id_zone == z.id}) {a in
-                ForEach(creneaux.filter {$0.id_creneau == a.id_creneau}) {c in
-                  VStack() {
-                    Text("- \(z.nom) : De \(c.debut.toString()) à \(c.fin.toString())")
+        VStack{
+          List {
+            ForEach(festivals.filter {$0.is_active}) { f in
+              Text("\(f.nom)").bold()
+              ForEach(zones.filter {$0.id_festival == f.id}) {z in
+                ForEach(affectations.filter {$0.id_zone == z.id}) {a in
+                  ForEach(creneaux.filter {$0.id_creneau == a.id_creneau}) {c in
+                    VStack() {
+                      Text("- \(z.nom) : De \(c.debut.toString()) à \(c.fin.toString())")
+                    }
                   }
                 }
               }
             }
           }
         }
-      }
-    }.onAppear {
-      print(benevole.id_benevole)
-      Task {
-        FestivalService().getAllByBenevoleId(token: authentification.token, id_benevole: benevole.id_benevole) { res in
-          switch res {
-          case .success(let festivals):
-            if(festivals != nil) {
-              self.festivals = festivals!
-            }
-          case .failure(let failure):
+      }.navigationBarTitle("Bonjour \(benevole.prenom) !")
+      .onAppear {
+        print(benevole.id_benevole)
+        Task {
+          FestivalService().getAllByBenevoleId(token: authentification.token, id_benevole: benevole.id_benevole) { res in
+            switch res {
+            case .success(let festivals):
+              if(festivals != nil) {
+                self.festivals = festivals!
+              }
+            case .failure(let failure):
               print(failure)
+            }
           }
         }
-      }
-      Task {
-        AffectationService().getAllByBenevoleId(token: authentification.token, id_benevole: benevole.id_benevole) { res in
-          switch res {
-          case .success(let affectations):
-            if(affectations != nil) {
-              self.affectations = affectations!
-            }
-          case .failure(let failure):
+        Task {
+          AffectationService().getAllByBenevoleId(token: authentification.token, id_benevole: benevole.id_benevole) { res in
+            switch res {
+            case .success(let affectations):
+              if(affectations != nil) {
+                self.affectations = affectations!
+              }
+            case .failure(let failure):
               print(failure)
+            }
           }
         }
-      }
-      Task {
-        ZoneService().getAllByBenevoleId(token: authentification.token, id_benevole: benevole.id_benevole) { res in
-          switch res {
-          case .success(let zones):
-            if(zones != nil) {
-              self.zones = zones!
-            }
-          case .failure(let failure):
+        Task {
+          ZoneService().getAllByBenevoleId(token: authentification.token, id_benevole: benevole.id_benevole) { res in
+            switch res {
+            case .success(let zones):
+              if(zones != nil) {
+                self.zones = zones!
+              }
+            case .failure(let failure):
               print(failure)
+            }
           }
         }
-      }
-      Task {
-        CreneauService().getAllByBenevoleId(token: authentification.token, id_benevole: benevole.id_benevole) { res in
-          switch res {
-          case .success(let creneaux):
-            if(creneaux != nil) {
-              self.creneaux = creneaux!
-            }
-          case .failure(let failure):
+        Task {
+          CreneauService().getAllByBenevoleId(token: authentification.token, id_benevole: benevole.id_benevole) { res in
+            switch res {
+            case .success(let creneaux):
+              if(creneaux != nil) {
+                self.creneaux = creneaux!
+              }
+            case .failure(let failure):
               print(failure)
+            }
           }
         }
       }
