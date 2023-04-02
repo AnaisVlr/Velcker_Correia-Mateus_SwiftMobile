@@ -8,11 +8,25 @@
 import Foundation
 
 extension Date {
+  func toStringAvantCreate() -> String {
+    let calendar = Calendar.current
+    let hour = calendar.component(.hour, from: self)
+    let minute = calendar.component(.minute, from: self)
+    var strM = "\(minute)"
+    if(minute < 10) {
+      strM = "0"+strM
+    }
+    return "\(hour):\(strM)"
+  }
   func toString() -> String {
     let calendar = Calendar.current
     let hour = calendar.component(.hour, from: self)
     let minute = calendar.component(.minute, from: self)
-    return "\(hour+1):\(minute)"
+    var strM = "\(minute)"
+    if(minute < 10) {
+      strM = "0"+strM
+    }
+    return "\(hour+1):\(strM)"
   }
 }
 

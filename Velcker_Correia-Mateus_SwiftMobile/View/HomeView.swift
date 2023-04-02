@@ -48,7 +48,6 @@ struct HomeView: View {
         }
       }
     }.onAppear {
-      print(benevole.id_benevole)
       Task {
         FestivalService().getAllByBenevoleId(token: authentification.token, id_benevole: benevole.id_benevole) { res in
           switch res {

@@ -15,6 +15,8 @@ struct AddJourView : View {
   @State var nom: String
   @State var ouverture: Date
   @State var fermeture: Date
+  
+  @State var erreur: String
     
   let liste: JourListViewModel
   let festival: FestivalViewModel
@@ -23,6 +25,7 @@ struct AddJourView : View {
   init(festival: FestivalViewModel, liste: JourListViewModel?, jour: JourViewModel?) {
     self.festival = festival
     var temp: [Creneau] = []
+    self._erreur = State(initialValue: "")
     
     
     if(liste == nil) {
@@ -34,6 +37,9 @@ struct AddJourView : View {
     if(jour == nil) {
       self._jourVM = State(initialValue: JourViewModel(model: Jour(id: -1, id_festival: festival.id_festival, nom: "NomJour", ouverture: Date.now, fermeture: Date.now)))
       temp.append(Creneau(id: -1, id_jour: -1, debut: Date.now, fin: Date.now))
+      self._nom = State(initialValue: "JourNom")
+      self._ouverture = State(initialValue: Date.now)
+      self._fermeture = State(initialValue: Date.now)
     }
     else {
       self._jourVM = State(initialValue: jour!)
@@ -41,33 +47,40 @@ struct AddJourView : View {
       if(temp.count == 0) {
         temp.append(Creneau(id: -1, id_jour: jour!.id_jour, debut: jour!.ouverture, fin: jour!.fermeture))
       }
+      self._nom = State(initialValue: jour!.nom)
+      self._ouverture = State(initialValue: jour!.ouverture)
+      self._fermeture = State(initialValue: jour!.fermeture)
+      
     }
-    self._nom = State(initialValue: "JourNom")
-    self._ouverture = State(initialValue: Date.now)
-    self._fermeture = State(initialValue: Date.now)
     
     self._creneaux = State(initialValue:temp)
   }
   
   func valid() -> Bool {
-    let diff = Calendar.current.dateComponents([.hour], from: ouverture, to: fermeture)
-    if(diff.hour! < 2) {
+    let ho = Calendar.current.dateComponents([.hour], from: ouverture)
+    let hf = Calendar.current.dateComponents([.hour], from: fermeture)
+    
+    if(hf.hour!-ho.hour! < 2) {
+      self.erreur = "Une journée doit durer au moins 2 heures"
       return false
     }
     
     let liste = creneaux.sorted(by: { $0.debut < $1.debut})
-    
     if(liste.count < 1) {
+      self.erreur = "Il doit y avoir au moins un créneau"
       return false
     }
     
     if(liste.first!.debut.toString() != ouverture.toString() || liste.last!.fin.toString() != fermeture.toString()) {
+      self.erreur = "Les créneaux doivent remplir la plage horaire"
       return false
     }
     //Si les créneaux font au moins 2 heures
     for c in liste {
-      let diff = Calendar.current.dateComponents([.hour], from: c.debut, to: c.fin)
-      if(diff.hour! < 2) {
+      let ho = Calendar.current.dateComponents([.hour], from: c.debut)
+      let hf = Calendar.current.dateComponents([.hour], from: c.fin)
+      if(hf.hour! - ho.hour! < 2) {
+        self.erreur = "Les créneaux doivent duréer au moins 2 heures"
         return false
       }
     }
@@ -76,6 +89,7 @@ struct AddJourView : View {
     //Si les créneaux se suivent
     for i in 1..<liste.count {
       if(prec.fin.toString() != liste[i].debut.toString()) {
+        self.erreur = "Les créneaux doivent remplir la plage horaire"
         return false
       }
       prec = liste[i]
@@ -118,6 +132,7 @@ struct AddJourView : View {
           let newC = Creneau(id: -1, id_jour: jourVM.id_jour, debut: creneaux.last!.fin, fin: jourVM.ouverture)
           creneaux.append(newC)
         }
+        Text(erreur)
         
         //Pour savoir si on vient de la page de création de festival, ou si on ajoute un nouveau jour
         if(festival.id_festival > -1) {
@@ -139,19 +154,26 @@ struct AddJourView : View {
           }
         }
         else {
-          Button("Ok") {
-            //TODO faire la vérification des créneaux
-            if(valid()) {
+          HStack() {
+            Button("Annuler") {
               DispatchQueue.main.async {
-                self.jourVM.setNom(self.nom)
-                self.jourVM.setOuverture(self.ouverture)
-                self.jourVM.setFermeture(self.fermeture)
-                self.jourVM.setCreneaux(self.creneaux)
                 self.dismiss()
               }
             }
-            
+            Button("Ok") {
+              //TODO faire la vérification des créneaux
+              if(valid()) {
+                DispatchQueue.main.async {
+                  self.jourVM.setNom(self.nom)
+                  self.jourVM.setOuverture(self.ouverture)
+                  self.jourVM.setFermeture(self.fermeture)
+                  self.jourVM.setCreneaux(self.creneaux)
+                  self.dismiss()
+                }
+              }
+            }
           }
+          
         }
         
       }

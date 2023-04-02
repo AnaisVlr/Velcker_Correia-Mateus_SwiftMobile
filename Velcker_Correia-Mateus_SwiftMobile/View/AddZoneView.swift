@@ -38,9 +38,7 @@ struct AddZoneView : View {
         }
         Button("Créer") {
             let z: Zone = Zone(id: -1, id_festival: festival.id_festival, nom: nom, nb_benevole: nb_benevole)
-          ZoneService().create(token: authentification.token, zone: z) { res in
-           print(res)
-          }
+          ZoneService().create(token: authentification.token, zone: z) { res in}
         }
       }
     }.navigationBarBackButtonHidden(true)

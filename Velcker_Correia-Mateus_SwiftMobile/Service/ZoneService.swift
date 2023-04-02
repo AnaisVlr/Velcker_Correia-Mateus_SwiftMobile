@@ -95,7 +95,7 @@ class ZoneService {
       }
       dataTask.resume()
   }
-    
+  
     func create(token: String, zone: Zone, completion: @escaping(Result<Zone, Error>) -> Void) -> Void {
       var request = URLRequest(url: URL(string: self.url)!)
       request.httpMethod = "POST"
@@ -167,6 +167,30 @@ class ZoneService {
             }
             completion(.success(benevoles))
           }else {
+            completion(.failure(ServiceError.NoData))
+          }
+        }
+      }
+    }
+    dataTask.resume()
+  }
+  
+  func getNbBenevole(token: String, id_zone: Int, completion: @escaping(Result<Int?, Error>) -> Void) -> Void {
+    var request = URLRequest(url: URL(string: self.url+"/\(id_zone)/nbbenevole")!)
+    request.httpMethod = "GET"
+    request.setValue("application/json", forHTTPHeaderField: "Content-type")
+    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    
+    let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+      guard let data = data, error == nil else {
+        return completion(.failure(ServiceError.NoData))
+      }
+      Task {
+        do {
+          let decoded : Int? = await JSONHelper.decode(data: data)
+          if let decoded = decoded {
+            completion(.success(decoded))
+          } else {
             completion(.failure(ServiceError.NoData))
           }
         }

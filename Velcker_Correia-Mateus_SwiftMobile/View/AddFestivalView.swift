@@ -57,7 +57,7 @@ struct AddFestivalView : View {
           ForEach(jours) { j in
             Button(action: {selecteItem = j}) {
               VStack(alignment: .leading) {
-                Text("\(j.nom) : \(j.ouverture.toString())-\(j.fermeture.toString())")
+                Text("\(j.nom) : \(j.ouverture.toStringAvantCreate())-\(j.fermeture.toStringAvantCreate())")
                 Text("Avec \(j.creneauxList.count > 0 ? j.creneauxList.count : 1) créneau(x)")
               }
             }
