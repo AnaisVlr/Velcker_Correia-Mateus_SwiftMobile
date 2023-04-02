@@ -224,25 +224,21 @@ class BenevoleService{
     dataTask.resume()
   }
   
-  func create(token: String, benevole: Benevole, completion: @escaping(Result<Benevole, Error>) -> Void) -> Void {
-    var request = URLRequest(url: URL(string: self.url)!)
-    request.httpMethod = "POST"
+  func delete(token: String, id_benevole: Int, completion: @escaping(Result<Bool, Error>) -> Void) -> Void {
+    var request = URLRequest(url: URL(string: self.url+"/\(id_benevole)")!)
+    request.httpMethod = "DELETE"
     request.setValue("application/json", forHTTPHeaderField: "Content-type")
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     
-    let jsonString = "{ \"prenom_benevole\": \"\(benevole.prenom)\", \"nom_benevole\": \"\(benevole.nom)\", \"email_benevole\": \(benevole.email)\", \"is_admin\": \"\(benevole.isAdmin)\"}"
-    guard let jsonData = jsonString.data(using: .utf8) else {return}
-    request.httpBody = jsonData
     
-    let dataTask = URLSession.shared.uploadTask(with: request,from: jsonData) { (data, response, error) in
-      guard let data = data, error == nil else {
+    let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
+      
+      guard error == nil else {
         return completion(.failure(ServiceError.NoData))
       }
       if let httpResponse = response as? HTTPURLResponse {
-        if(httpResponse.statusCode == 201) {
-          guard let b : BenevoleDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode create Benevole"); completion(.failure(ServiceError.WrongData)); return}
-          let benevole = Benevole(b)
-          completion(.success(benevole))
+        if(httpResponse.statusCode == 200) {
+          completion(.success(true))
         }
         else {completion(.failure(ServiceError.Failed))}
       }

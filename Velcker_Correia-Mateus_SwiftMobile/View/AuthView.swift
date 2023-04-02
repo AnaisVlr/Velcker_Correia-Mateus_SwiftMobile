@@ -27,7 +27,7 @@ struct AuthView: View {
           Button("Se connecter") {
             authVM.login() { success in
               Task {
-                await authentification.updateValidation(success: success, token: authVM.token)
+                authentification.updateValidation(success: success, token: authVM.token)
               }
             }
           }

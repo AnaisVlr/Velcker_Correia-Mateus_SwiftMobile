@@ -26,6 +26,12 @@ struct CreneauBenevoleView: View {
       List {
         ForEach(creneauBenevolVM.benevoleList, id:\.id) {
           Text("\($0.prenom) \($0.nom)")
+        }.onDelete { indexSet in
+          for i in indexSet {
+            Task {
+              self.intentCB.delete(token: authentification.token, index: i)
+            }
+          }
         }
       }.frame(height: 50*CGFloat(creneauBenevolVM.benevoleList.count > 0 ? creneauBenevolVM.benevoleList.count+1 : 0), alignment: .center)
     }.onAppear {
