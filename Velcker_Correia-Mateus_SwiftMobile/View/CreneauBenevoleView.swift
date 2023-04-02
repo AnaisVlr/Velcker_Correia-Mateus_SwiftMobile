@@ -14,11 +14,11 @@ struct CreneauBenevoleView: View {
   @ObservedObject var creneauBenevolVM: CreneauBenevoleViewModel
   var intentCB: CreneauBenevoleIntent
   
-  @State var benevoleList : [BenevoleViewModel]
+  @State var benevoleList : [Benevole]
   
   @State private var showAddBenevoleInZone = false
   
-  init(creneau: Creneau, zone: Zone, jour: Jour, benevoleList : [BenevoleViewModel]) {
+  init(creneau: Creneau, zone: Zone, jour: Jour, benevoleList : [Benevole]) {
     let cbVM = CreneauBenevoleViewModel(creneau: creneau, zone: zone, jour: jour)
     self.creneauBenevolVM = cbVM
     self.intentCB = CreneauBenevoleIntent(creneauBenevoleVM: cbVM)
@@ -53,7 +53,7 @@ struct CreneauBenevoleView: View {
         }
       }.frame(height: 50*CGFloat(creneauBenevolVM.benevoleList.count > 0 ? creneauBenevolVM.benevoleList.count+1 : 0), alignment: .center)
     }.sheet(isPresented: $showAddBenevoleInZone) {
-      AddBenevoleCreneauxView(zone: creneauBenevolVM.zone, creneau: creneauBenevolVM.creneau, benevoleList: creneauBenevolVM.benevoleList, jour: creneauBenevolVM.jour)
+      AddBenevoleCreneauxView(zone: creneauBenevolVM.zone, creneau: creneauBenevolVM.creneau, benevoleList: benevoleList, jour: creneauBenevolVM.jour)
     }
     .onAppear {
       Task {

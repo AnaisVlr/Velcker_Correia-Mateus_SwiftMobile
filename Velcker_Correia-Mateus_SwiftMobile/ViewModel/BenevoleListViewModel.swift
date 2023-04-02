@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 class BenevoleListViewModel: ObservableObject {
-  @Published var benevoleList: [BenevoleViewModel] = []
+  @Published var benevoleList: [Benevole] = []
   @Published var creneauList: [Creneau] = []
   @Published var zoneList: [Zone] = []
   @Published var jourList: [Jour] = []
@@ -46,16 +46,6 @@ class BenevoleListViewModel: ObservableObject {
   
   func setBenevoles(_ benevoles: [Benevole]) {
     DispatchQueue.main.async {
-      var newList: [BenevoleViewModel] = []
-      for b in benevoles {
-        newList.append(BenevoleViewModel(model: b, obs: self))
-      }
-      self.benevoleList = newList
-    }
-  }
-  
-  func setBenevoles(_ benevoles: [BenevoleViewModel]) {
-    DispatchQueue.main.async {
       self.benevoleList = benevoles
     }
   }
@@ -67,13 +57,6 @@ class BenevoleListViewModel: ObservableObject {
   }
   
   func appendBenevole(_ b: Benevole) {
-    DispatchQueue.main.async {
-      self.benevoleList.append(BenevoleViewModel(model: b))
-      self.VMUpdated()
-    }
-  }
-  
-  func appendBenevole(_ b: BenevoleViewModel) {
     DispatchQueue.main.async {
       self.benevoleList.append(b)
       self.VMUpdated()
