@@ -48,6 +48,41 @@ struct AddJourView : View {
     
     self._creneaux = State(initialValue:temp)
   }
+  
+  func valid() -> Bool {
+    let diff = Calendar.current.dateComponents([.hour], from: ouverture, to: fermeture)
+    if(diff.hour! < 2) {
+      return false
+    }
+    
+    let liste = creneaux.sorted(by: { $0.debut < $1.debut})
+    
+    if(liste.count < 1) {
+      return false
+    }
+    
+    if(liste.first!.debut.toString() != ouverture.toString() || liste.last!.fin.toString() != fermeture.toString()) {
+      return false
+    }
+    //Si les créneaux font au moins 2 heures
+    for c in liste {
+      let diff = Calendar.current.dateComponents([.hour], from: c.debut, to: c.fin)
+      if(diff.hour! < 2) {
+        return false
+      }
+    }
+    
+    var prec = liste.first!
+    //Si les créneaux se suivent
+    for i in 1..<liste.count {
+      if(prec.fin.toString() != liste[i].debut.toString()) {
+        return false
+      }
+      prec = liste[i]
+    }
+    
+    return true
+  }
 
   var body: some View {
     NavigationView {
@@ -87,16 +122,18 @@ struct AddJourView : View {
         //Pour savoir si on vient de la page de création de festival, ou si on ajoute un nouveau jour
         if(festival.id_festival > -1) {
           Button("Créer") {
-            let j: Jour = Jour(id: -1, id_festival: self.festival.id_festival, nom: nom, ouverture: ouverture, fermeture: fermeture)
-            JourService().create(token: authentification.token, jour: j, creneaux:self.creneaux) { res in
-              switch res {
-              case .success(let jour):
-                self.liste.appendJour(jour)//Pas nécessaire car le onAppear de la listeView refetch
-                DispatchQueue.main.async {
-                  self.dismiss()
+            if(valid()) {
+              let j: Jour = Jour(id: -1, id_festival: self.festival.id_festival, nom: nom, ouverture: ouverture, fermeture: fermeture)
+              JourService().create(token: authentification.token, jour: j, creneaux:self.creneaux) { res in
+                switch res {
+                case .success(let jour):
+                  self.liste.appendJour(jour)//Pas nécessaire car le onAppear de la listeView refetch
+                  DispatchQueue.main.async {
+                    self.dismiss()
+                  }
+                case .failure(let error):
+                  print(error)
                 }
-              case .failure(let error):
-                print(error)
               }
             }
           }
@@ -104,13 +141,16 @@ struct AddJourView : View {
         else {
           Button("Ok") {
             //TODO faire la vérification des créneaux
-            DispatchQueue.main.async {
-              self.jourVM.setNom(self.nom)
-              self.jourVM.setOuverture(self.ouverture)
-              self.jourVM.setFermeture(self.fermeture)
-              self.jourVM.setCreneaux(self.creneaux)
-              self.dismiss()
+            if(valid()) {
+              DispatchQueue.main.async {
+                self.jourVM.setNom(self.nom)
+                self.jourVM.setOuverture(self.ouverture)
+                self.jourVM.setFermeture(self.fermeture)
+                self.jourVM.setCreneaux(self.creneaux)
+                self.dismiss()
+              }
             }
+            
           }
         }
         
