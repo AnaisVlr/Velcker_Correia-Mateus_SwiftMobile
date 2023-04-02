@@ -25,25 +25,34 @@ struct FestivalView: View {
   }
   
   var body: some View {
-    ZStack() {
-      VStack(alignment: .leading) {
-        if(authentification.is_admin) {
-          Button("\(festival.is_active ? "Clôturer le festival" : "Rouvrir le festival")") {
-            intentFestival.openOrClose(token: authentification.token)
-          }.buttonStyle(CustomButton())
+    NavigationView(){
+      VStack() {
+        VStack(alignment: .leading){
+          if(cbon){
+            JourListView(festival: self.festival)
+          }
         }
-        if(cbon){
-          JourListView(festival: self.festival)
-        }
-      }.navigationBarBackButtonHidden(true)
-        .navigationTitle(festival.nom)
-    }
-    .onAppear {
-      Task {
-        try? await Task.sleep(nanoseconds: 500_000_000) // 1 seconde = 1_000_000_000
-        cbon = true
+        VStack(alignment: .center){
+          if(authentification.is_admin) {
+            Button(action: {
+              intentFestival.openOrClose(token: authentification.token)
+            }) {
+              Image(systemName: "lock.fill")
+                .foregroundColor(Color(.systemRed))
+              Text("\(festival.is_active ? "Clôturer le festival ?" : "Rouvrir le festival ?")")
+                .foregroundColor(Color(.systemRed))
+            }
+          }
+        }.navigationBarBackButtonHidden(true)
+          .navigationTitle(nom)
       }
-      
+      .onAppear {
+        Task {
+          try? await Task.sleep(nanoseconds: 500_000_000) // 1 seconde = 1_000_000_000
+          cbon = true
+        }
+      }
     }
+    
   }
 }

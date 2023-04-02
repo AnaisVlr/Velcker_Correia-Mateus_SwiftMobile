@@ -14,6 +14,9 @@ struct JourListView: View {
   @ObservedObject var jourList = JourListViewModel()
   var intentListJour: JourListIntent
   
+  @State private var showAddJour = false
+  @State private var showJour = false
+  
   let festival: FestivalViewModel
 
   init(festival: FestivalViewModel) {
@@ -24,51 +27,68 @@ struct JourListView: View {
   }
   
   var body: some View {
-    ZStack() { //Empêche le onAppear de se faire 2 fois
-      NavigationView {
-        VStack(alignment: .center) {
-          switch self.jourList.state {
-          case .loading:
-            CircleLoader()
-          case .deleting:
-            CircleLoader()
-          case .ready:
-            Text("")
-          case .errorLoading:
-            Text("Erreur Chargement")
-          case .errorDeleting:
-            Text("Erreur Suppression")
+    VStack(alignment: .leading) {
+      VStack(){
+        if(authentification.is_admin && festival.is_active) {
+          HStack{
+            Button(action: {
+              showAddJour = true
+            }) {
+              Spacer().frame(width: 15)
+              Text("Ajouter un jour")
+              Image(systemName: "plus.circle.fill")
+            }
           }
-          
-          Text("Liste des jours")
-          if(authentification.is_admin && festival.is_active) {
-            NavigationLink("Ajouter un Jour") {
-              AddJourView(festival: self.festival, liste: self.jourList, jour: nil)
-            }.buttonStyle(CustomButton())
-          }
-          List {
-            ForEach(jourList.jourList) { j in
-              VStack(alignment:.leading) {
-                NavigationLink(j.nom) {
-                  JourView(jour: j)
-                }.buttonStyle(CustomButton())
-                Text("De \(j.ouverture.toString()) à \(j.fermeture.toString())")
-              }
-            }.onDelete { indexSet in
-              for i in indexSet { //Pour récupérer l'objet supprimé
-                Task {
-                  self.intentListJour.delete(token: authentification.token, index: i)
+        }
+      }
+      VStack(alignment: .leading){
+        Text("Liste des jours : ")
+          .bold()
+          .padding()
+      }
+      switch self.jourList.state {
+      case .loading:
+        CircleLoader()
+      case .deleting:
+        CircleLoader()
+      case .ready:
+        List {
+          ForEach(jourList.jourList) { j in
+            VStack(alignment:.leading) {
+              Button(action: {
+                showJour = true
+              }) {
+                HStack{
+                  VStack(alignment: .leading){
+                    Text(j.nom).bold()
+                    Text("De \(j.ouverture.toString()) à \(j.fermeture.toString())")
+                  }
+                  Spacer()
+                  Image(systemName: "eye.fill")
                 }
               }
-            }.deleteDisabled(!authentification.is_admin || jourList.jourList.count <= 1  || !festival.is_active)
-          }.frame(height: 400)
-          
-        }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-        
-      }.onAppear {
-        Task {
-          intentListJour.getJourListByFestivalId(token: authentification.token, id_festival: festival.id_festival)
-        }
+            }.sheet(isPresented: $showJour) {
+              JourView(jour: j)
+            }
+          }.onDelete { indexSet in
+            for i in indexSet { //Pour récupérer l'objet supprimé
+              Task {
+                self.intentListJour.delete(token: authentification.token, index: i)
+              }
+            }
+          }.deleteDisabled(!authentification.is_admin || jourList.jourList.count <= 1  || !festival.is_active)
+        }.frame(height: 400)
+      case .errorLoading:
+        Text("Erreur Chargement")
+      case .errorDeleting:
+        Text("Erreur Suppression")
+      }
+    }.sheet(isPresented: $showAddJour) {
+      AddJourView(festival: self.festival, liste: self.jourList, jour: nil)
+    }
+    .onAppear {
+      Task {
+        intentListJour.getJourListByFestivalId(token: authentification.token, id_festival: festival.id_festival)
       }
     }
   }
