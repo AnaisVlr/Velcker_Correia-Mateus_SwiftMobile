@@ -54,11 +54,14 @@ struct ProfilView: View {
       .padding()
       .navigationTitle("Mon profil")
       .toolbar{
-        Button("Déconnexion") {
+        Button(action: {
           Task {
             authentification.updateValidation(success: false, token: "")
           }
-        }.buttonStyle(CustomButton())
+        }) {
+          Text("Déconnexion")
+          Image(systemName: "rectangle.portrait.and.arrow.right")
+        }
       }
     }
   }
