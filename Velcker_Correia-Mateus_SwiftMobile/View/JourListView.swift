@@ -29,11 +29,11 @@ struct JourListView: View {
         VStack(alignment: .center) {
           switch self.jourList.state {
           case .loading:
-            Text("")
+            CircleLoader()
           case .deleting:
-            Text("")
+            CircleLoader()
           case .ready:
-            Text("Prêt")
+            Text("")
           case .errorLoading:
             Text("Erreur Chargement")
           case .errorDeleting:
@@ -44,15 +44,15 @@ struct JourListView: View {
           if(authentification.is_admin && festival.is_active) {
             NavigationLink("Ajouter un Jour") {
               AddJourView(festival: self.festival, liste: self.jourList, jour: nil)
-            }
+            }.buttonStyle(CustomButton())
           }
           List {
             ForEach(jourList.jourList) { j in
               VStack(alignment:.leading) {
                 NavigationLink(j.nom) {
                   JourView(jour: j)
-                }
-                  Text("De \(j.ouverture.toString()) à \(j.fermeture.toString())")
+                }.buttonStyle(CustomButton())
+                Text("De \(j.ouverture.toString()) à \(j.fermeture.toString())")
               }
             }.onDelete { indexSet in
               for i in indexSet { //Pour récupérer l'objet supprimé

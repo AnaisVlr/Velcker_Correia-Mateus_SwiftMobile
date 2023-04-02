@@ -23,7 +23,7 @@ struct AddJeuView : View {
   }
 
   var body: some View {
-    NavigationView {
+    HStack(alignment: .top) {
       VStack(alignment: .center) {
         Text("Créer un jeu")
         VStack() {
@@ -44,7 +44,7 @@ struct AddJeuView : View {
           let j: Jeu = Jeu(id: -1,  nom: nom, type: type, id_festival: festival.id_festival)
           JeuService().create(token: authentification.token, jeu: j) { res in
           }
-        }
+        }.buttonStyle(CustomButton())
       }
     }.navigationBarBackButtonHidden(true)
       .toolbar {

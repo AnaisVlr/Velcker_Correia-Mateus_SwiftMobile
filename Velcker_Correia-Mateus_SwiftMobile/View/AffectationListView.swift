@@ -14,10 +14,11 @@ struct AffectationListView: View {
   var festival: FestivalViewModel
   @StateObject var affectationList: AffectationListViewModel = AffectationListViewModel()
   @State var intentListAffectation: AffectationListIntent = AffectationListIntent(affectationListVM: AffectationListViewModel())
-
+  @State var erreur: String
   
   init(festival: FestivalViewModel) {
     self.festival = festival
+    self._erreur = State(initialValue: "")
   }
   
   func alreadyTaken() -> Bool {
@@ -37,13 +38,13 @@ struct AffectationListView: View {
     VStack(alignment: .center) {
       switch self.affectationList.state {
       case .loading:
-        Text("Chargement")
+        CircleLoader()
       case .deleting:
-        Text("Suppression")
+        CircleLoader()
       case .ready:
-        Text("Prêt")
+        Text("")
       case .creating:
-        Text("Création")
+        CircleLoader()
       case .errorCreating:
         Text("Erreur Création")
       case .errorLoading:
@@ -66,11 +67,10 @@ struct AffectationListView: View {
           VStack() {
             Text("Créneau :")
             Picker("Créneau", selection: $affectationList.creneauSelected) {
-              ForEach(affectationList.creneauList, id: \.self) {
+              ForEach(affectationList.creneauList, id: \.id_creneau) {
                 if($0.id_jour == affectationList.jourSelected) {
-                  Text(verbatim: "De \($0.debut.toString()) à \($0.fin.toString())").tag($0.id)
+                  Text(verbatim: "De \($0.debut.toString()) à \($0.fin.toString())").tag($0.id_creneau)
                 }
-                
               }
             }
           }
@@ -84,12 +84,13 @@ struct AffectationListView: View {
             }
           }
         
-        
+          Text(affectationList.erreur)
           Button("S'affecter") {
             Task {
-              intentListAffectation.create(token: authentification.token, id_benevole: authentification.id)
+              intentListAffectation.notEnoughBenevolesInZoneCreneau(token: authentification.token, id_benevole: authentification.id)
             }
           }.disabled(affectationList.zoneSelected == -1 || affectationList.creneauSelected == -1 || affectationList.jourSelected == -1 || alreadyTaken())
+            .buttonStyle(CustomButton())
         }
       }
       VStack(alignment: .leading) {

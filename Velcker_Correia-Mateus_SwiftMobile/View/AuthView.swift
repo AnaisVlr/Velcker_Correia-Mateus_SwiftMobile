@@ -32,9 +32,7 @@ struct AuthView: View {
             }
           }
           .disabled(authVM.loginDisabled)
-          .padding()
-          .background(Color("Pink"))
-          .clipShape(Capsule())
+          .buttonStyle(CustomButton())
         }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
           .alert(item: $authVM.error) { error in
             Alert(title: Text("Connexion échouée"), message: Text(error.errorDescription ?? ""))

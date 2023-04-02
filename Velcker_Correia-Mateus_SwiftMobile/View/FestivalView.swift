@@ -28,9 +28,9 @@ struct FestivalView: View {
     ZStack() {
       VStack(alignment: .leading) {
         if(authentification.is_admin) {
-          Button("\(festival.is_active ? "Cliquer ici pour clôturer le festival" : "Cliquer ici pour rouvrir le festival")") {
+          Button("\(festival.is_active ? "Clôturer le festival" : "Rouvrir le festival")") {
             intentFestival.openOrClose(token: authentification.token)
-          }
+          }.buttonStyle(CustomButton())
         }
         if(cbon){
           JourListView(festival: self.festival)

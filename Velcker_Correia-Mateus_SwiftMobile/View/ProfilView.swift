@@ -48,14 +48,7 @@ struct ProfilView: View {
           Button("Modifier mes informations") {
             let b : Benevole = Benevole(id: benevole.id_benevole, prenom: self.prenom, nom: self.nom, email: self.email, isAdmin: benevole.isAdmin)
             BenevoleService().modify(token: authentification.token, benevole: b) { res in}
-          }
-          .padding()
-          .border(Color("AccentColor"))
-          .cornerRadius(10)
-          .overlay(
-                 RoundedRectangle(cornerRadius: 10)
-                     .stroke(Color("AccentColor"), lineWidth: 2)
-             )
+          }.buttonStyle(CustomButton())
         }
       }
       .padding()
@@ -63,9 +56,9 @@ struct ProfilView: View {
       .toolbar{
         Button("Déconnexion") {
           Task {
-            await authentification.updateValidation(success: false, token: "")
+            authentification.updateValidation(success: false, token: "")
           }
-        }
+        }.buttonStyle(CustomButton())
       }
     }
   }

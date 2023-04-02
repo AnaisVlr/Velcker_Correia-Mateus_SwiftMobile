@@ -21,7 +21,7 @@ struct AddZoneView : View {
   }
 
   var body: some View {
-    NavigationView {
+    HStack(alignment: .top) {
       VStack(alignment: .center) {
         Text("Créer une zone")
         VStack() {
@@ -39,7 +39,7 @@ struct AddZoneView : View {
         Button("Créer") {
             let z: Zone = Zone(id: -1, id_festival: festival.id_festival, nom: nom, nb_benevole: nb_benevole)
           ZoneService().create(token: authentification.token, zone: z) { res in}
-        }
+        }.buttonStyle(CustomButton())
       }
     }.navigationBarBackButtonHidden(true)
       .toolbar {

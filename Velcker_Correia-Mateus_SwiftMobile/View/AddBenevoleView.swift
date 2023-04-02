@@ -42,27 +42,18 @@ struct AddBenevoleView : View {
         Spacer().frame(height: 50)
         VStack(alignment: .center){
           Button("Créer un bénévole") {
-            AuthService.create(token: authentification.token, email: self.email, nom: self.nom, prenom: self.prenom, password: "123"){ res in
-              print(res)
+            BenevoleService().create(token: authentification.token, email: self.email, nom: self.nom, prenom: self.prenom, password: "123"){ res in
+                switch res {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    print(error)
+                }
             }
-          }
-          .padding()
-          .border(Color("AccentColor"))
-          .cornerRadius(10)
-          .overlay(
-                 RoundedRectangle(cornerRadius: 10)
-                     .stroke(Color("AccentColor"), lineWidth: 2)
-             )
+          }.buttonStyle(CustomButton())
           Button("Retour"){
             self.dismiss()
-          }
-          .padding()
-          .border(Color("AccentColor"))
-          .cornerRadius(10)
-          .overlay(
-                 RoundedRectangle(cornerRadius: 10)
-                     .stroke(Color("AccentColor"), lineWidth: 2)
-             )
+          }.buttonStyle(CustomButton())
         }
       }
     }.navigationBarBackButtonHidden(true)
