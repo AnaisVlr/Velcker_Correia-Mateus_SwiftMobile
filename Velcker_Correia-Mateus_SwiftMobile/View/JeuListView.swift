@@ -50,9 +50,7 @@ struct JeuListView: View {
           List {
             ForEach(jeuList.jeuList) { j in
               VStack(alignment:.leading) {
-                NavigationLink(j.nom) {
-                  JeuView(jeu: j)
-                }.buttonStyle(CustomButton())
+                Text("\(j.nom)")
               }
             }.onDelete { indexSet in
               for i in indexSet { //Pour récupérer l'objet supprimé
