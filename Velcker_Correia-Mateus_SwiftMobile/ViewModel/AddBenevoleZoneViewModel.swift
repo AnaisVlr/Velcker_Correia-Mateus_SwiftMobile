@@ -58,6 +58,8 @@ class AddBenevoleZoneViewModel: ObservableObject {
   func setBenevoleList(_ benevoles: [Benevole]) {
     DispatchQueue.main.async {
       self.benevoleList = benevoles.filter({ !self.benevoleDejaAffecte.contains($0) })
+      
+      self.selectedBenevole = self.benevoleList.first!.id
     }
   }
   

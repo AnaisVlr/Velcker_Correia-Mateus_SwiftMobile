@@ -22,10 +22,14 @@ struct AddBZIntent {
     addBZVM.setState(.creating)
     
     let a: Affectation = Affectation(id_zone: addBZVM.zone.id, id_creneau: addBZVM.creneau.id_creneau, id_benevole: addBZVM.selectedBenevole)
+    print(addBZVM.zone.id)
+    print(addBZVM.creneau.id_creneau)
+    print(addBZVM.selectedBenevole)
     AffectationService().create(token: token, affectation: a) { res in
       switch res {
       case .success(_):
         addBZVM.setState(.ready)
+        
       case .failure(let error):
         print(error)
         addBZVM.setState(.errorCreating)
@@ -41,7 +45,6 @@ struct AddBZIntent {
       case .success(let benevoles):
         if(benevoles != nil) {
           addBZVM.setBenevoleList(benevoles!)
-          addBZVM.setSelectedBenevole(benevoles!.first!.id)
         }
         addBZVM.setState(.ready)
       case .failure(let error):
