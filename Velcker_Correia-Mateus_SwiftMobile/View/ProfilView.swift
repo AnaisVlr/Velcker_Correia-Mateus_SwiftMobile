@@ -47,9 +47,7 @@ struct ProfilView: View {
         VStack(alignment: .center){
           Button("Modifier mes informations") {
             let b : Benevole = Benevole(id: benevole.id_benevole, prenom: self.prenom, nom: self.nom, email: self.email, isAdmin: benevole.isAdmin)
-            BenevoleService().modify(token: authentification.token, benevole: b) { res in
-              print(res)
-            }
+            BenevoleService().modify(token: authentification.token, benevole: b) { res in}
           }
           .padding()
           .border(Color("AccentColor"))

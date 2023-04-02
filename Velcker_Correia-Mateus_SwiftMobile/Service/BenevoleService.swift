@@ -203,7 +203,7 @@ class BenevoleService{
     request.setValue("application/json", forHTTPHeaderField: "Content-type")
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     
-    let jsonString = "{ \"id_benevole\": \"\(benevole.id)\", \"prenom_benevole\": \"\(benevole.prenom)\", \"nom_benevole\": \"\(benevole.nom)\", \"email_benevole\": \(benevole.email)\"}"
+    let jsonString = "{ \"id_benevole\": \"\(benevole.id)\", \"prenom_benevole\": \"\(benevole.prenom)\", \"nom_benevole\": \"\(benevole.nom)\", \"email_benevole\": \"\(benevole.email)\"}"
     guard let jsonData = jsonString.data(using: .utf8) else {return}
     request.httpBody = jsonData
     
@@ -212,8 +212,8 @@ class BenevoleService{
         return completion(.failure(ServiceError.NoData))
       }
       if let httpResponse = response as? HTTPURLResponse {
-        if(httpResponse.statusCode == 201) {
-          guard let b : BenevoleDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode create Benevole"); completion(.failure(ServiceError.WrongData)); return}
+        if(httpResponse.statusCode == 200) {
+          guard let b : BenevoleDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode update Benevole"); completion(.failure(ServiceError.WrongData)); return}
           let benevole = Benevole(b)
           completion(.success(benevole))
         }

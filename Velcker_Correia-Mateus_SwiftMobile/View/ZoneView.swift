@@ -48,7 +48,7 @@ struct ZoneView: View {
     }
       .onAppear{
         Task{
-          intentZone.getAllBenevole(token: authentification.token)
+          intentZone.getNbrBenevolePresent(token: authentification.token)
         }
       }
   }
