@@ -32,14 +32,35 @@ struct BenevoleListView: View {
           Text("\(benevoleListVM.benevoleList.count) bénévole(s) présent(s) au festival :")
         }.padding()
         HStack() {
-          Picker("Créneaux", selection: $benevoleListVM.selectionCreneau) {
-            ForEach(benevoleListVM.creneauList, id:\.self) {
-              Text("\($0.debut.toString()) - \($0.fin.toString())").tag($0.id_creneau)
+          if(searchByCreneau) {
+            Button("Voir les bénévoles") {
+              searchByCreneau = false
+            }.buttonStyle(CustomButton())
+            Picker("Créneaux", selection: $benevoleListVM.selectionCreneau) {
+              ForEach(benevoleListVM.creneauList, id:\.id_creneau) {
+                if(benevoleListVM.jourList.count > 0) {
+                  let c = $0
+                  let j = benevoleListVM.jourList.first(where: {$0.id == c.id_jour})
+                  if(j != nil) {
+                    Text("\(j!.nom) : \($0.debut.toString()) - \($0.fin.toString())").tag($0.id_creneau)
+                  }
+                  else {
+                    Text("\($0.debut.toString()) - \($0.fin.toString())").tag($0.id_creneau)
+                  }
+                }
+                else {
+                  Text("\($0.debut.toString()) - \($0.fin.toString())").tag($0.id_creneau)
+                }
+              }
             }
           }
-          Button("Chercher par créneau") {
-            searchByCreneau = true
-          }.buttonStyle(CustomButton())
+          else {
+            Button("Chercher par créneau") {
+              searchByCreneau = true
+            }.buttonStyle(CustomButton())
+          }
+          
+          
         }
         
         List {
@@ -53,7 +74,13 @@ struct BenevoleListView: View {
           }
           else {
             ForEach(benevoleListVM.zoneList) {z in
-              CreneauBenevoleView(creneau: benevoleListVM.creneauList.first(where: {$0.id_creneau == benevoleListVM.selectionCreneau})!, zone: z, jour: Jour(id: -1, id_festival: -1, nom: "J1", ouverture: Date.now, fermeture: Date.now), benevoleList: benevoleListVM.benevoleList)
+              let c = benevoleListVM.creneauList.first(where: {$0.id_creneau == benevoleListVM.selectionCreneau})
+              if( c != nil) {
+                let j = benevoleListVM.jourList.first(where: {$0.id == c!.id_jour})
+                if(j != nil) {
+                  CreneauBenevoleView(creneau: c!, zone: z, jour: j!, benevoleList: benevoleListVM.benevoleList)
+                }
+              }
             }
           }
           
@@ -67,6 +94,9 @@ struct BenevoleListView: View {
         }
         Task {
           intentBenevoleList.getZoneByFestival(token: authentification.token, id_festival: festival.id_festival)
+        }
+        Task {
+          intentBenevoleList.getJourByFestival(token: authentification.token, id_festival: festival.id_festival)
         }
       }
     }

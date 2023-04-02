@@ -63,6 +63,21 @@ struct BenevoleListIntent {
     }
   }
   
+  func getJourByFestival(token: String, id_festival: Int) {
+    benevoleListVM.setState(.loading)
+    
+    JourService().getAllByFestivalId(token: token, id_festival: id_festival){ res in
+      switch res{
+      case .success(let jours):
+        benevoleListVM.setJours(jours!)
+        benevoleListVM.setState(.ready)
+        
+      case .failure(_):
+        benevoleListVM.setState(.errorLoading)
+      }
+    }
+  }
+  
   func getZoneByFestival(token: String, id_festival: Int) {
     benevoleListVM.setState(.loading)
     

@@ -12,6 +12,7 @@ class BenevoleListViewModel: ObservableObject {
   @Published var benevoleList: [BenevoleViewModel] = []
   @Published var creneauList: [Creneau] = []
   @Published var zoneList: [Zone] = []
+  @Published var jourList: [Jour] = []
   @Published var state: BenevoleListState = .ready
   
   @Published var selectionCreneau: Int = 0
@@ -28,6 +29,12 @@ class BenevoleListViewModel: ObservableObject {
       if(creneaux.count > 0) {
         self.selectionCreneau = creneaux.first!.id_creneau
       }
+    }
+  }
+  
+  func setJours(_ jours: [Jour]) {
+    DispatchQueue.main.async {
+      self.jourList = jours
     }
   }
   
