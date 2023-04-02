@@ -60,7 +60,7 @@ struct AddJourView : View {
     let ho = Calendar.current.dateComponents([.hour], from: ouverture)
     let hf = Calendar.current.dateComponents([.hour], from: fermeture)
     
-    if(hf.hour!-ho.hour! < 2) {
+    if(abs(hf.hour!-ho.hour!) < 2) {
       self.erreur = "Une journée doit durer au moins 2 heures"
       return false
     }
@@ -79,7 +79,7 @@ struct AddJourView : View {
     for c in liste {
       let ho = Calendar.current.dateComponents([.hour], from: c.debut)
       let hf = Calendar.current.dateComponents([.hour], from: c.fin)
-      if(hf.hour! - ho.hour! < 2) {
+      if(abs(hf.hour! - ho.hour!) < 2) {
         self.erreur = "Les créneaux doivent duréer au moins 2 heures"
         return false
       }
@@ -126,8 +126,11 @@ struct AddJourView : View {
               }
               
             }
+          }.onDelete { offset in
+            creneaux.remove(atOffsets: offset)
           }
         }
+        
         HStack(alignment: .bottom) {
           Button("Ajouter un créneau") {
             let newC = Creneau(id: -1, id_jour: jourVM.id_jour, debut: creneaux.last!.fin, fin: jourVM.ouverture)

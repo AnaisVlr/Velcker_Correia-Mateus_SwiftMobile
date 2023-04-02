@@ -97,7 +97,7 @@ struct BenevoleListIntent {
     benevoleListVM.setState(.deleting)
     
     let benevole = benevoleListVM.benevoleList[index]
-    BenevoleService().delete(token: token, id_benevole: benevole.id_benevole) {res in
+    BenevoleService().delete(token: token, id_benevole: benevole.id) {res in
       switch res {
       case .success(_ ):
         benevoleListVM.benevoleList.remove(at: index)

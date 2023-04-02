@@ -37,19 +37,13 @@ struct BenevoleListView: View {
               searchByCreneau = false
             }.buttonStyle(CustomButton())
             Picker("Créneaux", selection: $benevoleListVM.selectionCreneau) {
-              ForEach(benevoleListVM.creneauList, id:\.id_creneau) {
-                if(benevoleListVM.jourList.count > 0) {
-                  let c = $0
-                  let j = benevoleListVM.jourList.first(where: {$0.id == c.id_jour})
-                  if(j != nil) {
-                    Text("\(j!.nom) : \($0.debut.toString()) - \($0.fin.toString())").tag($0.id_creneau)
-                  }
-                  else {
-                    Text("\($0.debut.toString()) - \($0.fin.toString())").tag($0.id_creneau)
-                  }
+              ForEach(benevoleListVM.creneauList) { c in
+                let j = benevoleListVM.jourList.first(where: {$0.id == c.id_jour})
+                if(j != nil) {
+                  Text("\(j!.nom) : \(c.debut.toString()) - \(c.fin.toString())").tag(c.id_creneau)
                 }
                 else {
-                  Text("\($0.debut.toString()) - \($0.fin.toString())").tag($0.id_creneau)
+                  Text("\(c.debut.toString()) - \(c.fin.toString())").tag(c.id_creneau)
                 }
               }
             }

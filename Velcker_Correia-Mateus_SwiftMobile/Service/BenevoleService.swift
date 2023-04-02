@@ -211,8 +211,7 @@ class BenevoleService{
       guard let data = data, error == nil else {
         return completion(.failure(ServiceError.NoData))
       }
-      let dataString = String(data: data, encoding: .utf8)!
-            print(dataString)
+      
       if let httpResponse = response as? HTTPURLResponse {
         if(httpResponse.statusCode == 201) {
           guard let b : BenevoleDTO = JSONHelper.decodePasAsync(data: data) else {print("Erreur decode create Benevole"); completion(.failure(ServiceError.WrongData)); return}

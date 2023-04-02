@@ -18,7 +18,7 @@ enum AddBZState {
 struct AddBZIntent {
   var addBZVM: AddBenevoleZoneViewModel
   
-  func add(token: String, id_benevole: Int) {
+  func add(token: String) {
     addBZVM.setState(.creating)
     
     let a: Affectation = Affectation(id_zone: addBZVM.zone.id, id_creneau: addBZVM.creneau.id_creneau, id_benevole: addBZVM.selectedBenevole)
@@ -26,9 +26,27 @@ struct AddBZIntent {
       switch res {
       case .success(_):
         addBZVM.setState(.ready)
+        
       case .failure(let error):
         print(error)
         addBZVM.setState(.errorCreating)
+      }
+    }
+  }
+  
+  func getBenevoleList(token: String) {
+    addBZVM.setState(.loading)
+    
+    BenevoleService().getAll(token: token) { res in
+      switch res {
+      case .success(let benevoles):
+        if(benevoles != nil) {
+          addBZVM.setBenevoleList(benevoles!)
+        }
+        addBZVM.setState(.ready)
+      case .failure(let error):
+        print(error)
+        addBZVM.setState(.errorLoading)
       }
     }
   }

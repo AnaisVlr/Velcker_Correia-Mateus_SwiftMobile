@@ -38,7 +38,6 @@
 		6F07F7D029CA4BE300C588C5 /* NavBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F07F7CF29CA4BE300C588C5 /* NavBackButton.swift */; };
 		6F36F41829D9EFB400E8208A /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F36F41729D9EFB400E8208A /* CustomButton.swift */; };
 		6F41A5A729D85FBA0021FC80 /* JeuListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F41A5A629D85FBA0021FC80 /* JeuListView.swift */; };
-		6F41A5A929D8615F0021FC80 /* JeuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F41A5A829D8615F0021FC80 /* JeuView.swift */; };
 		6F41A5AB29D862200021FC80 /* JeuIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F41A5AA29D862200021FC80 /* JeuIntent.swift */; };
 		6F41A5AD29D862550021FC80 /* JeuListIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F41A5AC29D862550021FC80 /* JeuListIntent.swift */; };
 		6F41A5AF29D8630F0021FC80 /* JeuListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F41A5AE29D8630F0021FC80 /* JeuListViewModel.swift */; };
@@ -88,8 +87,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5545103A29D9E9D7002344F1 /* AddBenevoleZoneIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBenevoleZoneIntent.swift; sourceTree = "<group>"; };
-		5545103C29D9EA85002344F1 /* AddBenevoleZoneViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBenevoleZoneViewModel.swift; sourceTree = "<group>"; };
+		5545103A29D9E9D7002344F1 /* AddBenevoleZoneIntent.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AddBenevoleZoneIntent.swift; sourceTree = "<group>"; tabWidth = 2; };
+		5545103C29D9EA85002344F1 /* AddBenevoleZoneViewModel.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AddBenevoleZoneViewModel.swift; sourceTree = "<group>"; tabWidth = 2; };
 		55471FBE29D73A8A004E5505 /* MenuView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		55471FC029D73AF0004E5505 /* MenuFestivalView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = MenuFestivalView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		55471FC229D73CA5004E5505 /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
@@ -108,7 +107,7 @@
 		5554BED229CC69A300DDD620 /* AddZoneView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AddZoneView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		5554BED429CC6CAA00DDD620 /* ZoneIntent.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ZoneIntent.swift; sourceTree = "<group>"; tabWidth = 2; };
 		55879BA129D9B69F00BBD925 /* AddBenevoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBenevoleView.swift; sourceTree = "<group>"; };
-		55879BA329D9CAF100BBD925 /* AddBenevoleCreneauxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBenevoleCreneauxView.swift; sourceTree = "<group>"; };
+		55879BA329D9CAF100BBD925 /* AddBenevoleCreneauxView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AddBenevoleCreneauxView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F0476A929CB16FC0016916C /* AddFestivalView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AddFestivalView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F0476AB29CB1CD50016916C /* ServiceError.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F0476AD29CCDBBB0016916C /* JourService.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = JourService.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -119,7 +118,6 @@
 		6F07F7CF29CA4BE300C588C5 /* NavBackButton.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = NavBackButton.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F36F41729D9EFB400E8208A /* CustomButton.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F41A5A629D85FBA0021FC80 /* JeuListView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = JeuListView.swift; sourceTree = "<group>"; tabWidth = 2; };
-		6F41A5A829D8615F0021FC80 /* JeuView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = JeuView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F41A5AA29D862200021FC80 /* JeuIntent.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = JeuIntent.swift; sourceTree = "<group>"; tabWidth = 2; };
 		6F41A5AC29D862550021FC80 /* JeuListIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JeuListIntent.swift; sourceTree = "<group>"; };
 		6F41A5AE29D8630F0021FC80 /* JeuListViewModel.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = JeuListViewModel.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -252,7 +250,6 @@
 				55471FC229D73CA5004E5505 /* AdminView.swift */,
 				55471FC429D73D09004E5505 /* ProfilView.swift */,
 				6F41A5A629D85FBA0021FC80 /* JeuListView.swift */,
-				6F41A5A829D8615F0021FC80 /* JeuView.swift */,
 				6F41A5B429D866630021FC80 /* AddJeuView.swift */,
 				6F41A5B629D96B5E0021FC80 /* CreneauBenevoleView.swift */,
 				55879BA129D9B69F00BBD925 /* AddBenevoleView.swift */,
@@ -454,7 +451,6 @@
 				55471FC929D74018004E5505 /* BenevoleListView.swift in Sources */,
 				6FD8390729D4D09A0002953E /* AffectationListIntent.swift in Sources */,
 				6F41A5AD29D862550021FC80 /* JeuListIntent.swift in Sources */,
-				6F41A5A929D8615F0021FC80 /* JeuView.swift in Sources */,
 				5554BED329CC69A300DDD620 /* AddZoneView.swift in Sources */,
 				55471FCF29D765A6004E5505 /* BenevoleViewModel.swift in Sources */,
 				6F85FD0429C07FB5009C01AF /* Velcker_Correia_Mateus_SwiftMobileApp.swift in Sources */,

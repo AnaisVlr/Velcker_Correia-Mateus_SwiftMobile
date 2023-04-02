@@ -10,7 +10,8 @@ import SwiftUI
 class AddBenevoleZoneViewModel: ObservableObject {
   @Published var state: AddBZState = .ready
     
-  @Published var benevoleList: [Benevole] = []
+  @Published var benevoleDejaAffecte : [Benevole]
+  @Published var benevoleList : [Benevole] = []
   @Published var jour: Jour
   @Published var zone: Zone
   @Published var creneau: Creneau
@@ -18,7 +19,7 @@ class AddBenevoleZoneViewModel: ObservableObject {
   @Published var selectedBenevole : Int = -1
   
   init(benevoleList: [Benevole], jour: Jour, zone: Zone, creneau: Creneau) {
-    self.benevoleList = benevoleList
+    self.benevoleDejaAffecte = benevoleList
     self.jour = jour
     self.zone = zone
     self.creneau = creneau
@@ -27,6 +28,12 @@ class AddBenevoleZoneViewModel: ObservableObject {
   func setState(_ state: AddBZState) {
     DispatchQueue.main.async {
       self.state = state
+    }
+  }
+  
+  func setSelectedBenevole(_ selected: Int) {
+    DispatchQueue.main.async {
+      self.selectedBenevole = selected
     }
   }
   
@@ -50,13 +57,9 @@ class AddBenevoleZoneViewModel: ObservableObject {
   
   func setBenevoleList(_ benevoles: [Benevole]) {
     DispatchQueue.main.async {
-      self.benevoleList = benevoles
-    }
-  }
-  
-  func appendBenevole(_ b: Benevole) {
-    DispatchQueue.main.async {
-      self.benevoleList.append(b)
+      self.benevoleList = benevoles.filter({ !self.benevoleDejaAffecte.contains($0) })
+      
+      self.selectedBenevole = self.benevoleList.first!.id
     }
   }
   
