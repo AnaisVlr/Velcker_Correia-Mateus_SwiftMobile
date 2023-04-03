@@ -23,6 +23,15 @@ struct AddFestivalView : View {
     NavigationView {
       HStack(alignment: .top) {
         VStack(alignment: .center) {
+          Button(action: {
+            self.dismiss()
+          }) {
+            HStack{
+              Spacer().frame(width : 15)
+              Image(systemName: "arrowshape.turn.up.backward.fill")
+              Text("Retour à la liste des festivals")
+            }
+          }
           
           Text("Créer un festival")
           
@@ -83,8 +92,7 @@ struct AddFestivalView : View {
             }
           }.buttonStyle(CustomButton())
         }
-      }.navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: NavBackButton(dismiss: self.dismiss, texte: "Retour aux festivals"))
+      }
     }
   }
 }

@@ -14,6 +14,8 @@ struct JeuListView: View {
   @ObservedObject var jeuList: JeuListViewModel
   var intentListJeu: JeuListIntent
   
+  @State private var showAddJeu = false
+  
   let festival: FestivalViewModel
 
   init(festival: FestivalViewModel) {
@@ -24,48 +26,59 @@ struct JeuListView: View {
   }
   
   var body: some View {
-    ZStack{
+    HStack(alignment: .top){
       NavigationView {
-        VStack(alignment: .center) {
+        VStack(alignment: .leading) {
+          VStack{
+            if(authentification.is_admin && festival.is_active) {
+              Button(action: {
+                showAddJeu = true
+              }) {
+                HStack{
+                  Spacer().frame(width: 15)
+                  Text("Ajouter un jeu")
+                  Image(systemName: "plus.circle.fill")
+                }
+              }
+            }
+          }.sheet(isPresented: $showAddJeu) {
+            AddJeuView(liste: jeuList, festival: festival)
+          }
+          
+          Text("Liste des jeux :")
+            .bold()
+            .padding()
+          
           switch self.jeuList.state {
           case .loading:
             CircleLoader()
           case .deleting:
             CircleLoader()
           case .ready:
-            Text("")
+            List {
+              ForEach(jeuList.jeuList) { j in
+                VStack(alignment:.leading) {
+                  Text("\(j.nom)")
+                }
+              }.onDelete { indexSet in
+                for i in indexSet { //Pour récupérer l'objet supprimé
+                  Task {
+                    self.intentListJeu.delete(token: authentification.token, index: i)
+                  }
+                }
+              }.deleteDisabled(!authentification.is_admin)
+            }
           case .errorLoading:
             Text("Erreur Chargement")
           case .errorDeleting:
             Text("Erreur Suppression")
           }
-          
-          Text("Liste des Jeux")
-          if(authentification.is_admin) {
-            NavigationLink("Ajouter un Jeu") {
-              AddJeuView(liste: jeuList, festival: festival)
-            }.buttonStyle(CustomButton())
+        }.navigationTitle(festival.nom)
+        .onAppear {
+          Task {
+            intentListJeu.getJeuList(token: authentification.token, id_festival: festival.id_festival)
           }
-          
-          List {
-            ForEach(jeuList.jeuList) { j in
-              VStack(alignment:.leading) {
-                Text("\(j.nom)")
-              }
-            }.onDelete { indexSet in
-              for i in indexSet { //Pour récupérer l'objet supprimé
-                Task {
-                  self.intentListJeu.delete(token: authentification.token, index: i)
-                }
-              }
-            }.deleteDisabled(!authentification.is_admin)
-          }
-          
-        }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-      }
-    }.onAppear {
-      Task {
-        intentListJeu.getJeuList(token: authentification.token, id_festival: festival.id_festival)
+        }
       }
     }
   }

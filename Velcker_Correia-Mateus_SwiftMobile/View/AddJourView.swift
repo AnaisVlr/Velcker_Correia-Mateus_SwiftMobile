@@ -100,92 +100,98 @@ struct AddJourView : View {
 
   var body: some View {
     HStack(alignment: .top) {
-      VStack(alignment: .center) {
-        Text("Informations du nouveau jour")
-        VStack() {
-          TextField("", text: $nom)
-          DatePicker(
-            "Ouverture",
-            selection: $ouverture,
-            displayedComponents: [.hourAndMinute]
-          )
-          DatePicker(
-            "Fermeture",
-            selection: $fermeture,
-            displayedComponents: [.hourAndMinute]
-          )
-        }
-        
-        //Créneaux
-        Text("Créneaux")
-        List {
-          ForEach($creneaux) { c in
-            VStack {
-              HStack {
-                CreneauDatePickerView(creneau: c.wrappedValue)
-              }
-              
+      NavigationView(){
+        VStack(alignment :.leading){
+          Button(action: {
+            self.dismiss()
+          }) {
+            HStack{
+              Spacer().frame(width : 15)
+              Image(systemName: "arrowshape.turn.up.backward.fill")
+              Text("Retour à la liste des jours")
             }
-          }.onDelete { offset in
-            creneaux.remove(atOffsets: offset)
           }
-        }
-        
-        HStack(alignment: .bottom) {
-          Button("Ajouter un créneau") {
-            let newC = Creneau(id: -1, id_jour: jourVM.id_jour, debut: creneaux.last!.fin, fin: jourVM.ouverture)
-            creneaux.append(newC)
-          }.buttonStyle(CustomButton())
-          Text(erreur)
-          
-          //Pour savoir si on vient de la page de création de festival, ou si on ajoute un nouveau jour
-          if(festival.id_festival > -1) {
-            Button("Créer") {
-              if(valid()) {
-                let j: Jour = Jour(id: -1, id_festival: self.festival.id_festival, nom: nom, ouverture: ouverture, fermeture: fermeture)
-                JourService().create(token: authentification.token, jour: j, creneaux:self.creneaux) { res in
-                  switch res {
-                  case .success(let jour):
-                    self.liste.appendJour(jour)//Pas nécessaire car le onAppear de la listeView refetch
+          VStack(alignment: .center) {
+            Text("Informations du nouveau jour")
+            VStack() {
+              TextField("", text: $nom)
+              DatePicker(
+                "Ouverture",
+                selection: $ouverture,
+                displayedComponents: [.hourAndMinute]
+              )
+              DatePicker(
+                "Fermeture",
+                selection: $fermeture,
+                displayedComponents: [.hourAndMinute]
+              )
+            }
+            
+            //Créneaux
+            Text("Créneaux")
+            List {
+              ForEach($creneaux) { c in
+                VStack {
+                  HStack {
+                    CreneauDatePickerView(creneau: c.wrappedValue)
+                  }
+                  
+                }
+              }.onDelete { offset in
+                creneaux.remove(atOffsets: offset)
+              }
+            }
+            
+            HStack(alignment: .bottom) {
+              Button("Ajouter un créneau") {
+                let newC = Creneau(id: -1, id_jour: jourVM.id_jour, debut: creneaux.last!.fin, fin: jourVM.ouverture)
+                creneaux.append(newC)
+              }.buttonStyle(CustomButton())
+              Text(erreur)
+              
+              //Pour savoir si on vient de la page de création de festival, ou si on ajoute un nouveau jour
+              if(festival.id_festival > -1) {
+                Button("Créer") {
+                  if(valid()) {
+                    let j: Jour = Jour(id: -1, id_festival: self.festival.id_festival, nom: nom, ouverture: ouverture, fermeture: fermeture)
+                    JourService().create(token: authentification.token, jour: j, creneaux:self.creneaux) { res in
+                      switch res {
+                      case .success(let jour):
+                        self.liste.appendJour(jour)//Pas nécessaire car le onAppear de la listeView refetch
+                        DispatchQueue.main.async {
+                          self.dismiss()
+                        }
+                      case .failure(let error):
+                        print(error)
+                      }
+                    }
+                  }
+                }.buttonStyle(CustomButton())
+              }
+              else {
+                HStack() {
+                  Button("Annuler") {
                     DispatchQueue.main.async {
                       self.dismiss()
                     }
-                  case .failure(let error):
-                    print(error)
-                  }
+                  }.buttonStyle(CustomButton())
+                  Button("Ok") {
+                    //TODO faire la vérification des créneaux
+                    if(valid()) {
+                      DispatchQueue.main.async {
+                        self.jourVM.setNom(self.nom)
+                        self.jourVM.setOuverture(self.ouverture)
+                        self.jourVM.setFermeture(self.fermeture)
+                        self.jourVM.setCreneaux(self.creneaux)
+                        self.dismiss()
+                      }
+                    }
+                  }.buttonStyle(CustomButton())
                 }
               }
-            }.buttonStyle(CustomButton())
-          }
-          else {
-            HStack() {
-              Button("Annuler") {
-                DispatchQueue.main.async {
-                  self.dismiss()
-                }
-              }.buttonStyle(CustomButton())
-              Button("Ok") {
-                //TODO faire la vérification des créneaux
-                if(valid()) {
-                  DispatchQueue.main.async {
-                    self.jourVM.setNom(self.nom)
-                    self.jourVM.setOuverture(self.ouverture)
-                    self.jourVM.setFermeture(self.fermeture)
-                    self.jourVM.setCreneaux(self.creneaux)
-                    self.dismiss()
-                  }
-                }
-              }.buttonStyle(CustomButton())
             }
           }
         }
-        
-        
-      }
-    }.navigationBarBackButtonHidden(true)
-      .toolbar {
-      ToolbarItem(placement: .navigationBarLeading) {
-        NavBackButton(dismiss: self.dismiss, texte: "Retour")
       }
     }
   }

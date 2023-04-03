@@ -14,6 +14,8 @@ struct FestivalListView: View {
   @ObservedObject var festivalList: FestivalListViewModel
   var intentListFestival: FestivalListIntent
   
+  @State private var showAddFestival = false
+  
   init() {
     let fl = FestivalListViewModel()
     self.festivalList = fl
@@ -23,46 +25,56 @@ struct FestivalListView: View {
   var body: some View {
     HStack(alignment: .top){
       NavigationView {
-        VStack(alignment: .center) {
+        VStack(alignment: .leading) {
+          VStack{
+            if(authentification.is_admin) {
+              Button(action: {
+                showAddFestival = true
+              }) {
+                HStack{
+                  Spacer().frame(width: 15)
+                  Text("Ajouter un festival")
+                  Image(systemName: "plus.circle.fill")
+                }
+              }
+            }
+          }.sheet(isPresented: $showAddFestival) {
+            AddFestivalView(liste: festivalList)
+          }
+          
+          Text("Liste des festivals:")
+            .bold()
+            .padding()
+          
           switch self.festivalList.state {
           case .loading:
             CircleLoader()
           case .deleting:
             CircleLoader()
           case .ready:
-            Text("")
+            List {
+              ForEach(festivalList.festivalList) { f in
+                VStack(alignment:.leading) {
+                  let str = f.is_active ? f.nom : "(Clôturé) \(f.nom)"
+                  NavigationLink(str) {
+                    MenuFestivalView(festival: f)
+                  }.buttonStyle(CustomButton())
+                  Text("Sur \(f.nombre_jour) jour(s)")
+                }
+              }.onDelete { indexSet in
+                for i in indexSet { //Pour récupérer l'objet supprimé
+                  Task {
+                    self.intentListFestival.delete(token: authentification.token, index: i)
+                  }
+                }
+              }.deleteDisabled(!authentification.is_admin)
+            }.frame(height: 600)
           case .errorLoading:
             Text("Erreur Chargement")
           case .errorDeleting:
             Text("Erreur Suppression")
           }
-          
-          Text("Liste des festivals")
-          if(authentification.is_admin) {
-            NavigationLink("Ajouter un festival") {
-              AddFestivalView(liste: festivalList)
-            }.buttonStyle(CustomButton())
-          }
-          
-          List {
-            ForEach(festivalList.festivalList) { f in
-              VStack(alignment:.leading) {
-                let str = f.is_active ? f.nom : "(Clôturé) \(f.nom)"
-                NavigationLink(str) {
-                  MenuFestivalView(festival: f)
-                }.buttonStyle(CustomButton())
-                Text("Sur \(f.nombre_jour) jour(s)")
-              }
-            }.onDelete { indexSet in
-              for i in indexSet { //Pour récupérer l'objet supprimé
-                Task {
-                  self.intentListFestival.delete(token: authentification.token, index: i)
-                }
-              }
-            }.deleteDisabled(!authentification.is_admin)
-          }.frame(height: 600)
-          
-        }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+        }
           .onAppear {
             Task {
               intentListFestival.getFestivalList(token: authentification.token)

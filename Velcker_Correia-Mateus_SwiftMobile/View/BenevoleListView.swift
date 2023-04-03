@@ -26,71 +26,90 @@ struct BenevoleListView: View {
   }
 
   var body: some View {
-    if(festival.is_active) {
-      VStack(alignment: .leading) {
-        HStack(alignment: .center) {
-          Text("\(benevoleListVM.benevoleList.count) bénévole(s) présent(s) au festival :")
-        }.padding()
-        HStack() {
-          if(searchByCreneau) {
-            Button("Voir les bénévoles") {
-              searchByCreneau = false
-            }.buttonStyle(CustomButton())
-            Picker("Créneaux", selection: $benevoleListVM.selectionCreneau) {
-              ForEach(benevoleListVM.creneauList) { c in
-                let j = benevoleListVM.jourList.first(where: {$0.id == c.id_jour})
-                if(j != nil) {
-                  Text("\(j!.nom) : \(c.debut.toString()) - \(c.fin.toString())").tag(c.id_creneau)
+    HStack(alignment: .top){
+      NavigationView {
+        if(festival.is_active) {
+          VStack(alignment: .leading) {
+            if(searchByCreneau) {
+              VStack(alignment: .leading) {
+                Button(action: {
+                  searchByCreneau = false
+                }) {
+                  HStack{
+                    Spacer().frame(width : 15)
+                    Image(systemName: "arrowshape.turn.up.backward.fill")
+                    Text("Retour à la liste des bénévoles du festival")
+                  }
+                }
+                Picker("Créneaux", selection: $benevoleListVM.selectionCreneau) {
+                  ForEach(benevoleListVM.creneauList) { c in
+                    let j = benevoleListVM.jourList.first(where: {$0.id == c.id_jour})
+                    if(j != nil) {
+                      Text("\(j!.nom) : \(c.debut.toString()) - \(c.fin.toString())").tag(c.id_creneau)
+                    }
+                    else {
+                      Text("\(c.debut.toString()) - \(c.fin.toString())").tag(c.id_creneau)
+                    }
+                  }
+                }
+              }
+            }else {
+              HStack(){
+                Spacer().frame(width : 15)
+                Image(systemName: "person.fill")
+                Text("\(benevoleListVM.benevoleList.count)")
+                  .bold()
+              }
+              VStack(alignment: .leading) {
+                Button(action: {
+                  searchByCreneau = true
+                }) {
+                  HStack{
+                    Spacer()
+                    Image(systemName: "magnifyingglass")
+                    Text("Chercher par créneau")
+                    Spacer().frame(width : 15)
+                  }
+                }
+              }
+            }
+            VStack{
+              List {
+                if(!searchByCreneau) {
+                  ForEach(benevoleListVM.benevoleList) { b in
+                    VStack(alignment:.leading) {
+                      Text(b.prenom + " " + b.nom).bold()
+                      Text(b.email)
+                    }
+                  }
                 }
                 else {
-                  Text("\(c.debut.toString()) - \(c.fin.toString())").tag(c.id_creneau)
+                  ForEach(benevoleListVM.zoneList) {z in
+                    let c = benevoleListVM.creneauList.first(where: {$0.id_creneau == benevoleListVM.selectionCreneau})
+                    if( c != nil) {
+                      let j = benevoleListVM.jourList.first(where: {$0.id == c!.id_jour})
+                      if(j != nil) {
+                        CreneauBenevoleView(creneau: c!, zone: z, jour: j!, benevoleList: benevoleListVM.benevoleList)
+                      }
+                    }
+                  }
                 }
-              }
+              }.frame(height: 500)
+            }
+          }.onAppear(){
+            Task {
+              intentBenevoleList.getBenevoleByFestival(token:authentification.token, id_festival: festival.id_festival)
+            }
+            Task {
+              intentBenevoleList.getCreneauByFestival(token: authentification.token, id_festival: festival.id_festival)
+            }
+            Task {
+              intentBenevoleList.getZoneByFestival(token: authentification.token, id_festival: festival.id_festival)
+            }
+            Task {
+              intentBenevoleList.getJourByFestival(token: authentification.token, id_festival: festival.id_festival)
             }
           }
-          else {
-            Button("Chercher par créneau") {
-              searchByCreneau = true
-            }.buttonStyle(CustomButton())
-          }
-          
-          
-        }
-        
-        List {
-          if(!searchByCreneau) {
-            ForEach(benevoleListVM.benevoleList) { b in
-              VStack(alignment:.leading) {
-                Text(b.prenom + " " + b.nom).bold()
-                Text(b.email)
-              }
-            }
-          }
-          else {
-            ForEach(benevoleListVM.zoneList) {z in
-              let c = benevoleListVM.creneauList.first(where: {$0.id_creneau == benevoleListVM.selectionCreneau})
-              if( c != nil) {
-                let j = benevoleListVM.jourList.first(where: {$0.id == c!.id_jour})
-                if(j != nil) {
-                  CreneauBenevoleView(creneau: c!, zone: z, jour: j!, benevoleList: benevoleListVM.benevoleList)
-                }
-              }
-            }
-          }
-          
-        }.frame(height: 500)
-      }.onAppear(){
-        Task {
-          intentBenevoleList.getBenevoleByFestival(token:authentification.token, id_festival: festival.id_festival)
-        }
-        Task {
-          intentBenevoleList.getCreneauByFestival(token: authentification.token, id_festival: festival.id_festival)
-        }
-        Task {
-          intentBenevoleList.getZoneByFestival(token: authentification.token, id_festival: festival.id_festival)
-        }
-        Task {
-          intentBenevoleList.getJourByFestival(token: authentification.token, id_festival: festival.id_festival)
         }
       }
     }

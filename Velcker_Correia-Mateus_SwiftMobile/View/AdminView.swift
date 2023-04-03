@@ -22,37 +22,43 @@ struct AdminView: View {
   }
   
   var body: some View {
-    NavigationView(){
+    VStack(alignment: .leading){
+      HStack(){
+        Button(action: {
+          showAddBenevole = true
+        }) {
+          Spacer().frame(width: 15)
+          Text("Ajouter un bénévole")
+          Image(systemName: "plus.circle.fill")
+        }
+      }
+      VStack(){
+        Text("Liste des bénévoles existants :")
+          .bold()
+          .padding()
+      }
       VStack{
-        VStack(alignment: .leading){
-          Text("Liste des bénévoles existants :").bold().padding()
-          List{
-            ForEach(benevoleListVM.benevoleList) { b in
-              VStack(alignment:.leading) {
-                Text(b.prenom + " " + b.nom).bold()
-                Text(b.email)
-              }
-            }.onDelete { indexSet in
-              for i in indexSet {
-                Task {
-                  self.intentBenevoleList.delete(token: authentification.token, index: i)
-                }
+        List{
+          ForEach(benevoleListVM.benevoleList) { b in
+            VStack(alignment:.leading) {
+              Text(b.prenom + " " + b.nom).bold()
+              Text(b.email)
+            }
+          }.onDelete { indexSet in
+            for i in indexSet {
+              Task {
+                self.intentBenevoleList.delete(token: authentification.token, index: i)
               }
             }
           }
         }
-        VStack(alignment: .center){
-          Button("Ajouter un bénévole") {
-            showAddBenevole = true
-          }.buttonStyle(CustomButton())
-        }
-      }.sheet(isPresented: $showAddBenevole) {
-        AddBenevoleView()
       }
-      .onAppear(){
-        Task {
-          intentBenevoleList.getBenevoleList(token: authentification.token)
-        }
+    }.sheet(isPresented: $showAddBenevole) {
+      AddBenevoleView()
+    }
+    .onAppear(){
+      Task {
+        intentBenevoleList.getBenevoleList(token: authentification.token)
       }
     }
   }
